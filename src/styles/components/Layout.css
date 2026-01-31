@@ -1,0 +1,45 @@
+.page-wrapper {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.dz-nav-floting {
+    position: relative;
+    min-height: 100vh;
+    transition: all 0.3s ease;
+}
+
+.page-content {
+    padding-bottom: 80px !important;
+}
+
+.menubar-area.footer-fixed {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: white;
+    border-top: 1px solid #e0e0e0;
+    z-index: 1000;
+}
+
+.toolbar-inner {
+    display: flex;
+    padding: 10px 0;
+}
+
+.menubar-nav {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.menubar-nav .nav-link {
+    color: #6c757d;
+    font-size: 20px;
+    padding: 10px;
+}
+
+.menubar-nav .nav-link.active {
+    color: #4CAF50;
+}

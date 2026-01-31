@@ -1,0 +1,101 @@
+
+        .header {
+          background: white;
+          border-bottom: 1px solid #e0e0e0;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+
+        /*  notification badge */
+          .header .notification-badge.badge-active::after {
+      content: "";
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: -6px;
+      right: -4px;
+      border-radius: 20px;
+      border: 2px solid var(--bg-white);
+      background-color: #e0e0e0;
+      }
+        
+        .header-content {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 0 15px;
+        }
+        
+        .left-content .info .text {
+          color: #666;
+          font-size: 0.8rem;
+          margin-bottom: 5px;
+        }
+        
+        .left-content .info .title {
+          color: #333;
+          font-size: 1.2rem;
+          font-weight: 600;
+          margin-bottom: 0;
+        }
+        
+        .mid-content .search-bar {
+          width: 300px;
+        }
+        
+        .notification-badge {
+          position: relative;
+          text-decoration: none;
+        }
+        
+        .badge-count {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          background: #ff4757;
+          color: white;
+          border-radius: 50%;
+          width: 20px;
+          height: 20px;
+          font-size: 0.7rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .user-role-badge {
+          font-size: 0.7rem;
+          padding: 3px 10px;
+          border-radius: 12px;
+        }
+        
+        .avatar {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        @media (max-width: 767.98px) {
+          .header-content {
+            padding: 10px;
+          }
+          
+          .mid-content {
+            display: none;
+          }
+        }
+        
+        [data-theme="dark"] .header {
+          background: #1a1a1a;
+          border-bottom-color: #333;
+        }
+        
+        [data-theme="dark"] .left-content .info .title {
+          color: white;
+        }
+        
+        [data-theme="dark"] .left-content .info .text {
+          color: #aaa;
+        }
+      

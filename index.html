@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<!-- Title -->
+	<title>Score App - Dunistech Academy</title>
+	<link rel="canonical" href="https://dunistech.ng" />
+	<!-- Meta -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="author" content="Dunistech Academy">
+	<meta name="robots" content="index, follow">
+	<meta name="keywords" content="education, learning, scores, performance, academic, tutor, student, parent, admin, courses, assessments, assignments, exams, progress tracking">   
+	<meta name="description" content="Dunistech Academy Score App - Comprehensive learning performance tracking and analysis platform for students, parents, tutors, and administrators.">
+	<meta property="og:title" content="Score App - Learning Performance and Analysis">
+	<meta property="og:description" content="Track academic performance, manage courses, and monitor student progress with Dunistech Academy's comprehensive scoring application.">
+	<meta property="og:image" content="/assets/images/logo/score-app-social.png">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="twitter:title" content="Score App - Learning Performance and Analysis">
+	<meta name="twitter:description" content="Track academic performance, manage courses, and monitor student progress with Dunistech Academy's comprehensive scoring application.">
+	<meta name="twitter:image" content="/assets/images/logo/score-app-social.png">
+	<meta name="twitter:card" content="summary_large_image">
+	<!-- Mobile Specific -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, minimal-ui, viewport-fit=cover">
+	<!-- Favicons Icon -->
+	<link rel="shortcut icon" type="image/x-icon" href="/assets/images/app-logo/favicon50x50.png">
+	
+	<!-- PWA Meta Tags -->
+	<meta name="theme-color" content="#2563eb" />
+	<meta name="mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<meta name="apple-mobile-web-app-title" content="Score App" />
+	
+	<!-- PWA Manifest -->
+	<link rel="manifest" href="/manifest.json">
+	
+	<!-- PWA Icons -->
+	<link rel="icon" type="image/png" sizes="192x192" href="/assets/images/app-logo/icon-192x192.png" />
+	<link rel="icon" type="image/png" sizes="512x512" href="/assets/images/app-logo/icon-512x512.png" />
+	<link rel="apple-touch-icon" href="/assets/images/app-logo/icon-192x192.png" />
+	
+    <!-- Global CSS -->
+	<link href="/assets/vendor/bootstrap-select/dist/css/bootstrap-select.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
+	<link rel="stylesheet" href="/assets/vendor/swiper/swiper-bundle.min.css">
+	
+	<!-- Framework7 css -->
+	<link rel="stylesheet" href="/assets/css/framework7-bundle.css">
+	<link rel="stylesheet" href="/assets/css/app.css">
+	
+	<!-- Fonts -->
+	<link rel="stylesheet" href="/assets/css/font-awesome/css/all.min.css">
+	<link rel="stylesheet" href="/assets/static/css/line-awesome/css/line-awesome.min.css">
+	
+	<!-- Style css -->
+	<link rel="stylesheet" href="/assets/css/style.css">
+	<link rel="stylesheet" href="/assets/css/perfect-scrollbar.css">
+	
+  <!-- Additional Styles / custom -->
+  <!-- Feather Icons CSS -->
+  <!-- <link rel="stylesheet" href="https://unpkg.com/feather-icons@4.29.0/dist/feather.min.css"> -->
+  
+  <!-- Font Awesome (for bells, etc) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Flaticon (for fi icons in mobile nav) -->
+  <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css">
+
+  <link rel="stylesheet" href="/assets/vendor/swiper/swiper-bundle.min.css">
+  <link rel="stylesheet" type="text/css" href="/assets/css/style.css">
+    
+	<!-- Animate -->
+  <link rel="stylesheet" href="/assets/vendor/wow/css/libs/animate.css">
+
+  <!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&family=Raleway:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  .form-control,
+  .form-select {
+    box-sizing: border-box;
+    max-width: 100%;
+    border-width: 1px;
+  }
+</style>
+
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+
+    <!--***** Scripts **********-->
+    <script src="/assets/js/jquery.js"></script>
+    <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
+    <script src="/assets/js/dz.carousel.js"></script><!-- Swiper -->
+    <script src="/assets/vendor/wow/dist/wow.min.js"></script>
+    <script src="/assets/js/settings.js"></script>
+    <script src="/assets/js/custom.js"></script>
+    
+    <script>
+      new WOW().init();
+      var wow = new WOW({
+        boxClass:     'wow',       // animated element css class (default is wow)
+        animateClass: 'animated',  // animation css class (default is animated)
+        offset:       50,          // distance to the element when triggering the animation (default is 0)
+        mobile:       false        // trigger animations on mobile devices (true is default)
+      });
+      wow.init();
+    </script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('✅ Service Worker registered successfully:', registration.scope);
+              
+              // Check for updates
+              registration.addEventListener('updatefound', () => {
+                const newWorker = registration.installing;
+                console.log('🔄 New Service Worker found, installing...');
+                
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    console.log('✨ New Service Worker installed, update available');
+                  }
+                });
+              });
+            })
+            .catch((error) => {
+              console.error('❌ Service Worker registration failed:', error);
+            });
+        });
+      } else {
+        console.warn('⚠️ Service Workers are not supported in this browser');
+      }
+    </script>
+  </body>
+</html>
+
