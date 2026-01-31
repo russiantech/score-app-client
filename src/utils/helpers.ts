@@ -2,9 +2,9 @@
    UTILITY FUNCTIONS
 ===================================================== */
 
-import type { AssessmentType } from "@/types/course/assessment";
-import type { User, UserRole } from "@/types/auth";
-import type { Grade } from "@/types/course/score";
+// import type { ScoreType } from "@/types/course/assessment";
+import type { Grade, ScoreType } from "@/types/course/score";
+import type { User, UserRole } from "@/types/users";
 
 /* =====================================================
    Error Normalization Utility
@@ -62,8 +62,8 @@ export const getGradeColor = (grade: Grade): string => {
   return colors[grade];
 };
 
-export const getAssessmentTypeColor = (type: AssessmentType): string => {
-  const colors: Record<AssessmentType, string> = {
+export const getAssessmentTypeColor = (type: ScoreType): string => {
+  const colors: Record<ScoreType, string> = {
     'quiz': 'success',
     'assignment': 'primary',
     'exam': 'danger',
@@ -72,8 +72,8 @@ export const getAssessmentTypeColor = (type: AssessmentType): string => {
   return colors[type];
 };
 
-export const getAssessmentTypeIcon = (type: AssessmentType): string => {
-  const icons: Record<AssessmentType, string> = {
+export const getAssessmentTypeIcon = (type: ScoreType): string => {
+  const icons: Record<ScoreType, string> = {
     'quiz': 'fa-clipboard-question',
     'assignment': 'fa-file-lines',
     'exam': 'fa-graduation-cap',

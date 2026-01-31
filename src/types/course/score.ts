@@ -507,6 +507,11 @@
 // src/types/course/score.ts
 // Complete type definitions matching backend schema
 
+
+export type Grade = 'A' | 'B+' | 'B' | 'C+' | 'C' | 'D' | 'F';
+
+export type ScoreStatus = 'graded' | 'pending' | 'submitted' | 'not-submitted';
+
 export type ScoreType = 
   | 'homework' 
   | 'classwork' 
