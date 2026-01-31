@@ -3,10 +3,9 @@
 ===================================================== */
 
 import type { ReactNode } from "react";
-import type { User } from "../auth";
-// import type { Lesson } from "./lesson";
+// import type { User } from "../auth";
 import type { Grade } from "./score";
-import type { export export export export export Lesson } from "./lesson";
+import type { Lesson } from "./lesson";
 
 export type CourseStatus = 'active' | 'inactive' | 'archived' | 'draft';
 
@@ -147,31 +146,9 @@ export interface CreateCourseDTO {
 
 }
 
-// export interface CreateCourseDTO {
-//   tutor_ids: string[];        // ✅ explicit & scalable
-//   title: string;
-//   description: string;
-//   code: string;
-//   status?: CourseStatus;
-//   thumbnail?: string;
-//   duration?: number;
-//   level?: 'beginner' | 'intermediate' | 'advanced';
-//   prerequisites?: string[];
-// }
-
 
 export interface UpdateCourseDTO extends Partial<CreateCourseDTO> {}
 
-// export interface CourseFilter {
-//   search?: string;
-//   tutor_ids?: string;
-//   status?: CourseStatus;
-//   level?: 'beginner' | 'intermediate' | 'advanced';
-//   sortBy?: 'title' | 'createdAt' | 'enrolledStudents' | 'code';
-//   sortOrder?: 'asc' | 'desc';
-//   page?: number;
-//   pageSize?: number;
-// }
 
 export interface CourseFilters {
   search?: string;
