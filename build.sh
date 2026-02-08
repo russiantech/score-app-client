@@ -37,7 +37,8 @@ echo "   ✓ Removed $BUILD_DIR"
 echo "⚙️  Setting up environment..."
 
 # ✅ CloudLinux-safe memory limit (reduced from 4096 to 768)
-export NODE_OPTIONS="--max-old-space-size=768"
+# export NODE_OPTIONS="--max-old-space-size=768"s
+export NODE_OPTIONS="--max-old-space-size=512"  # Lower to 512MB
 
 # ✅ Force dev dependencies installation
 unset NODE_ENV
