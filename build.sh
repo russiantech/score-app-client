@@ -40,33 +40,50 @@ echo "📦 npm: $(npm --version)"
 # ============ DEPENDENCIES ============
 echo "📥 Installing dependencies..."
 
-# Force clean install - remove node_modules if needed
-if [ -d "node_modules" ]; then
-    echo "   Cleaning node_modules..."
-    rm -rf node_modules package-lock.json
+# DON'T delete node_modules unless explicitly needed
+# Only clean install if package-lock.json is outdated or corrupted
+if [ ! -d "node_modules" ] || [ ! -f "package-lock.json" ]; then
+    echo "   Fresh install needed..."
+    npm install
+else
+    echo "   Using existing node_modules, running npm ci for verification..."
+    npm ci
 fi
 
-# Install production dependencies only
-# npm ci --omit=dev --ignore-scripts --silent
-npm install
-echo "   ✓ Dependencies installed"
+# ✅ Verify critical build tools are installed
+echo "🔍 Verifying build tools..."
+
+if ! command -v tsc &> /dev/null; then
+    echo "   ⚠️  TypeScript compiler not found, installing..."
+    npm install --save-dev typescript
+fi
+
+if ! npm list vite &> /dev/null; then
+    echo "   ⚠️  Vite not found, installing..."
+    npm install --save-dev vite @vitejs/plugin-react
+fi
+
+echo "   ✓ Dependencies verified"
 
 # ============ BUILD ============
 echo "🔨 Building application..."
 
-# Check if build script exists in package.json
+# Use direct commands instead of npx for better reliability
 if npm run | grep -q "build"; then
     echo "   Using npm run build..."
-    npm run build 2>&1 | tee build.log || {
-        echo "❌ npm run build failed, check build.log"
-        exit 1
-    }
+    npm run build 2>&1 | tee build.log
+    BUILD_EXIT_CODE=${PIPESTATUS[0]}
 else
     echo "   No build script found, using direct Vite build..."
-    npx vite build --mode production --emptyOutDir 2>&1 | tee build.log || {
-        echo "❌ Vite build failed, check build.log"
-        exit 1
-    }
+    ./node_modules/.bin/vite build --mode production --emptyOutDir 2>&1 | tee build.log
+    BUILD_EXIT_CODE=${PIPESTATUS[0]}
+fi
+
+# Check if build succeeded
+if [ $BUILD_EXIT_CODE -ne 0 ]; then
+    echo "❌ Build failed with exit code $BUILD_EXIT_CODE"
+    echo "   Check build.log for details"
+    exit 1
 fi
 
 # ============ VERIFICATION ============
@@ -80,6 +97,7 @@ echo "========================================="
 if [ ! -d "$BUILD_DIR" ]; then
     echo "❌ ERROR: $BUILD_DIR directory was not created!"
     echo "   Check build.log for errors"
+    cat build.log
     exit 1
 fi
 
@@ -87,6 +105,7 @@ fi
 if [ -z "$(ls -A $BUILD_DIR 2>/dev/null)" ]; then
     echo "❌ ERROR: $BUILD_DIR directory is empty!"
     echo "   Check build.log for errors"
+    cat build.log
     exit 1
 fi
 
@@ -110,15 +129,9 @@ fi
 
 # ============ OPTIONAL: CLEANUP BACKUP ============
 if [ -d "$BACKUP_DIR" ] && [ -n "$(ls -A $BACKUP_DIR 2>/dev/null)" ]; then
-    read -p "🧹 Delete backup ($BACKUP_DIR)? [y/N]: " -n 1 -r
-    echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
-        rm -rf "$BACKUP_DIR"
-        echo "   ✓ Backup deleted"
-    else
-        echo "   ⏳ Backup kept: $BACKUP_DIR"
-        echo "   Run 'rm -rf $BACKUP_DIR' to delete later"
-    fi
+    echo ""
+    echo "🧹 Backup created at: $BACKUP_DIR"
+    echo "   Run 'rm -rf $BACKUP_DIR' to delete later"
 fi
 
 echo ""
@@ -130,5 +143,5 @@ echo "1. Deploy the '$BUILD_DIR' folder to your web server"
 echo "2. Configure your web server to serve from '$BUILD_DIR'"
 echo "3. Test the application"
 echo ""
-echo "Run 'cat build.log' to see detailed build output"
+echo "Build log saved to: build.log"
 echo "========================================="
