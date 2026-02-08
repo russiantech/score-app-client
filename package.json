@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "type-check": "tsc --noEmit"
-
   },
   "dependencies": {
     "aos": "^2.3.4",
