@@ -1,120 +1,84 @@
 #!/usr/bin/env bash
-# build.sh — CloudLinux-safe, Vite + TypeScript production build
+# build.sh — CloudLinux OOM-safe Vite + TypeScript build
 set -Eeuo pipefail
 
 echo "========================================="
 echo "🚀 Starting Production Build"
 echo "========================================="
 
-# ============ CONFIGURATION ============
+# ============ CONFIG ============
 BUILD_DIR="dist"
-NODE_MEMORY="4096"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 BACKUP_DIR=".backup_${TIMESTAMP}"
 
-# ============ CLEANUP ============
+# ============ CLEAN ============
 echo "📁 Target directory: $BUILD_DIR"
 
 if [ -d "$BUILD_DIR" ] && [ -n "$(ls -A "$BUILD_DIR" 2>/dev/null)" ]; then
   echo "💾 Backing up existing build..."
   mkdir -p "$BACKUP_DIR"
   cp -r "$BUILD_DIR"/* "$BACKUP_DIR/" 2>/dev/null || true
-  echo "   Backup created: $BACKUP_DIR"
 fi
 
 echo "🧹 Cleaning $BUILD_DIR..."
 rm -rf "$BUILD_DIR"
-echo "   ✓ Removed $BUILD_DIR"
 
-# ============ ENVIRONMENT ============
+# ============ ENV ============
 echo "⚙️  Setting up environment..."
-export NODE_OPTIONS="--max-old-space-size=${NODE_MEMORY}"
 
-# 🔴 CRITICAL: force devDependencies install even on production hosts
+# 🔴 CloudLinux-safe memory tuning
 export NODE_ENV="development"
 export NPM_CONFIG_PRODUCTION="false"
+
+# 🔴 CRITICAL: disable WASM + reduce heap fragmentation
+export NODE_OPTIONS="\
+--max-old-space-size=768 \
+--no-wasm \
+--jitless"
 
 echo "📦 Node.js: $(node --version)"
 echo "📦 npm: $(npm --version)"
 
-# ============ DEPENDENCIES ============
-echo "📥 Installing dependencies (including devDependencies)..."
+# ============ INSTALL ============
+echo "📥 Installing dependencies (dev included)..."
+npm install --include=dev --no-audit --no-fund
 
-# CloudLinux-safe install (never use npm ci here)
-npm install --include=dev
-
-# ============ VERIFICATION ============
-echo "🔍 Verifying required build tooling..."
-
-REQUIRED_PKGS=(
-  "vite"
-  "typescript"
-  "@types/node"
-)
-
-for pkg in "${REQUIRED_PKGS[@]}"; do
-  if ! npm list "$pkg" >/dev/null 2>&1; then
-    echo "   ⚠️  Missing $pkg — installing..."
-    npm install --save-dev "$pkg"
-  fi
-done
-
+# ============ VERIFY ============
+echo "🔍 Verifying build tooling..."
+npm list vite >/dev/null
+npm list typescript >/dev/null
+npm list @types/node >/dev/null
 echo "   ✓ Tooling verified"
 
 # ============ BUILD ============
 echo "🔨 Building application..."
 
-echo "   Running: tsc -b"
-./node_modules/.bin/tsc -b 2>&1 | tee build.log
+echo "   Running TypeScript (low memory mode)..."
+./node_modules/.bin/tsc -b --incremental false 2>&1 | tee build.log
 
-echo "   Running: vite build"
-./node_modules/.bin/vite build --mode production --emptyOutDir 2>&1 | tee -a build.log
+echo "   Running Vite (OOM-safe)..."
+./node_modules/.bin/vite build \
+  --mode production \
+  --emptyOutDir \
+  --minify esbuild \
+  --logLevel warn \
+  2>&1 | tee -a build.log
 
-# ============ POST-BUILD VERIFICATION ============
+# ============ VERIFY OUTPUT ============
 echo ""
 echo "========================================="
 echo "📊 BUILD VERIFICATION"
 echo "========================================="
 
-if [ ! -d "$BUILD_DIR" ]; then
-  echo "❌ ERROR: $BUILD_DIR was not created"
+if [ ! -d "$BUILD_DIR" ] || [ -z "$(ls -A "$BUILD_DIR")" ]; then
+  echo "❌ Build failed — dist missing or empty"
   exit 1
 fi
 
-if [ -z "$(ls -A "$BUILD_DIR" 2>/dev/null)" ]; then
-  echo "❌ ERROR: $BUILD_DIR is empty"
-  exit 1
-fi
+echo "📁 dist size: $(du -sh "$BUILD_DIR" | cut -f1)"
+echo "📄 files: $(find "$BUILD_DIR" -type f | wc -l)"
 
-echo "📁 Build directory: $(pwd)/$BUILD_DIR"
-echo "📦 Total size: $(du -sh "$BUILD_DIR" | cut -f1)"
-echo "📄 Files created: $(find "$BUILD_DIR" -type f | wc -l)"
+[ -f "$BUILD_DIR/index.html" ] && echo "✓ index.html found"
 
 echo ""
-echo "🔑 Key build files:"
-find "$BUILD_DIR" -type f \( -name "*.html" -o -name "*.js" -o -name "*.css" \) | head -10
-
-if [ -f "$BUILD_DIR/index.html" ]; then
-  echo "✓ index.html found"
-else
-  echo "⚠️  WARNING: index.html not found"
-fi
-
-# ============ BACKUP NOTICE ============
-if [ -d "$BACKUP_DIR" ] && [ -n "$(ls -A "$BACKUP_DIR" 2>/dev/null)" ]; then
-  echo ""
-  echo "🧹 Backup saved at: $BACKUP_DIR"
-  echo "   Remove later with: rm -rf $BACKUP_DIR"
-fi
-
-echo ""
-echo "========================================="
-echo "🎉 BUILD SUCCESSFUL!"
-echo "========================================="
-echo "Next steps:"
-echo "1. Serve '$BUILD_DIR' via Apache/Nginx"
-echo "2. Node.js is NOT required at runtime"
-echo "3. Add SPA routing (.htaccess) if needed"
-echo ""
-echo "Build log: build.log"
-echo "========================================="
+echo "🎉 BUILD SUCCESSFUL (CloudLinux-safe)"
