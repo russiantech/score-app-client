@@ -3,8 +3,8 @@
 // Global User Modal Management
 // ============================================================================
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
-import type { User } from '@/types/auth';
+import React, { createContext, useContext, useState, type ReactNode } from 'react';
+import type { User, UserRole } from '@/types/users';
 import type { UserModalContextType } from '@/types/users';
 
 const UserModalContext = createContext<UserModalContextType | undefined>(undefined);
@@ -13,9 +13,11 @@ export const UserModalProvider: React.FC<{ children: ReactNode }> = ({ children 
   const [isOpen, setIsOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [refreshTrigger, setRefreshTrigger] = useState(0);
-  const [defaultRole, setDefaultRole] = useState<string | null>(null);
+  // const [defaultRole, setDefaultRole] = useState<string | null>(null);
 
-  const openCreateModal = (role?: string) => {
+const [defaultRole, setDefaultRole] = useState<UserRole | null>(null);
+
+  const openCreateModal = (role?: UserRole) => {
     setEditingUser(null);
     setDefaultRole(role || 'student');
     setIsOpen(true);

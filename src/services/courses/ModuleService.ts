@@ -3,9 +3,9 @@
    Pattern-aligned with LessonService
 ===================================================== */
 
-// import type { Module, ModuleCreate, ModuleUpdate } from '@/types/modules';
 import { AxiosService } from '@/services/base/AxiosService';
-import type { ModuleCreate, Module, ModuleUpdate, Course } from '@/types/course';
+import type { Course } from '@/types/course';
+import type { ModuleCreate, Module, ModuleUpdate } from '@/types/course/module';
 import { handleError } from '@/utils/helpers';
 
 export const ModuleService = {

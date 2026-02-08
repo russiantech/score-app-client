@@ -2,7 +2,7 @@
    USER & AUTH TYPES
 ===================================================== */
 
-import type { User } from "./users";
+import type { User, UserRole } from "./users";
 
 // AUTH PAYLOADS
 export interface AuthTokens {
@@ -79,16 +79,28 @@ export interface ResendCodeResponse {
   message: string;
 }
 
-export interface ResetPasswordData {
-  token?: string;
-  email: string;
+// export interface ResetPasswordData {
+//   token?: string;
+//   email?: string;
+//   new_password: string;
+//   confirm_password?: string;
+
+// }
+
+export interface ResetPasswordDataDTO {
+  reset_code: string;
   new_password: string;
-  confirm_password: string;
+}
+
+export interface ResetPasswordResponse {
+  success: boolean;
+  message: string;
 }
 
 export interface ForgotPasswordData {
   email: string;
 }
+
 
 export interface AuthState {
   user: User | null;
@@ -98,4 +110,15 @@ export interface AuthState {
   currentRole: UserRole | null;
 }
 
+
+
+export interface OTPInputProps {
+  value: string;
+  onChange: (value: string) => void;
+  length?: number;
+  disabled?: boolean;
+}
+
+
 // others
+

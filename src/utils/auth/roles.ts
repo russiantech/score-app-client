@@ -1,7 +1,8 @@
 // src/utils/auth/roles.ts
 // Roles & RBAC utilities (pure, framework-agnostic)
 
-import type { AuthPayload, UserRole } from '@/types/auth';
+import type { AuthPayload } from '@/types/auth';
+import type { UserRole } from '@/types/users';
 
 /* =========================================================
    Roles & Priority

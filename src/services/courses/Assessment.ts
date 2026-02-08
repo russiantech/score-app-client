@@ -2,10 +2,13 @@
    ASSESSMENT SERVICE
 ===================================================== */
 
-import type { Assessment, CreateAssessmentDTO, UpdateAssessmentDTO } from "@/types/course/assessment";
-import type { Score } from "@/types/course/score";
+// import type { Assessment, CreateAssessmentDTO, UpdateAssessmentDTO } from "@/types/course/assessment";
+// import type { Score } from "@/types/course/score";
 import { handleError } from "@/utils/helpers";
 import { AxiosService } from "../base/AxiosService";
+import type { Assessment } from "@/types/course";
+import type { ScoreColumn } from "@/types/course/score";
+import type { CreateAssessmentDTO, UpdateAssessmentDTO } from "@/types/course/assessment";
 
 export const AssessmentService = {
   async getById(id: string): Promise<Assessment> {
@@ -43,7 +46,7 @@ export const AssessmentService = {
     }
   },
 
-  async getScores(assessmentId: string): Promise<Score[]> {
+  async getScores(assessmentId: string): Promise<ScoreColumn[]> {
     try {
       const response = await AxiosService.json.get(`/assessments/${assessmentId}/scores`);
       return response.data;

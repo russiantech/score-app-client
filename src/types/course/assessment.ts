@@ -70,22 +70,49 @@
 
 // v2
 // src/types/assessment.ts
+// import type { ReactNode } from "react";
+
+// export interface Assessment {
+//   optional: boolean;
+//   weight: number;
+//   label: ReactNode;
+//   color: any;
+//   maxScore: ReactNode;
+//   id: string;
+//   lesson_id: string;
+//   title: string;
+//   description?: string;
+//   type: 'quiz' | 'test' | 'practical' | 'oral';
+//   max_score: number;
+//   due_date?: string;
+//   duration?: string; // e.g., "45 minutes"
+//   is_published: boolean;
+//   created_at?: string;
+//   updated_at?: string;
+// }
 
 export interface Assessment {
   id: string;
   lesson_id: string;
   title: string;
-  description?: string;
-  type: 'quiz' | 'test' | 'practical' | 'oral';
-  max_score: number;
-  due_date?: string;
-  duration?: string; // e.g., "45 minutes"
+  max_score: number;  //  Ensure this is number, not ReactNode
   is_published: boolean;
-  created_at?: string;
-  updated_at?: string;
+  type: 'quiz' | 'test' | 'practical' | 'oral' | 'assess' | 'assign' | 'project' | 'exam';
+  label: string;
+  // maxScore: number;  // Add this if missing
+  weight: number;
+  description?: string;
+  color: string;
+  optional?: boolean;
 }
 
-export interface AssessmentCreate {
+export type AssessmentConfig = Omit<
+  Assessment,
+  'lesson_id' | 'title' | 'is_published'
+>;
+
+
+export interface CreateAssessmentDTO {
   lesson_id: string;
   title: string;
   description?: string;
@@ -96,7 +123,7 @@ export interface AssessmentCreate {
   is_published?: boolean;
 }
 
-export interface AssessmentUpdate {
+export interface UpdateAssessmentDTO extends Partial<CreateAssessmentDTO> {
   title?: string;
   description?: string;
   type?: 'quiz' | 'test' | 'practical' | 'oral';

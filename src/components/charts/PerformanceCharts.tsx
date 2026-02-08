@@ -743,8 +743,9 @@
 // Simple, Clear Performance Charts
 // src/components/charts/PerformanceCharts.tsx
 
+import type { CoursePerformance } from '@/types/performance';
 import React from 'react';
-import type { CoursePerformance } from '@/hooks/usePerformance';
+// import type { CoursePerformance } from '@/hooks/usePerformance';
 
 // ============================================================================
 // PERFORMANCE BAR CHART
@@ -763,8 +764,6 @@ export const PerformanceChart: React.FC<PerformanceChartProps> = ({ data }) => {
       </div>
     );
   }
-
-  const maxScore = 100;
   
   return (
     <div className="performance-chart">

@@ -2,18 +2,17 @@
 // v4
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { TutorService } from "@/services/users/tutor";
 import { Button, EmptyState } from '@/components/buttons/Button'
 import { StatCard } from '@/components/cards/StatCards'
 import toast from 'react-hot-toast';
 import type { Course } from "@/types/course";
+import { TutorService } from "@/services/users/tutor";
 
 export const TutorMyCourses = () => {
   const navigate = useNavigate();
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadCourses();
@@ -24,7 +23,7 @@ export const TutorMyCourses = () => {
       setLoading(true);
       setError(null);
       const response = await TutorService.getMyCourses();
-      setCourses(Array.isArray(response) ? response : response.data?.courses || []);
+      setCourses(Array.isArray(response) ? response : []);
       console.log(courses, response.data);
     } catch (err) {
       console.error('Failed to load courses:', err);

@@ -50,6 +50,8 @@
 
 
 
+import type { CourseSummary } from "./course/course";
+
 /**
  * Student summary (included when include_relations=true)
  */
@@ -57,15 +59,6 @@ export interface StudentSummary {
   id: string;
   names: string;
   email: string;
-}
-
-/**
- * Course summary (included when include_relations=true)
- */
-export interface CourseSummary {
-  id: string;
-  code: string;
-  title: string;
 }
 
 /**
@@ -87,6 +80,7 @@ export interface Enrollment {
   // Relations (populated when include_relations=true)
   student?: StudentSummary;
   course?: CourseSummary;
+
 }
 
 // v2

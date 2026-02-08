@@ -1,22 +1,12 @@
-// (Course details)
-
 // Courses Tab - Simple Course Details
 // src/pages/student/performance/CoursesTab.tsx
-
+import type { CoursePerformance } from '@/types/performance';
+import { getGradeColor } from '@/utils/scores';
 import React, { useState } from 'react';
-import type { CoursePerformance } from '@/hooks/usePerformance';
 
 interface CoursesTabProps {
   courses: CoursePerformance[];
 }
-
-const getGradeColor = (grade: string): string => {
-  if (grade.startsWith('A')) return 'success';
-  if (grade.startsWith('B')) return 'primary';
-  if (grade.startsWith('C')) return 'info';
-  if (grade.startsWith('D')) return 'warning';
-  return 'danger';
-};
 
 export const CoursesTab: React.FC<CoursesTabProps> = ({ courses }) => {
   const [selectedCourse, setSelectedCourse] = useState<CoursePerformance | null>(null);

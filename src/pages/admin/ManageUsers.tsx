@@ -5,9 +5,8 @@ import toast from 'react-hot-toast';
 import { getFullName, getInitials, getRoleColor } from '@/utils/helpers';
 import { formatDate } from '@/utils/format';
 import { UserService } from '@/services/users/UserService';
-// import type { User } from '@/types/auth';
 import type { UserStats } from '@/types/users';
-import type { User, UserRole } from '@/types/auth';
+import type { User, UserRole } from '@/types/users';
 
 type RoleFilter = UserRole | 'all';
 
@@ -163,12 +162,15 @@ const ManageUsers: React.FC = () => {
 // });
 
 const isRole = (u: User, role: UserRole) => u.roles.includes(role);
+
 const calculateStats = (): UserStats => ({
   total: users.length,
   students: users.filter(u => isRole(u, 'student')).length,
   tutors: users.filter(u => isRole(u, 'tutor')).length,
   parents: users.filter(u => isRole(u, 'parent')).length,
   admins: users.filter(u => isRole(u, 'admin')).length,
+  active: 0,
+  inactive: 0
 });
 
 
@@ -496,7 +498,8 @@ const calculateStats = (): UserStats => ({
                                 fontWeight: 'bold',
                               }}
                             >
-                              {getInitials(user.names)}
+                              {getInitials(user.names || '')}
+                              
                             </div>
                             <div className="flex-grow-1">
                               <h6 className="mb-1">{getFullName(user)}</h6>

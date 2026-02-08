@@ -1,3 +1,5 @@
+import type { Lesson } from "./lesson";
+
 // src/types/module.ts
 export interface Module {
   id: string;
@@ -18,7 +20,8 @@ export interface ModuleCreate {
   order: number;
 }
 
-export interface ModuleUpdate {
+export interface ModuleUpdate extends Partial<ModuleCreate> {
+  course_id?: string;  // ✅ Make optional to match union type
   title?: string;
   description?: string;
   order?: number;

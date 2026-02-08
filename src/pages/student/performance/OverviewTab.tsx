@@ -3,8 +3,9 @@
 // src/pages/student/performance/OverviewTab.tsx
 
 import React from 'react';
-import type { CoursePerformance, PerformanceSummary, PerformanceTrend } from '@/hooks/usePerformance';
+// import type { CoursePerformance, PerformanceSummary, PerformanceTrend } from '@/hooks/usePerformance';
 import { SimpleBarChart, SimpleTrendChart } from './SimpleCharts';
+import type { CoursePerformance, PerformanceSummary, PerformanceTrend } from '@/types/performance';
 
 interface OverviewTabProps {
   courses: CoursePerformance[];

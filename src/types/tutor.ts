@@ -2,7 +2,7 @@
 //    TUTOR ASSIGNMENT TYPES
 // ===================================================== */
 
-import type { ReactNode } from "react";
+// // import type { ReactNode } from "react";
 
 // import type { User } from "./auth";
 // import type { Course } from "./course";
@@ -309,6 +309,8 @@ import type { ReactNode } from "react";
 // ============================================================================
 // TYPE DEFINITIONS (types/tutor.ts)
 // ============================================================================
+import type { Course, CourseSummary } from "./course/course";
+import type { User } from "./users";
 
 /**
  * Tutor summary (included when include_relations=true)
@@ -318,18 +320,6 @@ export interface TutorSummary {
   names: string;
   email: string;
   is_active: boolean;
-}
-
-/**
- * Course summary (included when include_relations=true)
- */
-export interface CourseSummary {
-  id: string;
-  code: string;
-  title: string;
-  description: string;
-  is_active: boolean;
-  enrolledStudents: number;
 }
 
 /**
@@ -393,3 +383,31 @@ export interface TutorAssignmentStats {
   avg_courses_per_tutor: number;
 }
 
+export interface TutorPerformanceStats {
+  total_courses: number;
+  total_students: number;
+  total_lessons: number;
+  total_assessments: number;
+  pending_grading: number;
+  graded_assessments: number;
+  average_score: number;
+  average_grade: number;
+  upcoming_assessments: number;
+  overdue_assessments: number;
+}
+
+// ============================================================================
+// ASSIGNMENT MODAL COMPONENT
+// ============================================================================
+
+export interface AssignmentModalProps {
+  show: boolean;
+  onClose: () => void;
+  tutors: User[];
+  courses: Course[];
+  assignments: TutorAssignment[];
+  onAssign: (tutorId: string, courseId: string) => Promise<void>;
+  assigning: boolean;
+  preselectedTutorId?: string;
+  preselectedCourseId?: string;
+}

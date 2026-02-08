@@ -12,7 +12,7 @@ export const useTutorCourses = () => {
     try {
       setLoading(true);
       const res = await TutorService.getMyCourses();
-      const data = Array.isArray(res) ? res : res.data?.courses || [];
+      const data = Array.isArray(res) ? res : [];
       setCourses(data);
     } catch (e) {
       console.error(e);

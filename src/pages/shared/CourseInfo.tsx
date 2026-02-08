@@ -141,10 +141,10 @@ export const CourseInfo = () => {
 
   const handleDeleteModule = async (moduleId: string) => {
     const module = modules.find(m => m.id === moduleId);
-    const lessonsCount = module?.lessons?.length || 0;
+    const lessons_count = module?.lessons?.length || 0;
 
-    const confirmMsg = lessonsCount > 0
-      ? `This module contains ${lessonsCount} lesson(s). Continue?`
+    const confirmMsg = lessons_count > 0
+      ? `This module contains ${lessons_count} lesson(s). Continue?`
       : 'Delete this module?';
 
     if (!window.confirm(confirmMsg)) return;
@@ -158,6 +158,16 @@ export const CourseInfo = () => {
       await refreshCourseData();
     } catch (error) {
       toast.error(extractErrorMessage(error));
+    }
+  };
+
+  const handleSaveModule = async (
+    data: ModuleCreate | ModuleUpdate
+  ): Promise<void> => {
+    if (editingModule) {
+      await handleUpdateModule(data as ModuleUpdate);
+    } else {
+      await handleCreateModule(data as ModuleCreate);
     }
   };
 
@@ -673,13 +683,25 @@ export const CourseInfo = () => {
       {/* MODALS */}
       {canEdit && (
         <>
-          <ModuleFormModal
+          {/* <ModuleFormModal
             isOpen={showModuleModal}
             onClose={() => {
               setShowModuleModal(false);
               setEditingModule(null);
             }}
             onSave={editingModule ? handleUpdateModule : handleCreateModule}
+            courseId={id!}
+            module={editingModule}
+            isEditing={!!editingModule}
+            existingOrders={modules.map(m => m.order)}
+          /> */}
+          <ModuleFormModal
+            isOpen={showModuleModal}
+            onClose={() => {
+              setShowModuleModal(false);
+              setEditingModule(null);
+            }}
+            onSave={handleSaveModule}
             courseId={id!}
             module={editingModule}
             isEditing={!!editingModule}

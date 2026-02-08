@@ -2,9 +2,11 @@
    STATS SERVICE
 ===================================================== */
 
-import type { AdminStats, TutorStats, StudentStats, ParentStats } from "@/types/stats";
+// import type { AdminStats, TutorStats, StudentStats, ParentStats } from "@/types/stats";
 import { handleError } from "@/utils/helpers";
 import { AxiosService } from "@/services/base/AxiosService";
+import type { AdminStats, ParentStats, StudentStats } from "@/types/stats";
+import type { TutorPerformanceStats } from "@/types/tutor";
 
 export const StatsService = {
   async getAdminStats(): Promise<AdminStats> {
@@ -16,7 +18,7 @@ export const StatsService = {
     }
   },
 
-  async getTutorStats(tutorId: string): Promise<TutorStats> {
+  async getTutorStats(tutorId: string): Promise<TutorPerformanceStats> {
     try {
       const response = await AxiosService.json.get(`/stats/tutor/${tutorId}`);
       return response.data;

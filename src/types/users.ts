@@ -46,6 +46,10 @@ export interface User {
   updated_at: string;
 }
 
+export type Child = User & {
+  enrolledCourses: number;
+  averagePerformance: number;
+};
 
 /**
  * Admin/internal user creation
@@ -94,14 +98,24 @@ export interface UserFilters {
   order?: 'asc' | 'desc';
 }
 
-export interface UserStats {
-  total_users: number;
-  active_users: number;
-  inactive_users: number;
-  verified_users: number;
-  users_by_role: Record<UserRole, number>;
-}
+// export interface UserStats {
+//   total_users: number;
+//   active_users: number;
+//   inactive_users: number;
+//   verified_users: number;
+//   users_by_role: Record<UserRole, number>;
+// }
 
+
+export interface UserStats {
+  total: number;
+  students: number;
+  tutors: number;
+  parents: number;
+  admins: number;
+  active: number;
+  inactive: number;
+}
 
 // Modal context & props (aligned + clean)
 export interface UserModalContextType {
@@ -137,6 +151,14 @@ export interface RoleInfo {
   description: string[];
   permissions: string[];
 }
+
+export interface UserAvatarProps {
+  names: string;
+  size?: number;
+  bgColor?: string;
+  className?: string;
+}
+
 
 export const ROLE_HIERARCHY: Record<UserRole, number> = {
   dev: 0,
@@ -182,4 +204,6 @@ export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   ],
   user: []
 };
+
+
 

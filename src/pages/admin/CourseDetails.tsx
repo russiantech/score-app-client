@@ -2,34 +2,47 @@
 // CourseDetails.tsx (Admin)
 import type { Course } from '@/types/course';
 import type { Lesson } from '@/types/course/lesson';
-import { formatDate } from 'date-fns';
+import { formatDate } from '@/utils/format';
 import React, { useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-// import { formatDate } from '@/utils/formatters/dateFormatter';
-// import type { Course } from '@/types/courses/Course';
-// import type { Lesson } from '@/types/courses/Lesson';
-// import type { formatDate } from 'node_modules/date-fns/format.d.cts';
 
 export const CourseDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [activeTab, setActiveTab] = useState('overview');
-  
+
   const [course] = useState<Course>({
-    id: id || '1',
-    code: 'MATH101',
-    title: 'Mathematics 101',
-    description: 'Comprehensive introduction to mathematics covering algebra, geometry, and basic calculus.',
-    tutorName: 'John Doe',
-    tutorId: 't1',
-    status: 'active',
-    totalStudents: 25,
-    totalLessons: 12,
-    createdAt: '2024-01-15'
-  });
+  id: id || '1',
+  code: 'MATH101',
+  title: 'Mathematics 101',
+  description: 'Comprehensive introduction to mathematics covering algebra, geometry, and basic calculus.',
+
+  tutor_ids: ['t1'],
+  tutor_count: 1,
+
+  lessons: [],
+  lesson_count: 12,
+
+  // students: [],
+  enrolled_count: 25,
+
+  status: 'active',
+  is_active: true,
+
+  created_at: '2024-01-15',
+  updated_at: '2024-01-15',
+});
 
   const [lessons] = useState<Lesson[]>([
-    { id: 'l1', courseId: id || '1', title: 'Introduction to Algebra', description: 'Basic algebra concepts', order: 1, totalAssessments: 2, createdAt: '2024-01-20' },
-    { id: 'l2', courseId: id || '1', title: 'Linear Equations', description: 'Solving linear equations', order: 2, totalAssessments: 3, createdAt: '2024-01-25' }
+    {
+      id: 'l1', module_id: id || '1', title: 'Introduction to Algebra', description: 'Basic algebra concepts', order: 1, total_assessments: 2, created_at: '2024-01-20',
+      status: 'upcoming',
+      is_published: false
+    },
+    {
+      id: 'l2', module_id: id || '1', title: 'Linear Equations', description: 'Solving linear equations', order: 2, total_assessments: 3, created_at: '2024-01-25',
+      status: 'upcoming',
+      is_published: false
+    }
   ]);
 
   return (
@@ -55,7 +68,7 @@ export const CourseDetails: React.FC = () => {
               <p className="text-muted mb-2">{course.description}</p>
               <small className="text-muted">
                 <i className="fa fa-user-tie me-1"></i>
-                Tutor: {course.tutorName}
+                Tutor: {course.tutors && course.tutors.length > 0 ? course.tutors[0].names : 'Unassigned'}
               </small>
             </div>
             <div className="col-md-4 text-md-end">
@@ -83,7 +96,7 @@ export const CourseDetails: React.FC = () => {
         </li>
         <li className="nav-item">
           <button className={`nav-link ${activeTab === 'students' ? 'active' : ''}`} onClick={() => setActiveTab('students')}>
-            <i className="fa fa-users me-1"></i>Students ({course.totalStudents})
+            <i className="fa fa-users me-1"></i>Students ({course.enrolled_count})
           </button>
         </li>
       </ul>
@@ -94,7 +107,7 @@ export const CourseDetails: React.FC = () => {
             <div className="card text-center">
               <div className="card-body">
                 <i className="fa fa-users fa-2x text-primary mb-2"></i>
-                <h3 className="mb-0">{course.totalStudents}</h3>
+                <h3 className="mb-0">{course.enrolled_count}</h3>
                 <p className="text-muted mb-0">Enrolled Students</p>
               </div>
             </div>
@@ -103,7 +116,7 @@ export const CourseDetails: React.FC = () => {
             <div className="card text-center">
               <div className="card-body">
                 <i className="fa fa-book fa-2x text-success mb-2"></i>
-                <h3 className="mb-0">{course.totalLessons}</h3>
+                <h3 className="mb-0">{course.lesson_count}</h3>
                 <p className="text-muted mb-0">Total Lessons</p>
               </div>
             </div>
@@ -112,7 +125,7 @@ export const CourseDetails: React.FC = () => {
             <div className="card text-center">
               <div className="card-body">
                 <i className="fa fa-calendar fa-2x text-info mb-2"></i>
-                <h3 className="mb-0">{formatDate(course.createdAt)}</h3>
+                <h3 className="mb-0">{formatDate(course.created_at)}</h3>
                 <p className="text-muted mb-0">Created Date</p>
               </div>
             </div>
@@ -140,8 +153,8 @@ export const CourseDetails: React.FC = () => {
                       <td>{lesson.order}</td>
                       <td><strong>{lesson.title}</strong></td>
                       <td>{lesson.description}</td>
-                      <td><span className="badge bg-info">{lesson.totalAssessments}</span></td>
-                      <td>{formatDate(lesson.createdAt)}</td>
+                      <td><span className="badge bg-info">{lesson.total_assessments || 0}</span></td>
+                      <td>{formatDate(lesson.created_at || '')}</td>
                     </tr>
                   ))}
                 </tbody>

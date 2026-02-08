@@ -3,14 +3,10 @@
 // =====================================================
 
 import { CourseService } from "@/services/courses/CourseService";
-import type { CourseFilter, Course } from "@/types/course";
+import type { CourseFilters, Course } from "@/types/course";
 import { useApi } from "./useApi";
 
-// import { useApi } from './useApi';
-// import { CourseService } from '../services';
-// import type { Course, CourseFilter } from '@/types';
-
-export function useCourses(filter?: CourseFilter) {
+export function useCourses(filter?: CourseFilters) {
   return useApi<Course[]>(
     () => CourseService.getAll(filter),
     { immediate: true, initialData: [] }
@@ -19,7 +15,10 @@ export function useCourses(filter?: CourseFilter) {
 
 export function useCourse(id: string) {
   return useApi<Course>(
-    () => CourseService.getById(id),
+    async () => {
+      const response = await CourseService.getById(id);
+      return response.course;
+    },
     { immediate: !!id }
   );
 }

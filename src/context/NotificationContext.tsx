@@ -123,11 +123,21 @@
 
 // v2
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-import type { NotificationContextType } from '../types';
-// import { Notification, NotificationContextType } from '../types';
+import React, { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import type { Notification, NotificationType } from '../types/notification';
 
-const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
+// Define NotificationContextType here
+interface NotificationContextType {
+  notifications: Notification[];
+  unreadCount: number;
+  addNotification: (notification: Omit<Notification, 'id' | 'read'>) => void;
+  markAsRead: (id: string) => void;
+  markAllAsRead: () => void;
+  removeNotification: (id: string) => void;
+  clearAll: () => void;
+}
+
+export const NotificationContext = createContext<NotificationContextType | undefined>(undefined);
 
 interface NotificationProviderProps {
   children: ReactNode;
@@ -137,35 +147,43 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   const [notifications, setNotifications] = useState<Notification[]>([
     {
       id: '1',
+      userId: '1',
       title: 'Welcome to Score App!',
       message: 'Get started by exploring your dashboard and courses.',
-      time: 'Just now',
-      type: 'info',
-      read: false
+      type: 'info' as NotificationType,
+      link: undefined,
+      isRead: false,
+      createdAt: new Date().toISOString(),
     },
     {
       id: '2',
+      userId: '1',
       title: 'New Assignment Posted',
       message: 'Python Functions Quiz has been posted. Due: Dec 10',
-      time: '10 minutes ago',
-      type: 'info',
-      read: false
+      type: 'info' as NotificationType,
+      link: undefined,
+      isRead: false,
+      createdAt: new Date(Date.now() - 600000).toISOString(),
     },
     {
       id: '3',
+      userId: '1',
       title: 'Score Updated',
       message: 'Your score for Data Structures Assignment has been updated',
-      time: '2 hours ago',
-      type: 'success',
-      read: false
+      type: 'success' as NotificationType,
+      link: undefined,
+      isRead: false,
+      createdAt: new Date(Date.now() - 7200000).toISOString(),
     },
     {
       id: '4',
+      userId: '1',
       title: 'Attendance Alert',
       message: 'Attendance for Python class is below 75%',
-      time: '1 day ago',
-      type: 'warning',
-      read: true
+      type: 'warning' as NotificationType,
+      link: undefined,
+      isRead: true,
+      createdAt: new Date(Date.now() - 86400000).toISOString(),
     },
   ]);
 
@@ -176,6 +194,12 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
       ...notification,
       id: Date.now().toString(),
       read: false,
+      userId: '',
+      type: 'assessment_graded',
+      title: '',
+      message: '',
+      isRead: false,
+      createdAt: ''
     };
     
     setNotifications(prev => [newNotification, ...prev]);
@@ -209,14 +233,6 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({ chil
   }, []);
 
   // Function to show a toast notification
-  const showToast = useCallback((title: string, message: string, type: Notification['type'] = 'info') => {
-    addNotification({
-      title,
-      message,
-      type,
-      time: 'Just now'
-    });
-  }, [addNotification]);
 
   const value: NotificationContextType = {
     notifications,

@@ -78,11 +78,16 @@ const CourseProjectScoreModal = ({
       const scoresMap: Record<string, Record<string, number>> = {};
       const remarksMap: Record<string, string> = {};
       
-      response.students.forEach(student => {
-        scoresMap[student.student_id] = student.rubric_scores || {};
-        remarksMap[student.student_id] = student.remarks || '';
-      });
+      // response.students.forEach(student => {
+      //   scoresMap[student.student_id] = student.rubric_scores || {};
+      //   remarksMap[student.student_id] = student.remarks || '';
+      // });
       
+      response.students.forEach((student: StudentProjectData) => {
+      scoresMap[student.student_id] = student.rubric_scores || {};
+      remarksMap[student.student_id] = student.remarks || '';
+    });
+
       setLocalScores(scoresMap);
       setLocalRemarks(remarksMap);
     } catch (error) {
@@ -129,12 +134,6 @@ const CourseProjectScoreModal = ({
     }));
   }, [rubricItems]);
 
-  const updateRemarks = useCallback((studentId: string, value: string) => {
-    setLocalRemarks(prev => ({
-      ...prev,
-      [studentId]: value
-    }));
-  }, []);
 
   const calculateStudentTotal = (studentId: string) => {
     let totalScore = 0;

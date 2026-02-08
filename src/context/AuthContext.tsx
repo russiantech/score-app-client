@@ -10,12 +10,9 @@ import { AuthService } from '../services/auth/AuthService';
 import { NotificationService } from '../services/local/NotificationService';
 import { UserStorageService } from '../services/local/UserStorageService';
 
-import type {
-  AuthPayload,
-  ResetPasswordData,
-  User,
-  VerifySignupData,
-} from '../types/auth';
+import type { AuthPayload, ResetPasswordDataDTO, VerifySignupData, } from '../types/auth';
+
+import type { User } from '../types/users';
 
 /* -------------------------------------------------------------------------- */
 /* Types                                                                      */
@@ -24,14 +21,14 @@ interface AuthContextType {
   auth: AuthPayload | null;
   loading: boolean;
 
-  signin(email: string, password: string): Promise<void>;
+  signin(username: string, password: string): Promise<void>;
   signout(): Promise<void>;
 
   signup(data: Partial<User>): Promise<void>;
   verifySignup(payload: VerifySignupData): Promise<void>;
 
   forgotPassword(email: string): Promise<void>;
-  resetPassword(data: ResetPasswordData): Promise<void>;
+  resetPassword(data: ResetPasswordDataDTO): Promise<void>;
 
   updateUser(data: Partial<User>): Promise<void>;
 }
@@ -203,7 +200,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     });
 
-  const resetPassword = async (data: ResetPasswordData) =>
+  const resetPassword = async (data: ResetPasswordDataDTO) =>
     withLoading(async () => {
       try {
         const response = await AuthService.resetPassword(data);

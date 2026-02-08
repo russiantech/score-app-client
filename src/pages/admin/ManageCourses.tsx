@@ -5,11 +5,11 @@ import CourseService from '@/services/courses/CourseService';
 import { useCourseModal } from '@/context/CourseModalContext';
 import toast from 'react-hot-toast';
 import type { Course, CourseFilters, CourseStats } from '@/types/course';
-import type { User } from '@/types/auth';
+import type { User } from '@/types/users';
 import { UserService } from '@/services/users/UserService';
 import '@/styles/admin/ManageCourse.css';
 import StatCard from '@/components/cards/StatCards';
-import { Button } from '@/components/buttons/Button';
+import { Button, EmptyState } from '@/components/buttons/Button';
 import { Link } from 'react-router-dom';
 
 // ============================================================================
@@ -39,38 +39,38 @@ const FilterBadge: React.FC<FilterBadgeProps> = ({ children, onRemove, icon, col
   </span>
 );
 
-interface EmptyStateProps {
-  icon: string;
-  title: string;
-  description: string;
-  actionLabel?: string;
-  onAction?: () => void;
-  small?: boolean;
-}
+// interface EmptyStateProps {
+//   icon: string;
+//   title: string;
+//   description: string;
+//   actionLabel?: string;
+//   onAction?: () => void;
+//   small?: boolean;
+// }
 
-const EmptyState: React.FC<EmptyStateProps> = ({
-  icon,
-  title,
-  description,
-  actionLabel,
-  onAction,
-  small = false
-}) => (
-  <div className={`text-center py-${small ? '4' : '5'}`}>
-    <i className={`${icon} ${small ? 'fa-2x' : 'fa-3x'} text-muted mb-3`} />
-    <h5 className={small ? 'h6' : ''}>{title}</h5>
-    <p className={`text-muted ${small ? 'small' : ''} mb-3`}>{description}</p>
-    {actionLabel && onAction && (
-      <Button
-        variant="outline-primary"
-        size={small ? 'sm' : 'md'}
-        onClick={onAction}
-      >
-        {actionLabel}
-      </Button>
-    )}
-  </div>
-);
+// const EmptyState: React.FC<EmptyStateProps> = ({
+//   icon,
+//   title,
+//   description,
+//   actionLabel,
+//   onAction,
+//   small = false
+// }) => (
+//   <div className={`text-center py-${small ? '4' : '5'}`}>
+//     <i className={`${icon} ${small ? 'fa-2x' : 'fa-3x'} text-muted mb-3`} />
+//     <h5 className={small ? 'h6' : ''}>{title}</h5>
+//     <p className={`text-muted ${small ? 'small' : ''} mb-3`}>{description}</p>
+//     {actionLabel && onAction && (
+//       <Button
+//         variant="outline-primary"
+//         size={small ? 'sm' : 'md'}
+//         onClick={onAction}
+//       >
+//         {actionLabel}
+//       </Button>
+//     )}
+//   </div>
+// );
 
 interface PaginationProps {
   page: number;
@@ -179,8 +179,12 @@ const ManageCourses: React.FC = () => {
   const fetchInitialData = async () => {
     try {
       setInitialLoading(true);
-      const tutorsResponse = await UserService.getAll({ role: 'tutor' });
-      setTutors(tutorsResponse.data?.users || tutorsResponse.data || []);
+      const tutorsResponse: any = await UserService.getAll({ role: 'tutor' });
+      setTutors(
+        Array.isArray(tutorsResponse)
+          ? tutorsResponse
+          : tutorsResponse.data?.users || tutorsResponse.data || []
+      );
     } catch (error) {
       console.error('Failed to fetch tutors:', error);
       toast.error('Failed to load tutors');
@@ -194,13 +198,22 @@ const ManageCourses: React.FC = () => {
     try {
       setLoading(true);
 
+      // const params: CourseFilters = {
+      //   page,
+      //   page_size: pageSize,
+      //   status: filterStatus !== 'all' ? filterStatus : undefined,
+      //   tutor_ids: filterTutor !== 'all' ? filterTutor : undefined,
+      //   search: searchTerm || undefined,
+      //   include_relations: true, // Always include relations for list view
+      // };
+
       const params: CourseFilters = {
         page,
         page_size: pageSize,
         status: filterStatus !== 'all' ? filterStatus : undefined,
-        tutor_id: filterTutor !== 'all' ? filterTutor : undefined,
+        tutor_ids: filterTutor !== 'all' ? [filterTutor] : undefined,  // ✅ Wrap in array
         search: searchTerm || undefined,
-        include_relations: true, // Always include relations for list view
+        include_relations: true,
       };
 
       const coursesResponse = await CourseService.getAll(params);
@@ -208,8 +221,13 @@ const ManageCourses: React.FC = () => {
       console.log('API Response:', coursesResponse);
 
       // Handle response structure
-      const coursesData = coursesResponse.data?.courses || coursesResponse.data || [];
-      const metaData = coursesResponse.data?.meta || coursesResponse.data?.page_meta || {};
+      const hasDataProp = typeof coursesResponse === 'object' && coursesResponse !== null && 'data' in coursesResponse;
+      const coursesData = hasDataProp
+        ? (coursesResponse as any).data?.courses || (coursesResponse as any).data || []
+        : coursesResponse || [];
+      const metaData = hasDataProp
+        ? (coursesResponse as any).data?.meta || (coursesResponse as any).data?.page_meta || {}
+        : {};
 
       setCourses(Array.isArray(coursesData) ? coursesData : []);
 
@@ -271,6 +289,7 @@ const ManageCourses: React.FC = () => {
   };
 
   const stats = calculateStats();
+  
 
   // ============================================================================
   // FILTERING
@@ -434,15 +453,16 @@ const ManageCourses: React.FC = () => {
 
           {/* Stats Cards */}
           <div className="row g-3 mb-4">
+
             <StatCard
-              value={stats.total}
+              value={stats?.total ?? 0}
               label="Total Courses"
               icon="fa fa-book"
               bgColor="bg-primary"
               loading={loading && !courses.length}
             />
             <StatCard
-              value={stats.active}
+              value={stats.active ?? 0}
               label="Active Courses"
               icon="fa fa-check-circle"
               bgColor="bg-success"

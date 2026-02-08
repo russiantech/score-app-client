@@ -1,7 +1,6 @@
 
 // v3 – fully responsive
-import type { Course } from "@/types/course";
-import type { Lesson } from "@/types/course/lesson";
+import type { AddLessonModalProps } from "@/types/course/lesson";
 import { useState, useEffect } from "react";
 import {
   FiCalendar,
@@ -10,26 +9,10 @@ import {
   FiSave,
 } from "react-icons/fi";
 
-interface AddLessonModalProps {
-  course: Course;
-  studentsCount?: number;
-  lessonsCount?: number;
-  lesson?: Lesson | null;
-  isEditing?: boolean;
-  onSave: (data: {
-    title: string;
-    date: string;
-    duration: string;
-    description: string;
-  }) => void;
-  onClose: () => void;
-}
 
 const AddLessonModal: React.FC<AddLessonModalProps> = ({
   course,
-  studentsCount = 0,
-  lessonsCount = 0,
-  lesson = null,
+ lesson = null,
   isEditing = false,
   onSave,
   onClose,
@@ -192,7 +175,7 @@ const AddLessonModal: React.FC<AddLessonModalProps> = ({
                       {course.code} • {course.title}
                     </div>
                     <div className="text-muted small">
-                      {studentsCount} students • {lessonsCount} lessons
+                      {course.enrolled_count} students • {course.modules_count} modules
                     </div>
                   </div>
                 </div>

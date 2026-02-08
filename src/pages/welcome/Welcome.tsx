@@ -1,7 +1,7 @@
 // Welcome.tsx
 // Onboarding / Welcome screen (NO splash responsibility)
 
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swiper from 'swiper';
 import { Pagination, Autoplay, Parallax } from 'swiper/modules';

@@ -1,8 +1,9 @@
 // Simple Chart Components - Easy to understand
 // src/pages/student/performance/SimpleCharts.tsx
 
+import type { CoursePerformance, PerformanceTrend } from '@/types/performance';
 import React from 'react';
-import type { CoursePerformance, PerformanceTrend } from '@/hooks/usePerformance';
+// import type { CoursePerformance, PerformanceTrend } from '@/hooks/usePerformance';
 
 // ============================================================================
 // SIMPLE BAR CHART

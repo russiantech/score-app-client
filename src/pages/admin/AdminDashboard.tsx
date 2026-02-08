@@ -9,7 +9,6 @@ import { Link } from 'react-router-dom';
 import { useCourseModal } from '@/context/CourseModalContext';
 import { useUserModal } from '@/context/UserModalContext';
 import type { AdminStats, RecentActivity } from '@/types/stats';
-import { formatRelativeTime } from '@/utils/format';
 import AdminService from '@/services/admin/AdminService';
 import { toCamelCase } from '@/utils/case';
 import StatCard from '@/components/cards/StatCards';
@@ -19,49 +18,6 @@ import Preloader from '@/components/shared/Preloader';
 // REUSABLE COMPONENTS
 // ============================================================================
 
-// interface StatCardProps {
-//   icon: string;
-//   iconColor: string;
-//   value: number | string;
-//   label: string;
-//   subText?: string;
-//   subTextColor?: string;
-//   gradient?: string;
-//   onClick?: () => void;
-// }
-
-// const StatCard: React.FC<StatCardProps> = ({
-//   icon,
-//   iconColor,
-//   value,
-//   label,
-//   subText,
-//   subTextColor = 'text-success',
-//   gradient,
-//   onClick
-// }) => (
-//   <div className="col-6 col-lg-3 mb-3">
-//     <div 
-//       className={`card h-100 border-0 shadow-sm hover-lift ${onClick ? 'cursor-pointer' : ''}`}
-//       onClick={onClick}
-//       style={gradient ? { background: gradient } : undefined}
-//     >
-//       <div className="card-body p-3 p-md-4 text-center">
-//         <div className={`mb-2 ${gradient ? 'text-white' : ''}`}>
-//           <i className={`fa ${icon} fa-2x ${gradient ? '' : iconColor}`}></i>
-//         </div>
-//         <h3 className={`mb-1 fw-bold ${gradient ? 'text-white' : ''}`}>{value}</h3>
-//         <p className={`mb-1 small ${gradient ? 'text-white opacity-90' : 'text-muted'}`}>{label}</p>
-//         {subText && (
-//           <small className={gradient ? 'text-white' : subTextColor}>
-//             <i className="fa fa-check-circle me-1"></i>
-//             {subText}
-//           </small>
-//         )}
-//       </div>
-//     </div>
-//   </div>
-// );
 
 interface MiniStatCardProps {
   icon: string;
@@ -119,13 +75,6 @@ const MiniStatCard: React.FC<MiniStatCardProps> = ({
 );
 
 
-
-interface ActivityItemProps {
-  activity: RecentActivity;
-  getActivityIcon: (type: string) => string;
-}
-
-
 interface AlertBannerProps {
   stats: AdminStats;
 }
@@ -160,13 +109,7 @@ const AlertBanner: React.FC<AlertBannerProps> = ({ stats }) => {
             </div>
             <div className="d-flex gap-2 flex-wrap flex-shrink-0">
               {stats.coursesWithoutTutors > 0 && (
-                <Link to="/admin/assign-tutors" className="btn btn-sm btn-warning">
-                  <i className="fa fa-user-tie me-1 d-none d-sm-inline"></i>
-                  Assign Tutors
-                </Link>
-              )}
-              {stats.studentsWithoutParents > 0 && (
-                <Link to="/admin/parent-child" className="btn btn-sm btn-warning">
+                <Link to="/admin/courses" className="btn btn-sm btn-warning">
                   <i className="fa fa-link me-1 d-none d-sm-inline"></i>
                   Link Parents
                 </Link>
@@ -188,11 +131,12 @@ export const AdminDashboard: React.FC = () => {
   const { openCreateModal: openUserModal, refreshTrigger: userRefresh } = useUserModal();
 
   const [stats, setStats] = useState<AdminStats | null>(null);
-  const [activities, setActivities] = useState<RecentActivity[]>([]);
+  const [, setActivities] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Static fallback data
+  /*
   const staticStats: AdminStats = {
     totalUsers: 245,
     activeUsers: 200,
@@ -214,7 +158,34 @@ export const AdminDashboard: React.FC = () => {
     averageClassSize: 16,
     coursesWithoutTutors: 2,
     studentsWithoutParents: 15,
-  };
+    };
+  */
+
+const staticStats: AdminStats = {
+  total: 150,           //  Add this
+  active: 120,          //  Add this
+  inactive: 30,         // Add this
+  totalUsers: 150,
+  activeUsers: 120,
+  totalCourses: 25,
+  totalModules: 75,
+  totalLessons: 200,
+  totalTutors: 15,
+  totalStudents: 100,
+  totalParents: 35,
+  activeCourses: 20,
+  inactiveCourses: 5,
+  activeStudents: 90,
+  activeTutors: 12,
+  activeParents: 30,
+  inactiveParents: 5,
+  recentEnrollments: 12,
+  totalEnrollments: 150,
+  totalAssessments: 300,
+  averageClassSize: 15,
+  coursesWithoutTutors: 2,
+  studentsWithoutParents: 10,
+};
 
   const staticActivities: RecentActivity[] = [
     {
@@ -344,7 +315,7 @@ export const AdminDashboard: React.FC = () => {
           <StatCard
             icon="fa fa-users"
             bgColor="bg-primary"
-            value={stats?.totalUsers || 0}
+            value={stats?.total || 0}
             label="Total Users"
             loading={loading}
           />

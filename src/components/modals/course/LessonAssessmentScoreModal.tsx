@@ -38,7 +38,6 @@ const LessonAssessmentScoreModal = ({
   isOpen, 
   onClose, 
   lesson, 
-  students, 
   onSave 
 }: FlexibleScoreModalProps) => {
   const [scoreData, setScoreData] = useState<StudentScoreData[]>([]);
@@ -99,7 +98,13 @@ const LessonAssessmentScoreModal = ({
       title: 'Homework',
       max_score: 30,
       weight: 0.3,
-      order: 1
+      order: 1,
+      marksObtained: undefined,
+      totalMarks: undefined,
+      percentage: undefined,
+      grade: function (): unknown {
+        throw new Error('Function not implemented.');
+      }
     },
     {
       id: 'temp_classwork',
@@ -107,7 +112,13 @@ const LessonAssessmentScoreModal = ({
       title: 'Classwork',
       max_score: 20,
       weight: 0.2,
-      order: 2
+      order: 2,
+      marksObtained: undefined,
+      totalMarks: undefined,
+      percentage: undefined,
+      grade: function (_grade: any): unknown {
+        throw new Error('Function not implemented.');
+      }
     },
     {
       id: 'temp_quiz',
@@ -115,7 +126,13 @@ const LessonAssessmentScoreModal = ({
       title: 'Quiz',
       max_score: 50,
       weight: 0.5,
-      order: 3
+      order: 3,
+      marksObtained: undefined,
+      totalMarks: undefined,
+      percentage: undefined,
+      grade: function (_grade: any): unknown {
+        throw new Error('Function not implemented.');
+      }
     }
   ];
 
@@ -140,12 +157,18 @@ const LessonAssessmentScoreModal = ({
     const newColumn: ScoreColumn = {
       id: `temp_${type}_${Date.now()}`,
       type,
-      title: type === 'homework' ? 'New Homework' : 
-            type === 'classwork' ? 'New Classwork' : 
-            'New Assessment',
+      title: type === 'homework' ? 'New Homework' :
+        type === 'classwork' ? 'New Classwork' :
+          'New Assessment',
       max_score: 100,
       weight: 0.1,
-      order: columns.length + 1
+      order: columns.length + 1,
+      marksObtained: undefined,
+      totalMarks: undefined,
+      percentage: undefined,
+      grade: function (_grade: any): unknown {
+        throw new Error('Function not implemented.');
+      }
     };
     
     setColumns([...columns, newColumn]);
@@ -188,8 +211,10 @@ const LessonAssessmentScoreModal = ({
   };
 
   const normalizeWeights = () => {
+
     toast.success('Disabled temporarily as it\'s not applicable for current scoring system.');
-    return;
+
+    // return;
 
     const totalWeight = columns.reduce((sum, col) => sum + col.weight, 0);
     if (totalWeight === 0) return;
@@ -200,6 +225,7 @@ const LessonAssessmentScoreModal = ({
     })));
     
     toast.success('Weights normalized to 100%');
+    
   };
 
   const updateScore = useCallback((studentId: string, columnId: string, value: string) => {
@@ -218,15 +244,6 @@ const LessonAssessmentScoreModal = ({
     }));
   }, [columns]);
 
-  const updateRemarks = useCallback((studentId: string, columnId: string, value: string) => {
-    setLocalRemarks(prev => ({
-      ...prev,
-      [studentId]: {
-        ...prev[studentId],
-        [columnId]: value
-      }
-    }));
-  }, []);
 
   const calculateTotal = (studentId: string): { total: number; percentage: number; grade: string } => {
     let weightedSum = 0;

@@ -84,34 +84,61 @@
 import { handleError } from '@/utils/helpers';
 import { AxiosService } from '../base/AxiosService';
 import type { Enrollment, EnrollmentCreate, EnrollmentFilters } from '@/types/enrollment';
+import type { PaginatedResponse } from '@/types/api';
 
 export const EnrollmentService = {
   /**
    * Get all enrollments with optional filters and pagination
    */
-  async getAll(filters?: EnrollmentFilters): Promise<Enrollment[]> {
-    try {
-      const params = new URLSearchParams();
+  // async getAll(filters?: EnrollmentFilters): Promise<Enrollment[]> {
+  //   try {
+  //     const params = new URLSearchParams();
 
-      if (filters) {
-        // Remove undefined values to keep URL clean
-        Object.entries(filters).forEach(([key, value]) => {
-          if (value !== undefined && value !== null && value !== '') {
-            params.append(key, String(value));
-          }
-        });
-      }
+  //     if (filters) {
+  //       // Remove undefined values to keep URL clean
+  //       Object.entries(filters).forEach(([key, value]) => {
+  //         if (value !== undefined && value !== null && value !== '') {
+  //           params.append(key, String(value));
+  //         }
+  //       });
+  //     }
 
-      const queryString = params.toString();
-      const url = `/enrollments${queryString ? `?${queryString}` : ''}`;
+  //     const queryString = params.toString();
+  //     const url = `/enrollments${queryString ? `?${queryString}` : ''}`;
 
-      const response = await AxiosService.json.get(url);
-      return response.data;
+  //     const response = await AxiosService.json.get(url);
+  //     return response.data;
       
-    } catch (error) {
-      throw handleError(error);
-    }
-  },
+  //   } catch (error) {
+  //     throw handleError(error);
+  //   }
+  // },
+
+  // import type { PaginatedResponse } from "@/types/api";
+
+    async getAll(filters?: EnrollmentFilters): Promise<PaginatedResponse<Enrollment>> {
+      try {
+        const params = new URLSearchParams();
+
+        if (filters) {
+          Object.entries(filters).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+              params.append(key, String(value));
+            }
+          });
+        }
+
+        const queryString = params.toString();
+        const url = `/enrollments${queryString ? `?${queryString}` : ''}`;
+
+        const response = await AxiosService.json.get(url);
+
+        return response.data; // now correctly typed
+
+      } catch (error) {
+        throw handleError(error);
+      }
+    },
 
   /**
    * Get enrollment statistics
@@ -134,6 +161,20 @@ export const EnrollmentService = {
     try {
       const response = await AxiosService.json.get(
         `/enrollments/${enrollmentId}`
+      );
+      return response.data;
+    } catch (error) {
+      throw handleError(error);
+    }
+  },
+
+  /**
+   * Get enrollments for a specific student
+   */
+  async getByStudent(studentId: string): Promise<Enrollment[]> {
+    try {
+      const response = await AxiosService.json.get(
+        `/students/${studentId}/enrollments`
       );
       return response.data;
     } catch (error) {

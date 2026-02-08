@@ -5,7 +5,9 @@ import { useState, useCallback, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { extractErrorMessage } from '@/utils/helpers';
 import type { Lesson } from '@/types/course/lesson';
-import { AttendanceService, type StudentAttendanceData } from '@/services/courses/attendance';
+import AttendanceService from '@/services/courses/Attendance';
+import type { StudentAttendanceData } from '@/types/course/attendance';
+// import { AttendanceService, type StudentAttendanceData } from '@/services/courses/attendance';
 
 type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused';
 
@@ -21,7 +23,6 @@ const AttendanceFormModal = ({
   isOpen, 
   onClose, 
   lesson, 
-  students, 
   onSave 
 }: AttendanceModalProps) => {
   const [attendanceData, setAttendanceData] = useState<StudentAttendanceData[]>([]);
@@ -301,7 +302,7 @@ const AttendanceFormModal = ({
                               <span className={`fw-semibold small ${getStatusColor(status)}`}>
                                 {(student.names || 'S')
                                   .split(' ')
-                                  .map(n => n[0])
+                                  .map((n: string) => n[0])
                                   .join('')
                                   .toUpperCase()
                                   .slice(0, 2)}

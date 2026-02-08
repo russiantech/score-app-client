@@ -2,13 +2,14 @@
    PARENT-CHILD SERVICE
 ===================================================== */
 
-import type { User } from "@/types/auth";
-import type { ParentChild, CreateParentChildDTO, ChildInfo } from "@/types/parent";
+// import type { User } from "@/types/auth";
+import type { CreateParentChildDTO, ChildInfo, ParentChildLink } from "@/types/parent";
 import { handleError } from "@/utils/helpers";
 import { AxiosService } from "@/services/base/AxiosService";
+import type { User } from "@/types/users";
 
 export const ParentChildService = {
-  async getAll(): Promise<ParentChild[]> {
+  async getAll(): Promise<ParentChildLink[]> {
     try {
       const response = await AxiosService.json.get('/parent-child');
       return response.data;
@@ -17,7 +18,7 @@ export const ParentChildService = {
     }
   },
 
-  async create(data: CreateParentChildDTO): Promise<ParentChild> {
+  async create(data: CreateParentChildDTO): Promise<ParentChildLink> {
     try {
       const response = await AxiosService.json.post('/parent-child', data);
       return response.data;

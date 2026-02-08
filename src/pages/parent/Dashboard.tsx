@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import '@/styles/components/Dashboard.css'; // Import custom styles for the dashboard
 
 const ParentDashboard: React.FC = () => {
   const [children] = useState([
     { 
       id: 1, 
-      name: 'Sarah Johnson', 
+      name: 'Eno Felix', 
       grade: 'Grade 10',
       studentId: 'STU1001',
       enrolledCourses: 4,
@@ -15,7 +16,7 @@ const ParentDashboard: React.FC = () => {
     },
     { 
       id: 2, 
-      name: 'Michael Johnson', 
+      name: 'Rita Jackson', 
       grade: 'Grade 8',
       studentId: 'STU1002',
       enrolledCourses: 3,
@@ -250,30 +251,6 @@ const ParentDashboard: React.FC = () => {
         </div>
       </main>
 
-      <style jsx>{`
-        .progress-circle {
-          width: 60px;
-          height: 60px;
-          border-radius: 50%;
-          background: conic-gradient(#4CAF50 var(--progress, 0%), #e0e0e0 0);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        
-        .progress-circle span {
-          background: white;
-          width: 50px;
-          height: 50px;
-          border-radius: 50%;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          color: #333;
-          font-size: 0.8rem;
-        }
-      `}</style>
     </div>
   );
 };

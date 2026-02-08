@@ -7,6 +7,7 @@ import type { Enrollment } from "@/types/enrollment";
 import { useApi } from "./useApi";
 
 export function useStudentEnrollments(studentId: string) {
+  
   return useApi<Enrollment[]>(
     () => EnrollmentService.getByStudent(studentId),
     { immediate: !!studentId, initialData: [] }
@@ -14,9 +15,9 @@ export function useStudentEnrollments(studentId: string) {
 }
 
 export function useCourseEnrollments(courseId: string) {
-  return useApi<Enrollment[]>(
-    () => EnrollmentService.getByCourse(courseId),
-    { immediate: !!courseId, initialData: [] }
+  return useApi<Enrollment>(
+    () => EnrollmentService.getById(courseId),
+    { immediate: !!courseId }
   );
 }
 

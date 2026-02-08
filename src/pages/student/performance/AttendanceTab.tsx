@@ -153,11 +153,15 @@
 // src/pages/student/performance/AttendanceTab.tsx
 
 import React from 'react';
-import type { AttendanceSummary, AttendanceRecord } from '@/hooks/usePerformance';
+// import type { AttendanceSummary } from '@/hooks/usePerformance';
+import type { StudentAttendanceData } from '@/types/course/attendance';
+import { formatDate } from '@/utils/format';
+import type { AttendanceSummary } from '@/types/performance';
 
 interface AttendanceTabProps {
 	attendance: AttendanceSummary;
-	details: AttendanceRecord[];
+	// details: AttendanceRecord[];
+	details: StudentAttendanceData[];
 }
 
 const STATUS_META: Record<
@@ -174,6 +178,7 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
 	attendance,
 	details
 }) => {
+
 	const summaryCards = [
 		{ key: 'present', value: attendance.present },
 		{ key: 'absent', value: attendance.absent },
@@ -258,17 +263,20 @@ export const AttendanceTab: React.FC<AttendanceTabProps> = ({
 
 								<tbody>
 									{details.map((record, idx) => {
-                                const statusKey = record.status?.toLowerCase();
-                                const meta = STATUS_META[statusKey] ?? DEFAULT_META;
+								const statusKey = (record.status ?? '').toLowerCase();
+								const meta = STATUS_META[statusKey] ?? DEFAULT_META;
 
                                 return (
                                     <tr key={idx}>
                                         <td className="fw-semibold small">
-                                            {new Date(record.date).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'short',
-                                                day: 'numeric'
-                                            })}
+                                            {
+											// new Date(record.date).toLocaleDateString('en-US', {
+                                            //     year: 'numeric',
+                                            //     month: 'short',
+                                            //     day: 'numeric'
+                                            // })
+											record.date ? formatDate(record.date) : 'Unknown Date'
+											}
                                         </td>
 
                                         <td>

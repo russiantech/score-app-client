@@ -2,18 +2,19 @@
    COURSE SERVICE
 ===================================================== */
 
-import type { CourseFilter, Course, CreateCourseDTO, UpdateCourseDTO, Module } from "@/types/course";
+// import type { CourseFilter, Course, CreateCourseDTO, UpdateCourseDTO, Module } from "@/types/course";
 import type { Enrollment } from "@/types/enrollment";
 import type { Lesson } from "@/types/course/lesson";
 // import type { StudentPerformance } from "@/types/performance";
 import { handleError } from "@/utils/helpers";
 import { AxiosService } from "@/services/base/AxiosService";
 import type { CoursePerformance } from "@/types/performance";
+import type { Course, CourseFilters, CreateCourseDTO, UpdateCourseDTO } from "@/types/course";
 
 
 export const CourseService = {
   
-  async getAll(filter?: CourseFilter): Promise<Course[]> {
+  async getAll(filter?: CourseFilters): Promise<Course[]> {
     try {
       const response = await AxiosService.json.get('/courses', { params: filter });
       return response.data;

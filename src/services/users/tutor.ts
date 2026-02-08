@@ -305,6 +305,12 @@ export const TutorService = {
    */
   async getAll(filters?: TutorAssignmentFilters): Promise<{
     data: {
+      page_meta: {
+        total: number;
+        total_pages: number;
+        current_page: number;
+        page_size: number;
+      };
       assignments: TutorAssignment[];
       meta: {
         total: number;
@@ -340,6 +346,7 @@ export const TutorService = {
    * Get tutor assignment statistics
    */
   async getStats(): Promise<{
+    success: TutorAssignmentStats;
     data: TutorAssignmentStats;
   }> {
     try {

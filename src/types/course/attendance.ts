@@ -1,5 +1,7 @@
 // // src/types/attendance.ts
 
+import type { ReactNode } from "react";
+
 // export type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused';
 
 // export interface Attendance {
@@ -44,6 +46,10 @@
 export type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused';
 
 export interface StudentAttendanceData {
+  course_title: ReactNode;
+  course_code: ReactNode;
+  module_title: ReactNode;
+  lesson_title: ReactNode;
   enrollment_id: string;
   student_id: string;
   names: string;

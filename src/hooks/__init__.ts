@@ -8,8 +8,8 @@ import { useCourses, useCourse, useCreateCourse, useUpdateCourse, useDeleteCours
 import { useStudentEnrollments, useCourseEnrollments, useEnrollStudent, useUnenrollStudent } from "./useEnrollments";
 import { useLesson, useCourseLessons, useCreateLesson, useUpdateLesson, useDeleteLesson } from "./useLessons";
 import { useParentChildLinks, useParentChildren, useLinkParentChild, useUnlinkParentChild } from "./useParentChild";
-import { useStudentPerformance, useCoursePerformance, useChildPerformance } from "./usePerformance";
-import { useScores, useAssessmentScores, useCreateScore, useBulkCreateScores, useUpdateScore } from "./useScores";
+// import { useStudentPerformance, useCoursePerformance, useChildPerformance } from "./usePerformance";
+import { useAssessmentScores, useCreateScore, useBulkCreateScores, useUpdateScore } from "./useScores";
 import { useAdminStats, useTutorStats, useStudentStats, useParentStats } from "./useStats";
 import { useUsers, useTutors, useStudents, useParents } from "./useUsers";
 
@@ -20,7 +20,6 @@ export {
   useCreateCourse,
   useUpdateCourse,
   useDeleteCourse,
-  useScores,
   useAssessmentScores,
   useCreateScore,
   useBulkCreateScores,
@@ -29,9 +28,6 @@ export {
   useCourseEnrollments,
   useEnrollStudent,
   useUnenrollStudent,
-  useStudentPerformance,
-  useCoursePerformance,
-  useChildPerformance,
   useUsers,
   useTutors,
   useStudents,

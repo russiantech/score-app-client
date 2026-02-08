@@ -104,9 +104,12 @@ export const UserModal: React.FC<UserModalProps> = ({
   const loadParents = async () => {
     try {
       const response = await UserService.getParents();
-      const parentsArray = Array.isArray(response?.data?.parents)
-        ? response.data.parents
-        : response.data?.users || [];
+      const parentsArray = Array.isArray(response) ? response : [];
+
+      // const parentsArray = Array.isArray(response?.data?.parents)
+      //   ? response.data.parents
+      //   : response.data?.users || [];
+      
       setParents(parentsArray);
     } catch (error) {
       console.warn('Using static parents:', error);

@@ -137,7 +137,7 @@
 // export type { StudentAttendanceData } from '@/types/attendance';
 import type { AttendanceResponse, AttendanceBulkCreate } from '@/types/course/attendance';
 import { AxiosService as api } from '../base/AxiosService';
-import { handleError } from '@/utils/helpers';
+// import { handleError } from '@/utils/helpers';
 
 export class AttendanceService {
   /**

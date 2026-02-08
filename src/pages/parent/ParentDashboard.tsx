@@ -103,7 +103,7 @@ const ParentDashboard: React.FC = () => {
                             className="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center"
                             style={{ width: '50px', height: '50px', fontSize: '1.5rem' }}
                           >
-                            {child.firstName.charAt(0)}{child.lastName.charAt(0)}
+                            {child.names?.charAt(0) || ''}
                           </div>
                         </div>
                         <div className="flex-grow-1">

@@ -2,6 +2,7 @@
 //    SCORE TYPES
 // ===================================================== */
 
+
 // import type { AssessmentType } from "./assessment";
 // import type { User } from "./auth";
 
@@ -507,6 +508,10 @@
 // src/types/course/score.ts
 // Complete type definitions matching backend schema
 
+import type { ReactNode } from "react";
+import type { Lesson } from "./lesson";
+import type { Course } from ".";
+import type { User } from "../users";
 
 export type Grade = 'A' | 'B+' | 'B' | 'C+' | 'C' | 'D' | 'F';
 
@@ -523,6 +528,12 @@ export type ScoreType =
   | 'other';
 
 export interface ScoreColumn {
+  // added for frontend convenience
+  marksObtained: ReactNode;
+  totalMarks: ReactNode;
+  percentage: ReactNode;
+  grade(grade: any): unknown;
+
   id: string;
   type: ScoreType;
   title: string;
@@ -534,6 +545,7 @@ export interface ScoreColumn {
   lesson_id?: string;
   module_id?: string;
   course_id?: string;
+  remarks?: string | null;
 }
 
 export interface StudentScoreDetail {
@@ -553,25 +565,40 @@ export interface StudentScoreData {
   username?: string;
   scores: {
     [columnId: string]: StudentScoreDetail;
+
   };
   total_percentage: number;
   grade: string | null;
+  remarks?: string;
 }
 
 export interface LessonScoreResponse {
+
+  // scores: Score[] | PromiseLike<Score[]>;
+
   lesson: {
     id: string;
     title: string;
     module_id: string;
     course_id: string;
   };
+
   summary: {
     total_students: number;
     recorded_count: number;
     total_columns: number;
   };
+
   columns: ScoreColumn[];
   students: StudentScoreData[];
+
+  pagination?: {
+    page: number;
+    page_size: number;
+    total_pages: number;
+    total_items: number;
+  };
+
 }
 
 export interface ColumnScoreInput {
@@ -596,7 +623,7 @@ export interface ColumnConfig {
   order?: number;
 }
 
-export interface BulkScoreRequest {
+export interface BulkScoreCreateDTO {
   lesson_id: string;
   columns: ColumnConfig[];
   scores: StudentScoreInput[];
@@ -624,6 +651,42 @@ export interface ScoreColumnUpdate {
   order?: number;
 }
 
+
+// modals
+// type Student = {
+//   id: string | number;
+//   username?: string;
+//   names?: string;
+//   // add other fields as needed
+// };
+
+// type Lesson = {
+//   title: string;
+//   // add other fields as needed
+// };
+
+// type Course = {
+//   code?: string;
+//   // add other fields as needed
+// };
+
+export type ScoreModalProps = {
+  lesson: Lesson;
+  course: Course;
+  students: User[];
+  onClose: () => void;
+  onSave: (scores: any) => Promise<void>;
+};
+
+
+export interface StudentScores {
+  [assessmentId: string]: string;
+}
+
+export interface AllScores {
+  [studentId: string]: StudentScores;
+}
+
 // Helper constants and functions
 export const SCORE_TYPE_LABELS: Record<ScoreType, string> = {
   homework: 'Homework',
@@ -647,29 +710,6 @@ export const SCORE_TYPE_COLORS: Record<ScoreType, string> = {
   other: 'light'
 };
 
-export const DEFAULT_LESSON_COLUMNS: Omit<ScoreColumn, 'id' | 'lesson_id'>[] = [
-  {
-    type: 'homework',
-    title: 'Homework',
-    max_score: 30,
-    weight: 0.3,
-    order: 1
-  },
-  {
-    type: 'classwork',
-    title: 'Classwork',
-    max_score: 20,
-    weight: 0.2,
-    order: 2
-  },
-  {
-    type: 'quiz',
-    title: 'Quiz',
-    max_score: 50,
-    weight: 0.5,
-    order: 3
-  }
-];
 
 export function calculateGrade(percentage: number): string {
   if (percentage >= 90) return 'A+';

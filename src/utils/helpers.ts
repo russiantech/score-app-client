@@ -2,7 +2,6 @@
    UTILITY FUNCTIONS
 ===================================================== */
 
-// import type { ScoreType } from "@/types/course/assessment";
 import type { Grade, ScoreType } from "@/types/course/score";
 import type { User, UserRole } from "@/types/users";
 
@@ -64,22 +63,32 @@ export const getGradeColor = (grade: Grade): string => {
 
 export const getAssessmentTypeColor = (type: ScoreType): string => {
   const colors: Record<ScoreType, string> = {
+    'homework': 'primary',
+    'classwork': 'info',
     'quiz': 'success',
-    'assignment': 'primary',
+    'test': 'secondary',
     'exam': 'danger',
-    'project': 'warning'
+    'project': 'warning',
+    'participation': 'success',
+    'other': 'secondary',
   };
   return colors[type];
 };
 
+
 export const getAssessmentTypeIcon = (type: ScoreType): string => {
   const icons: Record<ScoreType, string> = {
     'quiz': 'fa-clipboard-question',
-    'assignment': 'fa-file-lines',
     'exam': 'fa-graduation-cap',
-    'project': 'fa-diagram-project'
+    'project': 'fa-diagram-project',
+    'homework': 'fa-house-chimney',
+    'classwork': 'fa-chalkboard-user',
+    'test': 'fa-file-signature',
+    'participation': 'fa-users',
+    'other': 'fa-ellipsis',
+    
   };
-  return icons[type];
+  return icons[type] || 'fa-question';
 };
 
 export const getRoleColor = (role: UserRole): string => {
@@ -89,7 +98,8 @@ export const getRoleColor = (role: UserRole): string => {
     'student': 'warning',
     'parent': 'success',
     'super_admin': 'dark',
-    'user': 'secondary'
+    'user': 'secondary',
+    'dev': ""
   };
   return colors[role];
 };

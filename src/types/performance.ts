@@ -2,31 +2,140 @@
    PERFORMANCE TYPES
 ===================================================== */
 
-import type { AssessmentType } from "./course/assessment";
-import type { Grade, Score } from "./course/score";
+// import type { AssessmentType } from "./course/assessment";
+// import type { AttendanceSummary, GraduationStatus, PerformanceSummary } from "@/hooks/usePerformance";
+import type { Grade, LessonScoreResponse, ScoreType } from "./course/score";
 
-export type CoursePerformance = {
+// export type CoursePerformance = {
+//   modules: number;
+//   lessons: number;
+//   students: number;
+//   tutors: number;
+// };
+
+
+// new
+export interface AssessmentScore {
+  column_id: string;
+  type: string;
+  title: string;
+  scope_title: string;
+  score: number | null;
+  max_score: number;
+  percentage: number | null;
+  grade: string;
+  remarks: string;
+  recorded_date: string | null;
+  is_completed: boolean;
+  lesson_id?: string;
+  module_id?: string;
+  course_id?: string;
+}
+
+export interface CoursePerformance {
+  enrollment_id: string;
+  course: {
+    id: string;
+    title: string;
+    code: string;
+  };
+  
   modules: number;
   lessons: number;
   students: number;
   tutors: number;
-};
 
+  lesson_scores: AssessmentScore[];
+  module_scores: AssessmentScore[];
+  course_scores: AssessmentScore[];
+  total_assessments: number;
+  completed_assessments: number;
+  overall_average: number;
+  overall_grade: string;
+  enrolled_date: string | null;
+}
+
+export interface PerformanceSummary {
+  total_courses: number;
+  total_assessments: number;
+  overall_average: number;
+  overall_grade: string;
+  grade_distribution: Record<string, number>;
+}
+
+export interface AttendanceSummary {
+  total: number;
+  present: number;
+  absent: number;
+  late: number;
+  attendance_rate: number;
+}
+
+export interface PerformanceTrend {
+  month: string;
+  average: number;
+}
+
+export interface GraduationStatus {
+  qualified: boolean;
+  status: string;
+  message: string;
+  criteria: {
+    min_average: number;
+    min_attendance: number;
+    min_completion: number;
+  };
+  current: {
+    average: number;
+    attendance: number;
+    completion: number;
+  };
+  criteria_met: {
+    academic_performance: boolean;
+    attendance: boolean;
+    completion: boolean;
+  };
+  recommendations: string[];
+}
 
 export interface StudentPerformance {
-  courseId: string;
-  courseName: string;
-  courseCode: string;
-  tutorName?: string;
-  lessons: LessonPerformance[];
+  courseId: any;
   overallPercentage: number;
-  overallGrade: Grade;
-  progress: number;
-  completedLessons: number;
-  totalLessons: number;
-  completedAssessments: number;
-  totalAssessments: number;
+  lessons: any;
+  overallGrade: any;
+  courseName: string;
+  summary: PerformanceSummary;
+  courses: CoursePerformance[];
+  attendance: AttendanceSummary;
+  attendanceDetails?: any;
+  trends: PerformanceTrend[];
+  graduation_status: GraduationStatus;
+  // Optional: Include raw scores for detailed analysis
+  scores?: {
+    lesson_scores: AssessmentScore[];
+    module_scores: AssessmentScore[];
+    course_scores: AssessmentScore[];
+  };
+  // Optional: Include error details if fetching performance data fails
+  error?: string;
+
 }
+
+
+// export interface StudentPerformance {
+//   courseId: string;
+//   courseName: string;
+//   courseCode: string;
+//   tutorName?: string;
+//   lessons: LessonPerformance[];
+//   overallPercentage: number;
+//   overallGrade: Grade;
+//   progress: number;
+//   completedLessons: number;
+//   totalLessons: number;
+//   completedAssessments: number;
+//   totalAssessments: number;
+// }
 
 export interface LessonPerformance {
   lessonId: string;
@@ -42,8 +151,10 @@ export interface LessonPerformance {
 export interface AssessmentPerformance {
   assessmentId: string;
   assessmentTitle: string;
-  type: AssessmentType;
-  score?: Score;
+  type: ScoreType;
+  // score?: ScoreColumn;
+  // score?: StudentScoreData;
+  scores?: LessonScoreResponse;
   status: 'completed' | 'pending' | 'graded' | 'not-submitted' | 'overdue';
   dueDate?: string;
   submittedAt?: string;

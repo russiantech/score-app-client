@@ -2,11 +2,15 @@
 //    PARENT-CHILD TYPES
 // ===================================================== */
 
+import type { Grade } from "./course/score";
+import type { Enrollment } from "./enrollment";
+import type { User } from "./users";
+
 // import type { User } from "./auth";
 // import type { Enrollment } from "./enrollment";
 // import type { Grade } from "./score";
 
-// export type RelationshipType = 'mother' | 'father' | 'guardian' | 'other';
+export type RelationshipType = 'mother' | 'father' | 'guardian' | 'other';
 
 // export interface ParentChildLink {
 //   id: string;
@@ -35,22 +39,36 @@
 //   isActive: boolean;
 // }
 
-// export interface CreateParentChildDTO {
-//   parentId: string;
-//   childId: string;
-//   relationship: RelationshipType;
-// }
+export interface ParentChild {
+  id: string;
+  parent_id: string;
+  child_id: string;
+  created_at: string;
+  updated_at: string;
+}
 
-// export interface ChildInfo extends User {
-//   enrollments: Enrollment[];
-//   overallPerformance: number;
-//   averageGrade?: Grade;
-//   totalCourses: number;
-//   completedCourses: number;
-//   activeCourses: number;
-// }
+export interface ChildInfo {
+  id: string;
+  names: string;
+  email: string;
+  username?: string;
+  is_active: boolean;
+}
 
+export interface CreateParentChildDTO {
+  parentId: string;
+  childId: string;
+  relationship: RelationshipType;
+}
 
+export interface ChildInfo extends User {
+  enrollments: Enrollment[];
+  overallPerformance: number;
+  averageGrade?: Grade;
+  totalCourses: number;
+  completedCourses: number;
+  activeCourses: number;
+}
 
 
 // v2

@@ -7,80 +7,25 @@ import CourseService from '@/services/courses/CourseService';
 import { UserService } from '@/services/users/UserService';
 import { TutorService } from '@/services/users/tutor';
 import toast from 'react-hot-toast';
-import type { User } from '@/types/auth';
+import type { User } from '@/types/users';
 import type { Course } from '@/types/course';
-import type { TutorAssignment, TutorAssignmentFilters, TutorAssignmentStats } from '@/types/tutor';
+import type { 
+  AssignmentModalProps, 
+  TutorAssignment, 
+  TutorAssignmentFilters, 
+  TutorAssignmentStats 
+} from '@/types/tutor';
 import { formatDate } from '@/utils/format';
-import { getInitials } from '@/utils/helpers';
 import StatCard from '@/components/cards/StatCards';
+import { Button, EmptyState } from '@/components/buttons/Button';
+import { UserAvatar } from '@/components/users/UserAvater';
+import type { FormSelectProps } from '@/types/forms';
+import type { PaginationProps } from '@/types/api';
+import type { FilterBadgeProps } from '@/types';
 
 // ============================================================================
 // REUSABLE COMPONENTS (DRY Principle)
 // ============================================================================
-
-// interface StatCardProps {
-//   value: number | string;
-//   label: string;
-//   icon: string;
-//   bgColor: string;
-//   loading?: boolean;
-// }
-
-// const StatCard: React.FC<StatCardProps> = ({
-//   value,
-//   label,
-//   icon,
-//   bgColor,
-//   loading,
-// }) => (
-//   <div className="col-6 col-md-3">
-//     <div className={`card ${bgColor} text-white shadow-sm h-100`}>
-//       <div className="card-body d-flex align-items-center p-3">
-//         <div className="d-flex w-100 align-items-center justify-content-between gap-2">
-          
-//           {/* Text section */}
-//           <div className="flex-grow-1 min-w-0">
-//             <div className="fw-bold lh-1 fs-4 fs-md-3 text-break">
-//               {loading ? (
-//                 <span
-//                   className="spinner-border spinner-border-sm text-white"
-//                   role="status"
-//                 />
-//               ) : (
-//                 value
-//               )}
-//             </div>
-
-//             <div className="small opacity-75 mt-1 text-wrap">
-//               {label}
-//             </div>
-//           </div>
-
-//           {/* Icon */}
-//           <div className="flex-shrink-0">
-//             <i
-//               className={`${icon} fs-2 opacity-25`}
-//               aria-hidden="true"
-//             />
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// );
-
-interface FormSelectProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: Array<{ value: string; label: string; disabled?: boolean }>;
-  disabled?: boolean;
-  required?: boolean;
-  hint?: string;
-  placeholder?: string;
-  error?: string;
-  colClass?: string;
-}
 
 const FormSelect: React.FC<FormSelectProps> = ({
   label,
@@ -124,63 +69,6 @@ const FormSelect: React.FC<FormSelectProps> = ({
   </div>
 );
 
-interface ButtonProps {
-  onClick: () => void;
-  disabled?: boolean;
-  loading?: boolean;
-  variant?: 'primary' | 'secondary' | 'danger' | 'outline-secondary' | 'outline-danger' | 'outline-primary' | 'light';
-  size?: 'sm' | 'md' | 'lg';
-  icon?: string;
-  children: React.ReactNode;
-  className?: string;
-  block?: boolean;
-  type?: 'button' | 'submit' | 'reset';
-}
-
-const Button: React.FC<ButtonProps> = ({
-  onClick,
-  disabled = false,
-  loading = false,
-  variant = 'primary',
-  size = 'sm',
-  icon,
-  children,
-  className = '',
-  block = false,
-  type = 'button'
-}) => {
-  const sizeClass = size === 'sm' ? 'btn-sm' : size === 'lg' ? 'btn-lg' : '';
-  const blockClass = block ? 'w-100' : '';
-  
-  return (
-    <button
-      type={type}
-      className={`btn btn-${variant} ${sizeClass} ${blockClass} ${className}`}
-      onClick={onClick}
-      disabled={disabled || loading}
-    >
-      {loading ? (
-        <>
-          <span className="spinner-border spinner-border-sm me-2" role="status" />
-          {children}
-        </>
-      ) : (
-        <>
-          {icon && <i className={`${icon} me-2`} />}
-          {children}
-        </>
-      )}
-    </button>
-  );
-};
-
-interface FilterBadgeProps {
-  children: React.ReactNode;
-  onRemove: () => void;
-  icon?: string;
-  color?: string;
-}
-
 const FilterBadge: React.FC<FilterBadgeProps> = ({ children, onRemove, icon, color = 'primary' }) => (
   <span className={`badge bg-${color} rounded-pill d-inline-flex align-items-center`}>
     {icon && <i className={`${icon} me-1`} />}
@@ -196,76 +84,6 @@ const FilterBadge: React.FC<FilterBadgeProps> = ({ children, onRemove, icon, col
     />
   </span>
 );
-
-interface EmptyStateProps {
-  icon: string;
-  title: string;
-  description: string;
-  actionLabel?: string;
-  onAction?: () => void;
-  small?: boolean;
-}
-
-const EmptyState: React.FC<EmptyStateProps> = ({
-  icon,
-  title,
-  description,
-  actionLabel,
-  onAction,
-  small = false
-}) => (
-  <div className={`text-center py-${small ? '4' : '5'}`}>
-    <i className={`${icon} ${small ? 'fa-2x' : 'fa-3x'} text-muted mb-3`} />
-    <h5 className={small ? 'h6' : ''}>{title}</h5>
-    <p className={`text-muted ${small ? 'small' : ''} mb-3`}>{description}</p>
-    {actionLabel && onAction && (
-      <Button
-        variant="outline-primary"
-        size={small ? 'sm' : 'md'}
-        onClick={onAction}
-      >
-        {actionLabel}
-      </Button>
-    )}
-  </div>
-);
-
-interface AvatarProps {
-  name: string;
-  size?: number;
-  bgColor?: string;
-  className?: string;
-}
-
-const Avatar: React.FC<AvatarProps> = ({
-  name,
-  size = 36,
-  bgColor = 'bg-primary',
-  className = ''
-}) => (
-  <div
-    className={`rounded-circle ${bgColor} text-white d-flex align-items-center justify-content-center ${className}`}
-    style={{
-      width: `${size}px`,
-      height: `${size}px`,
-      fontSize: `${Math.max(10, size * 0.35)}px`,
-      fontWeight: 'bold',
-      flexShrink: 0
-    }}
-    title={name}
-  >
-    {getInitials(name || 'NA')}
-  </div>
-);
-
-interface PaginationProps {
-  page: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-  onPageChange: (page: number) => void;
-  loading?: boolean;
-}
 
 const Pagination: React.FC<PaginationProps> = ({
   page,
@@ -304,21 +122,7 @@ const Pagination: React.FC<PaginationProps> = ({
   </div>
 );
 
-// ============================================================================
-// ASSIGNMENT MODAL COMPONENT
-// ============================================================================
 
-interface AssignmentModalProps {
-  show: boolean;
-  onClose: () => void;
-  tutors: User[];
-  courses: Course[];
-  assignments: TutorAssignment[];
-  onAssign: (tutorId: string, courseId: string) => Promise<void>;
-  assigning: boolean;
-  preselectedTutorId?: string;
-  preselectedCourseId?: string;
-}
 
 const AssignmentModal: React.FC<AssignmentModalProps> = ({
   show,
@@ -474,8 +278,8 @@ const AssignmentModal: React.FC<AssignmentModalProps> = ({
                   <div className="card bg-light border-0">
                     <div className="card-body p-3">
                       <div className="d-flex align-items-center">
-                        <Avatar 
-                          name={selectedTutorData.names} 
+                        <UserAvatar 
+                          names={selectedTutorData.names || 'Unknown'} 
                           size={48} 
                           bgColor="bg-primary"
                         />
@@ -540,10 +344,10 @@ const AssignmentModal: React.FC<AssignmentModalProps> = ({
                       <div className="d-flex gap-2 flex-wrap mt-2">
                         <span className="badge bg-info">
                           <i className="fa fa-users me-1" />
-                          {typeof selectedCourseData.enrolledStudents === 'number' 
-                            ? selectedCourseData.enrolledStudents 
-                            : (Array.isArray(selectedCourseData.enrolledStudents) 
-                              ? selectedCourseData.enrolledStudents.length 
+                          {typeof selectedCourseData.enrolled_count === 'number' 
+                            ? selectedCourseData.enrolled_count 
+                            : (Array.isArray(selectedCourseData.students) 
+                              ? selectedCourseData.students.length 
                               : 0)} Students
                         </span>
                         <span className="badge bg-success">
@@ -678,9 +482,9 @@ const AssignTutors: React.FC = () => {
 
       setAssignments(Array.isArray(assignmentsData) ? assignmentsData : []);
       
-      const totalCount = metaData.total_items_count ?? assignmentsData.length;
+      const totalCount = metaData.total ?? assignmentsData.length;
       setTotal(totalCount);
-      setTotalPages(metaData.total_pages_count ?? Math.ceil(totalCount / pageSize));
+      setTotalPages(metaData.total_pages ?? Math.ceil(totalCount / pageSize));
       
     } catch (error: any) {
       console.error('Failed to fetch assignments:', error);
@@ -707,8 +511,8 @@ const AssignTutors: React.FC = () => {
         TutorService.getStats(),
       ]);
 
-      setTutors(tutorsResponse.data?.users || []);
-      setCourses(coursesResponse.data?.courses || []);
+      setTutors(Array.isArray(tutorsResponse) ? tutorsResponse : []);
+      setCourses(Array.isArray(coursesResponse) ? coursesResponse : []);
       
       const statsData = statsResponse.data || statsResponse.success || null;
       setStats(statsData);
@@ -784,11 +588,6 @@ const AssignTutors: React.FC = () => {
   // HELPER FUNCTIONS
   // ============================================================================
 
-  const getTutorWorkload = (tutorId: string) => {
-    return assignments.filter(
-      a => a.tutor_id === tutorId && a.status === 'active'
-    ).length;
-  };
 
   const getCoursesForTutor = (tutorId: string) => {
     return assignments.filter(a => a.tutor_id === tutorId && a.status === 'active');
@@ -910,7 +709,7 @@ const AssignTutors: React.FC = () => {
             <div className="d-flex flex-wrap gap-2 align-items-center mb-3">
               <span className="badge bg-primary rounded-pill">
                 {/* <i className="fa fa-users me-1" /> {tutors.length} Tutors */}
-                <i className="fa fa-users me-1" /> {stats.total_tutors || tutors.length} Tutors
+                <i className="fa fa-users me-1" /> {(stats?.total_tutors ?? tutors.length)} Tutors
               </span>
               <span className="badge bg-success rounded-pill">
                 {/* <i className="fa fa-book me-1" /> {courses.length} Courses */}
@@ -1165,9 +964,9 @@ const AssignTutors: React.FC = () => {
                   <div className="p-3">
                     <div className="row g-3">
                       {unassignedCourses.map(course => {
-                        const enrollmentCount = typeof course.enrolledStudents === 'number' 
-                          ? course.enrolledStudents 
-                          : (Array.isArray(course.enrolledStudents) ? course.enrolledStudents.length : 0);
+                        const enrollmentCount = typeof course.enrolled_count === 'number' 
+                          ? course.enrolled_count 
+                          : (Array.isArray(course.students) ? course.students.length : 0);
                         
                         const lessonCount = Array.isArray(course.lessons) 
                           ? course.lessons.length 
@@ -1265,12 +1064,14 @@ const AssignTutors: React.FC = () => {
                   {/* Mobile Cards View */}
                   <div className="d-block d-lg-none">
                     {filteredAssignments.map(assignment => {
-                      const tutor = assignment.tutor || {};
-                      const course = assignment.course || {};
+                      // const tutor = assignment.tutor || {};
+                      // const course = assignment.course || {};
+                      const tutor = (assignment.tutor || {}) as Partial<User>;
+                      const course = (assignment.course || {}) as Partial<Course>;
                       
-                      const enrollmentCount = typeof course.enrolledStudents === 'number' 
-                        ? course.enrolledStudents 
-                        : (Array.isArray(course.enrolledStudents) ? course.enrolledStudents.length : 0);
+                      const enrollmentCount = typeof course.enrolled_count === 'number' 
+                        ? course.enrolled_count 
+                        : (Array.isArray(course.students) ? course.students.length : 0);
                       
                       const lessonCount = Array.isArray(course.lessons) 
                         ? course.lessons.length 
@@ -1280,7 +1081,7 @@ const AssignTutors: React.FC = () => {
                         <div key={assignment.id} className="border-bottom p-3">
                           <div className="d-flex justify-content-between align-items-start mb-2">
                             <div className="d-flex align-items-center flex-grow-1 overflow-hidden">
-                              <Avatar name={tutor.names || 'NA'} size={40} className="flex-shrink-0" />
+                              <UserAvatar names={tutor.names || 'NA'} size={40} className="flex-shrink-0" />
                               <div className="ms-3 overflow-hidden">
                                 <div className="fw-bold text-truncate">{tutor.names || 'Unknown'}</div>
                                 <div className="small text-muted text-truncate">{tutor.email || 'No email'}</div>
@@ -1345,12 +1146,13 @@ const AssignTutors: React.FC = () => {
                         </thead>
                         <tbody>
                           {filteredAssignments.map(assignment => {
-                            const tutor = assignment.tutor || {};
-                            const course = assignment.course || {};
-                            
-                            const enrollmentCount = typeof course.enrolledStudents === 'number' 
-                              ? course.enrolledStudents 
-                              : (Array.isArray(course.enrolledStudents) ? course.enrolledStudents.length : 0);
+                            // Line 1118 area - Fix tutor property access:
+                            const tutor = (assignment.tutor || {}) as Partial<User>;
+                            const course = (assignment.course || {}) as Partial<Course>;
+                                                        
+                            const enrollmentCount = typeof course.enrolled_count === 'number' 
+                              ? course.enrolled_count 
+                              : (Array.isArray(course?.students) ? course.students?.length : 0);
                             
                             const lessonCount = Array.isArray(course.lessons) 
                               ? course.lessons.length 
@@ -1360,7 +1162,7 @@ const AssignTutors: React.FC = () => {
                               <tr key={assignment.id}>
                                 <td className="ps-4">
                                   <div className="d-flex align-items-center">
-                                    <Avatar name={tutor.names || 'NA'} />
+                                    <UserAvatar names={tutor.names || 'NA'} />
                                     <div className="ms-3 overflow-hidden" style={{ maxWidth: '200px' }}>
                                       <div className="fw-bold text-truncate">{tutor.names || 'Unknown'}</div>
                                       <div className="text-muted small text-truncate">{tutor.email || 'No email'}</div>
@@ -1417,7 +1219,7 @@ const AssignTutors: React.FC = () => {
                   </div>
 
                   {/* Pagination */}
-                  {totalPages > 1 && activeTab !== 'unassigned' && (
+                  {/* {totalPages > 1 && activeTab !== 'unassigned' && (
                     <Pagination
                       page={page}
                       totalPages={totalPages}
@@ -1426,7 +1228,19 @@ const AssignTutors: React.FC = () => {
                       onPageChange={setPage}
                       loading={loading}
                     />
-                  )}
+                  )} */}
+                  
+                   {totalPages > 1 && activeTab !== ('unassigned' as typeof activeTab) && (
+              <Pagination
+                page={page}
+                totalPages={totalPages}
+                hasNextPage={hasNextPage}
+                hasPrevPage={hasPrevPage}
+                onPageChange={setPage}
+                loading={loading}
+              />
+            )}
+
                 </>
               )}
             </div>
@@ -1446,8 +1260,8 @@ const AssignTutors: React.FC = () => {
         <EmptyState
           icon="fa fa-user-slash"
           title="No tutors found"
-          description="Add tutors to the system to start assigning them to courses"
-          small
+          description="Add tutors to the system to start assigning them to courses" 
+          actionLabel={undefined} onAction={undefined}          
         />
       ) : (
         <div className="row g-3">
@@ -1455,19 +1269,25 @@ const AssignTutors: React.FC = () => {
             const tutorAssignments = getCoursesForTutor(tutor.id);
             
             const totalStudents = tutorAssignments.reduce((sum, a) => {
-              const course = a.course || {};
-              const count = typeof course.enrolledStudents === 'number' 
-                ? course.enrolledStudents 
-                : (Array.isArray(course.enrolledStudents) ? course.enrolledStudents.length : 0);
+              // const course = a.course || {};
+              const course = (a.course || {}) as Partial<Course>;
+
+              const count = typeof course.enrolled_count === 'number' 
+                ? course.enrolled_count
+                : (Array.isArray(course.students) ? course.students.length : 0);
               return sum + count;
+
             }, 0);
             
             const totalLessons = tutorAssignments.reduce((sum, a) => {
-              const course = a.course || {};
-              const count = Array.isArray(course.lessons) 
-                ? course.lessons.length 
-                : (typeof course.lesson_count === 'number' ? course.lesson_count : 0);
+              // const course = a.course || {};
+              const course = (a.course || {}) as Partial<Course>;
+
+              const count = Array.isArray(course.lessons) ? course.lessons.length
+               : (typeof course.lesson_count === 'number' ? course.lesson_count : 0);
+
               return sum + count;
+
             }, 0);
             
             return (
@@ -1478,7 +1298,7 @@ const AssignTutors: React.FC = () => {
                 <div className="border rounded p-3 h-100 bg-light d-flex flex-column">
                   {/* Tutor Header */}
                   <div className="d-flex align-items-center mb-3">
-                    <Avatar name={tutor.names} size={48} bgColor="bg-primary" className="flex-shrink-0" />
+                    <UserAvatar names={tutor.names || 'Unknown'} size={48} bgColor="bg-primary" className="flex-shrink-0" />
                     <div className="ms-3 flex-grow-1 overflow-hidden">
                       <div className="fw-bold text-truncate" title={tutor.names}>{tutor.names}</div>
                       <div className="text-muted small text-truncate" title={tutor.email}>{tutor.email}</div>
@@ -1529,11 +1349,11 @@ const AssignTutors: React.FC = () => {
                       </div>
                       <div className="small" style={{ maxHeight: '150px', overflowY: 'auto' }}>
                         {tutorAssignments.map(a => {
-                          const course = a.course || {};
+                          const course = a.course as unknown as Course || {} as Course;
                           
-                          const enrollmentCount = typeof course.enrolledStudents === 'number' 
-                            ? course.enrolledStudents 
-                            : (Array.isArray(course.enrolledStudents) ? course.enrolledStudents.length : 0);
+                          const enrollmentCount = typeof course.enrolled_count === 'number' 
+                            ? course.enrolled_count 
+                            : (Array.isArray(course.students) ? course.students.length : 0);
                           
                           return (
                             <div
@@ -1624,8 +1444,7 @@ const AssignTutors: React.FC = () => {
                       <div className="col-12 col-md-6 mb-3 mb-md-0">
                         <h6 className="text-muted mb-2">Tutor Details</h6>
                         <div className="d-flex align-items-center">
-                          <Avatar 
-                            name={assignmentToRemove.tutor?.names || 'Unknown'} 
+                          <UserAvatar names={assignmentToRemove.tutor?.names || 'Unknown'} 
                             size={48}
                             bgColor="bg-danger"
                           />

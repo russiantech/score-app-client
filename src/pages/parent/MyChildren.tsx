@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
-import { UserService } from '@/services/users/UserService';
-// import UserService from '@/services/users/UserService';
-// import apiService from '../../services/api';
+import { ParentChildService } from '@/services/users/ParentChild';
+import type { Child } from '@/types/users';
+
 
 const MyChildren: React.FC = () => {
   const { auth } = useAuth();
-  const [children, setChildren] = useState([]);
+  const [children, setChildren] = useState<Child[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,8 +18,14 @@ const MyChildren: React.FC = () => {
   const fetchChildren = async () => {
     if (!auth?.user?.id) return;
     try {
-      const data = await UserService.getParentChildren(auth.user.id);
-      setChildren(data);
+      const data = await ParentChildService.getChildren(auth.user.id);
+      // Map ChildInfo[] to Child[] by adding default values for missing properties
+      const childrenData: Child[] = data.map(child => ({
+        ...child,
+        enrolledCourses: child.totalCourses ?? 0,
+        averagePerformance: typeof child.averageGrade === 'number' ? child.averageGrade : 0,
+      }));
+      setChildren(childrenData);
     } catch (error) {
       console.error('Error:', error);
     } finally {
@@ -45,7 +51,7 @@ const MyChildren: React.FC = () => {
                 <div className="card-body">
                   <div className="d-flex align-items-start mb-3">
                     <div className="flex-grow-1">
-                      <h5 className="card-title mb-1">{child.firstName} {child.lastName}</h5>
+                      <h5 className="card-title mb-1">{child.names}</h5>
                       <p className="text-muted small mb-0">{child.email}</p>
                     </div>
                   </div>

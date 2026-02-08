@@ -3,8 +3,9 @@
 // =====================================================
 
 import { StatsService } from "@/services/stats/StatService";
-import type { AdminStats, TutorStats, StudentStats, ParentStats } from "@/types/stats";
+import type { AdminStats, StudentStats, ParentStats } from "@/types/stats";
 import { useApi } from "./useApi";
+import type { TutorPerformanceStats } from "@/types/tutor";
 
 export function useAdminStats() {
   return useApi<AdminStats>(
@@ -14,7 +15,7 @@ export function useAdminStats() {
 }
 
 export function useTutorStats(tutorId: string) {
-  return useApi<TutorStats>(
+  return useApi<TutorPerformanceStats>(
     () => StatsService.getTutorStats(tutorId),
     { immediate: !!tutorId }
   );

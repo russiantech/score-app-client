@@ -1,6 +1,6 @@
 // src/hooks/useChart.ts
 import { useEffect, useRef } from 'react';
-import { Chart, ChartConfiguration } from 'chart.js';
+import { Chart, type ChartConfiguration } from 'chart.js';
 
 export const useChart = (
   canvasRef: React.RefObject<HTMLCanvasElement>,

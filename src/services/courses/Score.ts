@@ -434,7 +434,6 @@
 import { AxiosService as apiClient } from '../base/AxiosService';
 import type {
   LessonScoreResponse,
-  BulkScoreRequest,
   ScoreColumnCreate,
   ScoreColumnUpdate,
   ScoreColumn
@@ -465,7 +464,7 @@ export const ScoreService = {
   /**
    * Create or update lesson scores in bulk
    */
-  async bulkCreate(data: BulkScoreRequest): Promise<{
+  async bulkCreate(data: any): Promise<{
     lesson_id: string;
     created: number;
     updated: number;

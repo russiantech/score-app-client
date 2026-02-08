@@ -64,11 +64,17 @@ const ModuleExamScoreModal = ({
       const scoresMap: Record<string, number> = {};
       const remarksMap: Record<string, string> = {};
       
-      response.students.forEach(student => {
+      // response.students.forEach(student => {
+      //   scoresMap[student.student_id] = student.exam_score || 0;
+      //   remarksMap[student.student_id] = student.remarks || '';
+      // });
+      
+      // Add type annotation:      
+      response.students.forEach((student: StudentExamData) => {
         scoresMap[student.student_id] = student.exam_score || 0;
         remarksMap[student.student_id] = student.remarks || '';
       });
-      
+            
       setLocalScores(scoresMap);
       setLocalRemarks(remarksMap);
     } catch (error) {
@@ -159,7 +165,7 @@ const ModuleExamScoreModal = ({
     }
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, studentId: string, rowIndex: number) => {
+  const handleKeyDown = (e: React.KeyboardEvent, _studentId: string, rowIndex: number) => {
     if (e.key === 'Enter' || e.key === 'ArrowDown') {
       e.preventDefault();
       const nextRow = rowIndex + 1;

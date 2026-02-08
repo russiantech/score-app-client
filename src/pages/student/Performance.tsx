@@ -66,7 +66,7 @@ export const StudentPerformance = () => {
     );
   }
 
-  const { summary, courses, attendance, attendance_details, trends, graduation_status } = performance;
+  const { summary, courses, attendance, attendanceDetails, trends, graduation_status } = performance;
 
   return (
     <div className="container-fluid py-3 px-2 px-md-4">
@@ -252,7 +252,7 @@ export const StudentPerformance = () => {
       {activeTab === 'attendance' && (
         <AttendanceTab
           attendance={attendance}
-          details={attendance_details}
+          details={attendanceDetails}
         />
       )}
     </div>

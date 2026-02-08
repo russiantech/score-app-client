@@ -35,25 +35,36 @@
 //   );
 // };
 
-export const EmptyState = ({ icon, title, description, actionLabel, onAction }) => (
-  <div className="text-center py-5">
-    <i className={`${icon} fa-3x text-muted mb-3`} />
-    <h5>{title}</h5>
-    <p className="text-muted mb-3">{description}</p>
+
+// src/components/buttons/Button.tsx (or create separate file)
+// v2
+
+import type { ButtonProps, EmptyStateProps } from "@/types/buttons";
+
+export const EmptyState: React.FC<EmptyStateProps> = ({ 
+  icon, 
+  title, 
+  description, 
+  actionLabel, 
+  onAction,
+  small = false 
+}) => (
+  <div className={`text-center py-${small ? '4' : '5'}`}>
+    <i className={`${icon} ${small ? 'fa-2x' : 'fa-3x'} text-muted mb-3`} />
+    <h5 className={small ? 'h6' : ''}>{title}</h5>
+    <p className={`text-muted ${small ? 'small' : ''} mb-3`}>{description}</p>
     {actionLabel && onAction && (
-      <Button variant="outline-primary cursor-pointer" size="md" onClick={onAction}>
+      <Button 
+        variant="outline-primary" 
+        size="md" 
+        onClick={onAction}
+      >
         {actionLabel}
       </Button>
     )}
   </div>
 );
 
-
-
-
-
-
-import type { ButtonProps } from "@/types/buttons";
 
 export const Button: React.FC<ButtonProps> = ({
   onClick,

@@ -81,6 +81,7 @@
 
 // v2
 import type { AttendanceResponse } from "./attendance";
+import type { Course } from "./course";
 import type { LessonScoreResponse } from "./score";
 
 export interface CreateLessonDTO {
@@ -107,6 +108,7 @@ export interface Lesson {
   date?: string;
   duration?: string;
   status: 'upcoming' | 'ongoing' | 'completed' | 'cancelled';
+  total_assessments?: number;
   is_published: boolean;
   created_at?: string;
   updated_at?: string;
@@ -126,3 +128,18 @@ export interface Lesson {
   lowest_score?: number;
 }
 
+
+export interface AddLessonModalProps {
+  course: Course;
+ students_count?: number;
+ lessons_count?: number;
+  lesson?: Lesson | null;
+  isEditing?: boolean;
+  onSave: (data: {
+    title: string;
+    date: string;
+    duration: string;
+    description: string;
+  }) => void;
+  onClose: () => void;
+}

@@ -12,14 +12,6 @@ export interface ApiResponse<T = any> {
   errors?: Record<string, string[]>;
 }
 
-// export interface PaginatedResponse<T> {
-//   items: T[];
-//   total: number;
-//   page: number;
-//   pageSize: number;
-//   totalPages: number;
-// }
-
 export interface PaginatedResponse<T> {
   page_meta: {
     total_items_count: number
@@ -33,3 +25,10 @@ export interface PaginatedResponse<T> {
 
 
 export type RequestStatus = 'idle' | 'loading' | 'success' | 'error';
+
+export interface FilterBadgeProps {
+  children: React.ReactNode;
+  onRemove: () => void;
+  icon?: string;
+  color?: string;
+}

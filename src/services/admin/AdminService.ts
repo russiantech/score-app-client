@@ -38,7 +38,7 @@ export const AdminService = {
 
   async getStats(): Promise<AdminStats> {
     try {
-      const response = await AxiosService.json.get<ApiResponse<AdminStats>>(
+      const response = await AxiosService.json.get(
         '/admin/stats'
       );
       return response.data.data;
@@ -50,7 +50,7 @@ export const AdminService = {
   async getRecentActivities(limit: number = 10): Promise<RecentActivity[]> {
     try {
       const response =
-        await AxiosService.json.get<ApiResponse<RecentActivity[]>>(
+        await AxiosService.json.get(
           '/admin/activities',
           { params: { limit } }
         );
@@ -65,12 +65,7 @@ export const AdminService = {
     activities: RecentActivity[];
   }> {
     try {
-      const response = await AxiosService.json.get<
-        ApiResponse<{
-          stats: AdminStats;
-          activities: RecentActivity[];
-        }>
-      >('/admin/dashboard');
+      const response = await AxiosService.json.get('/admin/dashboard');
 
       return response.data.data;
     } catch (error) {
@@ -132,7 +127,7 @@ export const AdminService = {
     courseId: string
   ): Promise<ApiResponse> {
     try {
-      const response = await AxiosService.json.post<ApiResponse>(
+      const response = await AxiosService.json.post(
         '/courses/assign-tutor',
         { tutorId, courseId }
       );
@@ -146,7 +141,7 @@ export const AdminService = {
     courseId: string
   ): Promise<ApiResponse> {
     try {
-      const response = await AxiosService.json.post<ApiResponse>(
+      const response = await AxiosService.json.post(
         `/admin/courses/${courseId}/unassign-tutor`
       );
       return response.data;

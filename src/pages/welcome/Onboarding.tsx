@@ -1,16 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay, Parallax } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
-import 'swiper/css/scrollbar';
-import 'swiper/css/autoplay';
-import 'swiper/css/parallax';
+// import 'swiper/css';
+// import 'swiper/css/navigation';
+// import 'swiper/css/pagination';
+// import 'swiper/css/scrollbar';
+// import 'swiper/css/autoplay';
+// import 'swiper/css/parallax';
 
 // Import Swiper styles
-import 'swiper/css';
+// import 'swiper/css';
+
+import '@styles/components/Onboarding.css';
 
 const Onboarding: React.FC = () => {
   const navigate = useNavigate();
@@ -111,7 +113,7 @@ const Onboarding: React.FC = () => {
                   padding: '20px 0 60px'
                 }}
               >
-                {slides.map((slide, index) => (
+                {slides.map((slide, _index) => (
                   <SwiperSlide key={slide.id}>
                     <div className="slide-info" style={{
                       display: 'flex',
@@ -266,112 +268,6 @@ const Onboarding: React.FC = () => {
         ))}
       </div>
 
-      <style jsx>{`
-        .page-wrapper {
-          min-height: 100vh;
-          background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .welcome-area {
-          min-height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-          padding: 20px;
-        }
-        
-        .welcome-inner {
-          width: 100%;
-          max-width: 800px;
-          margin: 0 auto;
-          position: relative;
-          z-index: 2;
-        }
-        
-        .fixed-wrapper {
-          background: rgba(255, 255, 255, 0.95);
-          backdrop-filter: blur(10px);
-          border-radius: 30px;
-          padding: 40px 20px;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-        
-        /* Swiper custom styles */
-        .swiper-pagination {
-          position: absolute;
-          bottom: 20px !important;
-        }
-        
-        .swiper-pagination-bullet {
-          width: 8px;
-          height: 8px;
-          background: #ddd;
-          opacity: 1;
-        }
-        
-        .swiper-pagination-bullet-active {
-          width: 30px;
-          border-radius: 4px;
-        }
-        
-        /* Animations */
-        @keyframes floatUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-        
-        .slide-info {
-          animation: floatUp 0.8s ease-out;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-          .fixed-wrapper {
-            padding: 30px 15px;
-            border-radius: 20px;
-          }
-          
-          .dz-title {
-            font-size: 1.5rem !important;
-          }
-          
-          .dz-media {
-            width: 200px !important;
-            height: 200px !important;
-          }
-        }
-        
-        @media (max-width: 480px) {
-          .fixed-wrapper {
-            padding: 20px 10px;
-          }
-          
-          .dz-title {
-            font-size: 1.3rem !important;
-          }
-          
-          .dz-media {
-            width: 180px !important;
-            height: 180px !important;
-          }
-          
-          .bottom-btn {
-            left: 10px !important;
-            right: 10px !important;
-            bottom: 20px !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };
