@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# build.sh — CloudLinux OOM-safe Vite + TypeScript build
+# build.sh — CloudLinux alt-nodejs SAFE build
 set -Eeuo pipefail
 
 echo "========================================="
@@ -26,15 +26,12 @@ rm -rf "$BUILD_DIR"
 # ============ ENV ============
 echo "⚙️  Setting up environment..."
 
-# 🔴 CloudLinux-safe memory tuning
+# 🔴 DO NOT use forbidden flags on CloudLinux
+export NODE_OPTIONS="--max-old-space-size=768"
+
+# Force devDependencies install even if host sets production
 export NODE_ENV="development"
 export NPM_CONFIG_PRODUCTION="false"
-
-# 🔴 CRITICAL: disable WASM + reduce heap fragmentation
-export NODE_OPTIONS="\
---max-old-space-size=768 \
---no-wasm \
---jitless"
 
 echo "📦 Node.js: $(node --version)"
 echo "📦 npm: $(npm --version)"
@@ -53,18 +50,19 @@ echo "   ✓ Tooling verified"
 # ============ BUILD ============
 echo "🔨 Building application..."
 
-echo "   Running TypeScript (low memory mode)..."
+echo "   Running TypeScript..."
 ./node_modules/.bin/tsc -b --incremental false 2>&1 | tee build.log
 
-echo "   Running Vite (OOM-safe)..."
+echo "   Running Vite (low-memory)..."
 ./node_modules/.bin/vite build \
   --mode production \
   --emptyOutDir \
   --minify esbuild \
+  --sourcemap false \
   --logLevel warn \
   2>&1 | tee -a build.log
 
-# ============ VERIFY OUTPUT ============
+# ============ VERIFY ============
 echo ""
 echo "========================================="
 echo "📊 BUILD VERIFICATION"
@@ -77,7 +75,6 @@ fi
 
 echo "📁 dist size: $(du -sh "$BUILD_DIR" | cut -f1)"
 echo "📄 files: $(find "$BUILD_DIR" -type f | wc -l)"
-
 [ -f "$BUILD_DIR/index.html" ] && echo "✓ index.html found"
 
 echo ""
