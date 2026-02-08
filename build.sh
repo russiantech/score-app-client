@@ -47,7 +47,8 @@ if [ -d "node_modules" ]; then
 fi
 
 # Install production dependencies only
-npm ci --omit=dev --ignore-scripts --silent
+# npm ci --omit=dev --ignore-scripts --silent
+npm install
 echo "   ✓ Dependencies installed"
 
 # ============ BUILD ============
