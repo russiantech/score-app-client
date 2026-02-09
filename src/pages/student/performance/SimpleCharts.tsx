@@ -1,17 +1,13 @@
 // Simple Chart Components - Easy to understand
 // src/pages/student/performance/SimpleCharts.tsx
 
-import type { CoursePerformance, PerformanceTrend } from '@/types/performance';
 import React from 'react';
-// import type { CoursePerformance, PerformanceTrend } from '@/hooks/usePerformance';
+import type { SimpleBarChartProps, SimpleTrendChartProps } from '@/types/performance';
+import { calculateGrade, getGradeColor } from '@/utils/helpers';
 
 // ============================================================================
 // SIMPLE BAR CHART
 // ============================================================================
-
-interface SimpleBarChartProps {
-  courses: CoursePerformance[];
-}
 
 export const SimpleBarChart: React.FC<SimpleBarChartProps> = ({ courses }) => {
   if (!courses || courses.length === 0) {
@@ -23,32 +19,12 @@ export const SimpleBarChart: React.FC<SimpleBarChartProps> = ({ courses }) => {
     );
   }
 
-  const getColor = (percentage: number): string => {
-    if (percentage >= 80) return '#28a745';
-    if (percentage >= 70) return '#007bff';
-    if (percentage >= 60) return '#17a2b8';
-    if (percentage >= 50) return '#ffc107';
-    return '#dc3545';
-  };
-
-  const getGrade = (percentage: number): string => {
-    if (percentage >= 90) return 'A+';
-    if (percentage >= 80) return 'A';
-    if (percentage >= 75) return 'B+';
-    if (percentage >= 70) return 'B';
-    if (percentage >= 65) return 'C+';
-    if (percentage >= 60) return 'C';
-    if (percentage >= 55) return 'D+';
-    if (percentage >= 50) return 'D';
-    return 'F';
-  };
-
   return (
     <div className="simple-bar-chart">
       {courses.map((course, idx) => {
         const percentage = course.overall_average;
-        const color = getColor(percentage);
-        const grade = getGrade(percentage);
+        const color = getGradeColor(calculateGrade(percentage));
+        const grade = calculateGrade(percentage);
         
         return (
           <div key={idx} className="mb-4">
@@ -93,10 +69,6 @@ export const SimpleBarChart: React.FC<SimpleBarChartProps> = ({ courses }) => {
 // ============================================================================
 // SIMPLE TREND CHART
 // ============================================================================
-
-interface SimpleTrendChartProps {
-  data: PerformanceTrend[];
-}
 
 export const SimpleTrendChart: React.FC<SimpleTrendChartProps> = ({ data }) => {
   if (!data || data.length === 0) {

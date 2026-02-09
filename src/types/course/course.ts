@@ -1,65 +1,11 @@
-// import type { ReactNode } from "react";
-// import type { Grade } from "../score";
-// import type { Lesson } from "../lesson";
-// import type { User } from "../users";
-// import type { Module } from "../module";
 
+import type { CoursePerformance } from "../performance";
 import type { User } from "../users";
 import type { Lesson } from "./lesson";
 import type { Module } from "./module";
 import type { Grade } from "./score";
 
 export type CourseStatus = 'active' | 'inactive' | 'archived' | 'draft';
-
-// export interface Course {
-//   id: string;
-//   title: string;
-//   description: string;
-//   code: string;
-
-// //   tutorName: string;
-//   tutor_count: number;
-//   lessons_count: number;
-
-//   tutor_ids: string[];
-//   tutors?: User[];
-
-//   modules?: Module[];
-//   lessons: Lesson[];
-
-// //   enrolledStudents: string[];
-// //   enrolledStudentsDetails?: User[];
-//   students?: User[];
-
-//   modules_count?: number;
-//   enrolled_count?: number;
-
-//   is_active: boolean;
-//   status?: CourseStatus;
-
-//   thumbnail?: string;
-//   duration?: number;
-//   level?: 'beginner' | 'intermediate' | 'advanced';
-//   prerequisites?: string[];
-
-//   created_at: string;
-//   updated_at: string;
-//   createdBy?: string;
-// }
-
-// /**
-//  * Course summary (included when include_relations=true)
-//  */
-// export interface CourseSummary {
-//   id: string;
-//   code: string;
-//   title: string;
-//   description: string;
-//   is_active: boolean;
-//   students_count: number;
-//   lessons_count: number;
-//   modules_count: number;
-// }
 
 // v2
 export interface CourseBase {
@@ -102,6 +48,7 @@ export interface Course extends CourseBase {
 /**
  * Lightweight course summary (for lists / dashboards)
  */
+
 export interface CourseSummary extends CourseBase {
   students_count: number;
   lessons_count: number;
@@ -111,7 +58,6 @@ export interface CourseSummary extends CourseBase {
 
 export interface CreateCourseDTO {
 
-  // 
   is_active?: boolean
   tutor_ids?: string[]
   code?: string
@@ -164,6 +110,11 @@ export interface CourseStats {
   averageGrade?: Grade;
 }
 
+export interface CourseListProps {
+  courses: Course[];
+  onView: (course: Course) => void;
+}
+
 // generic course crud modal
 export interface CourseModalContextType {
   isOpen: boolean;
@@ -180,4 +131,10 @@ export interface CourseModalProps {
   editingCourse: Course | null;
   onClose: () => void;
   onSuccess: () => void;
+}
+
+
+// course details page types
+export interface CoursesTabProps {
+  courses: CoursePerformance[];
 }

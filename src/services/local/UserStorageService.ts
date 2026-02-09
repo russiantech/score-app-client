@@ -53,38 +53,3 @@ export const UserStorageService = {
   },
 };
 
-
-// 
-
-// UsersService.ts
-// import type { User } from "@/types/auth";
-
-// export const UsersService = {
-//   getCurrentUser: (): User | null => {
-//     const userStr = localStorage.getItem('user');
-//     if (!userStr) return null;
-//     try {
-//       return JSON.parse(userStr);
-//     } catch {
-//       return null;
-//     }
-//   },
-
-//   authenticate: (user: User) => {
-//     localStorage.setItem('user', JSON.stringify(user));
-//   },
-
-//   updateUser: (data: Partial<User>): { success: boolean; data: User } => {
-//     const currentUser = UsersService.getCurrentUser();
-//     if (!currentUser) return { success: false, data: null as any };
-
-//     const updatedUser = { ...currentUser, ...data };
-//     UsersService.authenticate(updatedUser);
-
-//     return { success: true, data: updatedUser };
-//   },
-
-//   signout: () => {
-//     localStorage.removeItem('user');
-//   },
-// };

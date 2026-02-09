@@ -2,7 +2,7 @@
    UTILITY FUNCTIONS
 ===================================================== */
 
-import type { Grade, ScoreType } from "@/types/course/score";
+import type { ScoreType } from "@/types/course/score";
 import type { User, UserRole } from "@/types/users";
 
 /* =====================================================
@@ -29,37 +29,68 @@ export { handleError };
    Other Helper Functions
 ===================================================== */
 
-export const calculateGrade = (percentage: number): Grade => {
-    switch (true) {
-        case percentage >= 90:
-            return 'A';
-        case percentage >= 85:
-            return 'B+';
-        case percentage >= 80:
-            return 'B';
-        case percentage >= 75:
-            return 'C+';
-        case percentage >= 70:
-            return 'C';
-        case percentage >= 60:
-            return 'D';
-        default:
-            return 'F';
-    }
-};
+// export const calculateGrade = (percentage: number): Grade => {
+//     switch (true) {
+//         case percentage >= 90:
+//             return 'A';
+//         case percentage >= 85:
+//             return 'B+';
+//         case percentage >= 80:
+//             return 'B';
+//         case percentage >= 75:
+//             return 'C+';
+//         case percentage >= 70:
+//             return 'C';
+//         case percentage >= 60:
+//             return 'D';
+//         default:
+//             return 'F';
+//     }
+// };
 
-export const getGradeColor = (grade: Grade): string => {
-  const colors: Record<Grade, string> = {
-    'A': 'success',
-    'B+': 'success',
-    'B': 'primary',
-    'C+': 'info',
-    'C': 'warning',
-    'D': 'warning',
-    'F': 'danger'
-  };
-  return colors[grade];
-};
+// export const getGradeColor = (grade: Grade): string => {
+//   const colors: Record<Grade, string> = {
+//     'A': 'success',
+//     'B+': 'success',
+//     'B': 'primary',
+//     'C+': 'info',
+//     'C': 'warning',
+//     'D': 'warning',
+//     'F': 'danger'
+//   };
+//   return colors[grade];
+// };
+
+// 
+export function calculateGrade(percentage: number): string {
+  if (percentage >= 90) return 'A+';
+  if (percentage >= 80) return 'A';
+  if (percentage >= 75) return 'B+';
+  if (percentage >= 70) return 'B';
+  if (percentage >= 65) return 'C+';
+  if (percentage >= 60) return 'C';
+  if (percentage >= 55) return 'D+';
+  if (percentage >= 50) return 'D';
+  return 'F';
+}
+
+export const getGradeColor = (grade: string): string => {
+  if (grade.startsWith('A')) return 'success';
+  if (grade.startsWith('B')) return 'primary';
+  if (grade.startsWith('C')) return 'info';
+  if (grade.startsWith('D')) return 'warning';
+  if (grade.startsWith('F')) return 'dark';
+  return 'danger';
+}
+
+  // const getColor = (percentage: number): string => {
+  //   if (percentage >= 80) return '#28a745';
+  //   if (percentage >= 70) return '#007bff';
+  //   if (percentage >= 60) return '#17a2b8';
+  //   if (percentage >= 50) return '#ffc107';
+  //   return '#dc3545';
+  // };
+
 
 export const getAssessmentTypeColor = (type: ScoreType): string => {
   const colors: Record<ScoreType, string> = {

@@ -2,40 +2,6 @@
 // // src/hooks/useUsers.ts - Custom Hook for Users
 // // =====================================================
 
-// import { UserService } from "@/services/users/UserService";
-// import type { User, UserFilters } from "@/types/users";
-// import { useApi } from "./useApi";
-
-// export function useUsers(filters?: UserFilters) {
-//   return useApi<User[]>(
-//     () => UserService.getAll(filters),
-//     { immediate: true, initialData: [] }
-//   );
-// }
-
-// export function useTutors() {
-//   return useApi<User[]>(
-//     () => UserService.getTutors(),
-//     { immediate: true, initialData: [] }
-//   );
-// }
-
-// export function useStudents() {
-//   return useApi<User[]>(
-//     () => UserService.getAll({ role: 'student' }),
-//     { immediate: true, initialData: [] }
-//   );
-// }
-
-// export function useParents() {
-//   return useApi<User[]>(
-//     () => UserService.getParents(),
-//     { immediate: true, initialData: [] }
-//   );
-// }
-
-
-
 // v2
 // src/hooks/useUsers.ts
 // Complete corrected version:

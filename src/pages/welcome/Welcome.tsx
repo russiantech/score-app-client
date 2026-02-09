@@ -7,10 +7,6 @@ import Swiper from 'swiper';
 import { Pagination, Autoplay, Parallax } from 'swiper/modules';
 import AOS from 'aos';
 
-// import 'swiper/css';
-// import 'swiper/css/pagination';
-// import 'aos/dist/aos.css';
-
 Swiper.use([Pagination, Autoplay, Parallax]);
 
 // const Welcome: React.FC = () => {

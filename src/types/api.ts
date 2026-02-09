@@ -18,3 +18,9 @@ export interface PaginationProps {
   onPageChange: (page: number) => void;
   loading?: boolean;
 }
+
+export interface RefreshTokenResponse {
+  access_token: string;
+  refresh_token?: string;
+}
+

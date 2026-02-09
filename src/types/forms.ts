@@ -11,3 +11,14 @@ export interface FormSelectProps {
   error?: string;
   colClass?: string;
 }
+
+export interface FormInputProps {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  type?: string;
+  disabled?: boolean;
+  colClass?: string;
+  error?: string;
+}

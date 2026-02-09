@@ -2,17 +2,8 @@ import React, { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay, Parallax } from 'swiper/modules';
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
-// import 'swiper/css/scrollbar';
-// import 'swiper/css/autoplay';
-// import 'swiper/css/parallax';
 
-// Import Swiper styles
-// import 'swiper/css';
-
-import '@styles/components/Onboarding.css';
+import '@/styles/components/Onboarding.css';
 
 const Onboarding: React.FC = () => {
   const navigate = useNavigate();

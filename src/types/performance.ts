@@ -2,16 +2,7 @@
    PERFORMANCE TYPES
 ===================================================== */
 
-// import type { AssessmentType } from "./course/assessment";
-// import type { AttendanceSummary, GraduationStatus, PerformanceSummary } from "@/hooks/usePerformance";
 import type { Grade, LessonScoreResponse, ScoreType } from "./course/score";
-
-// export type CoursePerformance = {
-//   modules: number;
-//   lessons: number;
-//   students: number;
-//   tutors: number;
-// };
 
 
 // new
@@ -122,21 +113,6 @@ export interface StudentPerformance {
 }
 
 
-// export interface StudentPerformance {
-//   courseId: string;
-//   courseName: string;
-//   courseCode: string;
-//   tutorName?: string;
-//   lessons: LessonPerformance[];
-//   overallPercentage: number;
-//   overallGrade: Grade;
-//   progress: number;
-//   completedLessons: number;
-//   totalLessons: number;
-//   completedAssessments: number;
-//   totalAssessments: number;
-// }
-
 export interface LessonPerformance {
   lessonId: string;
   lessonTitle: string;
@@ -176,4 +152,25 @@ export interface SubjectPerformance {
   grade: Grade;
   totalAssessments: number;
   trend: 'improving' | 'declining' | 'stable';
+}
+
+
+// for performance modals and components & props
+export interface GraduationBannerProps {
+  status: GraduationStatus;
+}
+
+export interface OverviewTabProps {
+  courses: CoursePerformance[];
+  summary: PerformanceSummary;
+  trends: PerformanceTrend[];
+}
+
+
+export interface SimpleBarChartProps {
+  courses: CoursePerformance[];
+}
+
+export interface SimpleTrendChartProps {
+  data: PerformanceTrend[];
 }

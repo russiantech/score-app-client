@@ -1,15 +1,11 @@
 // src/components/course/CourseList.tsx
 import { useMemo, useState } from "react";
-import type { Course } from "@/types/course";
+import type { CourseListProps } from "@/types/course";
 import CourseCard from "@/components/cards/CourseCard";
 import { EmptyState } from "@/components/buttons/Button";
 
-interface Props {
-  courses: Course[];
-  onView: (course: Course) => void;
-}
 
-const CourseList = ({ courses, onView }: Props) => {
+const CourseList = ({ courses, onView }: CourseListProps) => {
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
 

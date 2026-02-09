@@ -3,13 +3,8 @@
 // Graduation Status Banner - Safe with error handling
 // src/pages/student/performance/GraduationBanner.tsx
 
-import type { GraduationStatus } from '@/types/performance';
+import type { GraduationBannerProps } from '@/types/performance';
 import React from 'react';
-// import type { GraduationStatus } from '@/hooks/usePerformance';
-
-interface GraduationBannerProps {
-  status: GraduationStatus;
-}
 
 export const GraduationBanner: React.FC<GraduationBannerProps> = ({ status }) => {
   // Safe access with defaults

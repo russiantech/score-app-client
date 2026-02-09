@@ -2,119 +2,16 @@
 //    ENROLLMENT SERVICE
 // ===================================================== */
 
-// import type { Enrollment, CreateEnrollmentDTO, UpdateEnrollmentDTO } from "@/types/enrollment";
-// import { handleError } from "@/utils/helpers";
-// import { AxiosService } from "../base/AxiosService";
-
-// export const EnrollmentService = {
-//   async getAll(): Promise<Enrollment[]> {
-//     try {
-//       const response = await AxiosService.json.get('/enrollments');
-//       return response.data;
-//     } catch (error) {
-//       throw handleError(error);
-//     }
-//   },
-
-//   async getById(id: string): Promise<Enrollment> {
-//     try {
-//       const response = await AxiosService.json.get(`/enrollments/${id}`);
-//       return response.data;
-//     } catch (error) {
-//       throw handleError(error);
-//     }
-//   },
-
-//   async create(data: CreateEnrollmentDTO): Promise<Enrollment> {
-//     try {
-//       const response = await AxiosService.json.post('/enrollments', data);
-//       return response.data;
-//     } catch (error) {
-//       throw handleError(error);
-//     }
-//   },
-
-//   async update(id: string, data: UpdateEnrollmentDTO): Promise<Enrollment> {
-//     try {
-//       const response = await AxiosService.json.put(`/enrollments/${id}`, data);
-//       return response.data;
-//     } catch (error) {
-//       throw handleError(error);
-//     }
-//   },
-
-//   async delete(id: string): Promise<void> {
-//     try {
-//       await AxiosService.json.delete(`/enrollments/${id}`);
-//     } catch (error) {
-//       throw handleError(error);
-//     }
-//   },
-
-//   async getByStudent(studentId: string): Promise<Enrollment[]> {
-//     try {
-//       const response = await AxiosService.json.get(`/students/${studentId}/enrollments`);
-//       return response.data;
-//     } catch (error) {
-//       throw handleError(error);
-//     }
-//   },
-
-//   async getByCourse(courseId: string): Promise<Enrollment[]> {
-//     try {
-//       const response = await AxiosService.json.get(`/courses/${courseId}/enrollments`);
-//       return response.data;
-//     } catch (error) {
-//       throw handleError(error);
-//     }
-//   },
-// };
-
-
-/* =====================================================
-   ENROLLMENT SERVICE
-   ===================================================== */
-
-// import type {
-//   Enrollment,
-//   EnrollmentFilters,
-//   EnrollmentCreate,
-// } from '@/types/enrollment';
-
 import { handleError } from '@/utils/helpers';
 import { AxiosService } from '../base/AxiosService';
 import type { Enrollment, EnrollmentCreate, EnrollmentFilters } from '@/types/enrollment';
 import type { PaginatedResponse } from '@/types/api';
 
 export const EnrollmentService = {
+
   /**
    * Get all enrollments with optional filters and pagination
    */
-  // async getAll(filters?: EnrollmentFilters): Promise<Enrollment[]> {
-  //   try {
-  //     const params = new URLSearchParams();
-
-  //     if (filters) {
-  //       // Remove undefined values to keep URL clean
-  //       Object.entries(filters).forEach(([key, value]) => {
-  //         if (value !== undefined && value !== null && value !== '') {
-  //           params.append(key, String(value));
-  //         }
-  //       });
-  //     }
-
-  //     const queryString = params.toString();
-  //     const url = `/enrollments${queryString ? `?${queryString}` : ''}`;
-
-  //     const response = await AxiosService.json.get(url);
-  //     return response.data;
-      
-  //   } catch (error) {
-  //     throw handleError(error);
-  //   }
-  // },
-
-  // import type { PaginatedResponse } from "@/types/api";
 
     async getAll(filters?: EnrollmentFilters): Promise<PaginatedResponse<Enrollment>> {
       try {

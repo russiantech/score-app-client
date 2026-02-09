@@ -1,5 +1,5 @@
 /* =====================================================
-   UTILITY TYPES
+  UTILITY TYPES
 ===================================================== */
 
 export interface SelectOption<T = string> {
@@ -29,4 +29,22 @@ export interface DateRange {
 export interface ValidationError {
   field: string;
   message: string;
+}
+
+
+export interface SplashScreenProps {
+  onComplete: () => void;
+}
+
+
+export interface FilterBadgeProps {
+  children: React.ReactNode;
+  onRemove: () => void;
+  icon?: string;
+  color?: string;
+}
+
+export interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
 }

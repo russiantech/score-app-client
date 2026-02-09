@@ -3,53 +3,6 @@
 // ===================================================== */
 // export type EnrollmentStatus = 'active' | 'completed' | 'dropped' | 'suspended';
 
-// export interface EnrollmentFilters {
-//   search?: string;
-//   status?: 'active' | 'completed' | 'dropped';
-//   student_id?: string;
-//   course_id?: string;
-//   page?: number;
-//   page_size?: number;
-// }
-
-// export interface EnrollmentCreate {
-//   student_id: string;
-//   course_id: string;
-// }
-
-// // export interface CreateEnrollmentDTO {
-// //   studentId: string;
-// //   courseId: string;
-// // }
-
-// export interface UpdateEnrollmentDTO {
-//   status?: EnrollmentStatus;
-//   progress?: number;
-//   currentLessonId?: string;
-// }
-
-// export interface EnrollmentWithDetails extends Enrollment {
-//   studentName: string;
-//   courseName: string;
-//   courseCode: string;
-//   tutorName?: string;
-//   completedAssessments: number;
-//   totalAssessments: number;
-// }
-
-// // new
-
-// export interface EnrollmentStats {
-//   totalEnrollments: number;
-//   activeEnrollments: number;
-//   totalStudents: number;
-//   totalCourses: number;
-//   studentsEnrolled: number;
-//   coursesWithStudents: number;
-// }
-
-
-
 import type { CourseSummary } from "./course/course";
 
 /**

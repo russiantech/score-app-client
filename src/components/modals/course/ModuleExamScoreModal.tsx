@@ -3,31 +3,9 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import toast from 'react-hot-toast';
-import { extractErrorMessage } from '@/utils/helpers';
-import type { Module } from '@/types/course/module';
+import { calculateGrade, extractErrorMessage, getGradeColor } from '@/utils/helpers';
+import type { ModuleExamScoreModalProps, StudentExamData } from '@/types/course/module';
 import { ScoreService } from '@/services/courses/Score';
-
-interface ModuleExamScoreModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  module: Module;
-  onSave: () => void;
-}
-
-interface StudentExamData {
-  enrollment_id: string;
-  student_id: string;
-  names: string;
-  email: string;
-  username?: string;
-  exam_score: number;
-  max_score: number;
-  percentage: number;
-  grade: string | null;
-  remarks: string;
-  score_id: string | null;
-  is_recorded: boolean;
-}
 
 const ModuleExamScoreModal = ({ 
   isOpen, 
@@ -83,26 +61,6 @@ const ModuleExamScoreModal = ({
     } finally {
       setLoading(false);
     }
-  };
-
-  const calculateGrade = (percentage: number): string => {
-    if (percentage >= 90) return 'A+';
-    if (percentage >= 80) return 'A';
-    if (percentage >= 75) return 'B+';
-    if (percentage >= 70) return 'B';
-    if (percentage >= 65) return 'C+';
-    if (percentage >= 60) return 'C';
-    if (percentage >= 55) return 'D+';
-    if (percentage >= 50) return 'D';
-    return 'F';
-  };
-
-  const getGradeColor = (grade: string) => {
-    if (grade.startsWith('A')) return 'success';
-    if (grade.startsWith('B')) return 'primary';
-    if (grade.startsWith('C')) return 'info';
-    if (grade.startsWith('D')) return 'warning';
-    return 'danger';
   };
 
   const updateScore = useCallback((studentId: string, value: string) => {

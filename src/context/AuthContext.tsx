@@ -6,32 +6,15 @@ import React, {
   type ReactNode,
 } from 'react';
 
-import { AuthService } from '../services/auth/AuthService';
-import { NotificationService } from '../services/local/NotificationService';
-import { UserStorageService } from '../services/local/UserStorageService';
+import { AuthService } from '@/services/auth/AuthService';
+import { NotificationService } from '@/services/local/NotificationService';
+import { UserStorageService } from '@/services/local/UserStorageService';
 
-import type { AuthPayload, ResetPasswordDataDTO, VerifySignupData, } from '../types/auth';
+import type { AuthPayload, ResetPasswordDataDTO, VerifySignupData, } from '@/types/auth';
 
-import type { User } from '../types/users';
+import type { User } from '@/types/users';
+import type { AuthContextType } from '@/types/context';
 
-/* -------------------------------------------------------------------------- */
-/* Types                                                                      */
-/* -------------------------------------------------------------------------- */
-interface AuthContextType {
-  auth: AuthPayload | null;
-  loading: boolean;
-
-  signin(username: string, password: string): Promise<void>;
-  signout(): Promise<void>;
-
-  signup(data: Partial<User>): Promise<void>;
-  verifySignup(payload: VerifySignupData): Promise<void>;
-
-  forgotPassword(email: string): Promise<void>;
-  resetPassword(data: ResetPasswordDataDTO): Promise<void>;
-
-  updateUser(data: Partial<User>): Promise<void>;
-}
 
 /* -------------------------------------------------------------------------- */
 /* Context                                                                    */

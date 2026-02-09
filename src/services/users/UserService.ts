@@ -8,7 +8,6 @@ import type { UserFilters, CreateUserDTO, UpdateUserDTO, User } from "@/types/us
 
 export const UserService = {
   
-  // async getAll(filter?: UserFilters): Promise<User[]> {
   async getAll(params?: UserFilters): Promise<{ data?: { users: User[] } } | User[]> {
     try {
       const response = await AxiosService.json.get('/users', { params: params });

@@ -34,6 +34,7 @@ import { GlobalUserModal } from './components/modals/user/GlobalUserModal';
 import CourseInfo from './pages/shared/CourseInfo';
 
 // css
+// ----
 
 // =======================
 // Lazy Loaded Pages
@@ -104,7 +105,6 @@ function App() {
     </Router>
   );
 }
-
 
 // =======================
 // Auth & Onboarding Check

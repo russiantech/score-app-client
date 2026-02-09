@@ -4,24 +4,12 @@
 import { useState, useCallback, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { extractErrorMessage } from '@/utils/helpers';
-import type { Lesson } from '@/types/course/lesson';
 import AttendanceService from '@/services/courses/Attendance';
-import type { StudentAttendanceData } from '@/types/course/attendance';
-// import { AttendanceService, type StudentAttendanceData } from '@/services/courses/attendance';
-
-type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused';
-
-interface AttendanceModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  lesson: Lesson;
-  students: Array<{ id: string; names: string; email: string; username?: string }>;
-  onSave: () => void;
-}
+import type { AttendanceModalProps, AttendanceStatus, StudentAttendanceData } from '@/types/course/attendance';
 
 const AttendanceFormModal = ({ 
   isOpen, 
-  onClose, 
+  onClose,
   lesson, 
   onSave 
 }: AttendanceModalProps) => {
@@ -306,6 +294,7 @@ const AttendanceFormModal = ({
                                   .join('')
                                   .toUpperCase()
                                   .slice(0, 2)}
+                                  
                               </span>
                             </div>
                             <div className="flex-grow-1">

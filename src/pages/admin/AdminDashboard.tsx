@@ -8,7 +8,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useCourseModal } from '@/context/CourseModalContext';
 import { useUserModal } from '@/context/UserModalContext';
-import type { AdminStats, RecentActivity } from '@/types/stats';
+import type { AdminStats, AlertBannerProps, MiniStatCardProps, RecentActivity } from '@/types/stats';
 import AdminService from '@/services/admin/AdminService';
 import { toCamelCase } from '@/utils/case';
 import StatCard from '@/components/cards/StatCards';
@@ -17,16 +17,6 @@ import Preloader from '@/components/shared/Preloader';
 // ============================================================================
 // REUSABLE COMPONENTS
 // ============================================================================
-
-
-interface MiniStatCardProps {
-  icon: string;
-  iconColor: string;
-  value: number | string;
-  label: string;
-  warning?: { text: string; count: number };
-  info?: { text: string; count: number };
-}
 
 const MiniStatCard: React.FC<MiniStatCardProps> = ({
   icon,
@@ -74,10 +64,6 @@ const MiniStatCard: React.FC<MiniStatCardProps> = ({
   </div>
 );
 
-
-interface AlertBannerProps {
-  stats: AdminStats;
-}
 
 const AlertBanner: React.FC<AlertBannerProps> = ({ stats }) => {
   if (stats.coursesWithoutTutors === 0 && stats.studentsWithoutParents === 0) {
@@ -134,32 +120,6 @@ export const AdminDashboard: React.FC = () => {
   const [, setActivities] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  // Static fallback data
-  /*
-  const staticStats: AdminStats = {
-    totalUsers: 245,
-    activeUsers: 200,
-    totalCourses: 48,
-    totalModules: 135,
-    totalLessons: 420,
-    totalTutors: 32,
-    totalStudents: 189,
-    totalParents: 40,
-    activeCourses: 42,
-    inactiveCourses: 6,
-    activeStudents: 170,
-    activeTutors: 28,
-    activeParents: 35,
-    inactiveParents: 5,
-    recentEnrollments: 23,
-    totalEnrollments: 500,
-    totalAssessments: 120,
-    averageClassSize: 16,
-    coursesWithoutTutors: 2,
-    studentsWithoutParents: 15,
-    };
-  */
 
 const staticStats: AdminStats = {
   total: 150,           //  Add this

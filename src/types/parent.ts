@@ -6,38 +6,8 @@ import type { Grade } from "./course/score";
 import type { Enrollment } from "./enrollment";
 import type { User } from "./users";
 
-// import type { User } from "./auth";
-// import type { Enrollment } from "./enrollment";
-// import type { Grade } from "./score";
-
 export type RelationshipType = 'mother' | 'father' | 'guardian' | 'other';
 
-// export interface ParentChildLink {
-//   id: string;
-//   parentId: string;
-//   parentName: string;
-//   parentEmail: string;
-//   childId: string;
-//   childName: string;
-//   childEmail: string;
-//   relationship: 'parent' | 'guardian';
-//   linkedAt: string;
-//   status: 'active' | 'inactive';
-// }
-
-// export interface ParentChild {
-//   id: string;
-//   parentId: string;
-//   parent?: User;
-//   parentName?: string;
-//   childId: string;
-//   child?: User;
-//   childName?: string;
-//   relationship: RelationshipType;
-//   linkedAt: string;
-//   linkedBy?: string;
-//   isActive: boolean;
-// }
 
 export interface ParentChild {
   id: string;
@@ -165,4 +135,21 @@ export interface ParentChildLinkStats {
   inactive_links: number;
 
   avg_children_per_parent: number;
+}
+
+// /
+// ============================================================================
+// LINK CREATION MODAL COMPONENT
+// ============================================================================
+
+export interface LinkCreationModalProps {
+  show: boolean;
+  onClose: () => void;
+  parents: User[];
+  children: User[];
+  links: ParentChildLink[];
+  onCreateLink: (parentId: string, childId: string, relationship: 'parent' | 'guardian') => Promise<void>;
+  creating: boolean;
+  preselectedParentId?: string;
+  preselectedChildId?: string;
 }

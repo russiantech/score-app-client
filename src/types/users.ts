@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { SignupData } from './auth';
+import type { RequestStatus } from ".";
 
 export type UserRole =
   | 'dev'
@@ -205,5 +206,21 @@ export const ROLE_PERMISSIONS: Record<UserRole, string[]> = {
   user: []
 };
 
+// 
 
+export interface UseApiOptions<T> {
+  initialData?: T;
+  immediate?: boolean;
+  onSuccess?: (data: T) => void;
+  onError?: (error: Error) => void;
+}
+
+export interface UseApiReturn<T> {
+  data: T | null;
+  loading: boolean;
+  error: Error | null;
+  status: RequestStatus;
+  execute: (...args: any[]) => Promise<T | void>;
+  reset: () => void;
+}
 

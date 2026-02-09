@@ -1,17 +1,7 @@
 // v4
 // src/components/modals/ModuleFormModal.tsx
-import type { ModuleCreate, ModuleUpdate, Module } from '@/types/course/module';
+import type { ModuleProps } from '@/types/course/module';
 import { useState, useEffect } from 'react';
-
-interface Props {
-  isOpen: boolean;
-  onClose: () => void;
-  onSave: (data: ModuleCreate | ModuleUpdate) => Promise<void>;
-  courseId: string;
-  module?: Module | null;
-  isEditing?: boolean;
-  existingOrders?: number[];
-}
 
 export const ModuleFormModal = ({
   isOpen,
@@ -21,7 +11,7 @@ export const ModuleFormModal = ({
   module = null,
   isEditing = false,
   existingOrders = []
-}: Props) => {
+}: ModuleProps) => {
   const [formData, setFormData] = useState({
     title: '',
     description: '',

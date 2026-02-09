@@ -5,21 +5,8 @@
 import React from 'react';
 // import type { CoursePerformance, PerformanceSummary, PerformanceTrend } from '@/hooks/usePerformance';
 import { SimpleBarChart, SimpleTrendChart } from './SimpleCharts';
-import type { CoursePerformance, PerformanceSummary, PerformanceTrend } from '@/types/performance';
-
-interface OverviewTabProps {
-  courses: CoursePerformance[];
-  summary: PerformanceSummary;
-  trends: PerformanceTrend[];
-}
-
-const getGradeColor = (grade: string): string => {
-  if (grade.startsWith('A')) return 'success';
-  if (grade.startsWith('B')) return 'primary';
-  if (grade.startsWith('C')) return 'info';
-  if (grade.startsWith('D')) return 'warning';
-  return 'danger';
-};
+import type { OverviewTabProps } from '@/types/performance';
+import { getGradeColor } from '@/utils/helpers';
 
 export const OverviewTab: React.FC<OverviewTabProps> = ({ courses, summary, trends }) => {
   return (

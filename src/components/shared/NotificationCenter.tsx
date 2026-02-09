@@ -1,22 +1,10 @@
 import React from 'react';
 import '@/styles/components/NotificationCenter.css';
+import type { NotificationCenterProps, NotificationDropdown } from '@/types/notification';
 
-interface Notification {
-  id: number;
-  title: string;
-  message: string;
-  time: string;
-  type: 'success' | 'warning' | 'info' | 'error';
-  read: boolean;
-}
-
-interface NotificationCenterProps {
-  onClose: () => void;
-  onClear: () => void;
-}
 
 const NotificationCenter: React.FC<NotificationCenterProps> = ({ onClose, onClear }) => {
-  const notifications: Notification[] = [
+  const notifications: NotificationDropdown[] = [
     {
       id: 1,
       title: 'New Assessment Added',

@@ -1,11 +1,7 @@
 
 import React, { useEffect } from 'react';
 import AOS from 'aos';
-
-interface SplashScreenProps {
-  onComplete: () => void;
-}
-
+import type { SplashScreenProps } from '@/types/utils';
 
 const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 

@@ -9,11 +9,8 @@ import {
 } from '@/utils/auth/roles';
 
 import type { UserRole } from '@/types/users';
+import type { SidebarProps } from '@/types/utils';
 
-interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
 
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
   const { auth, signout } = useAuth();

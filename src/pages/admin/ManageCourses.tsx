@@ -11,17 +11,12 @@ import '@/styles/admin/ManageCourse.css';
 import StatCard from '@/components/cards/StatCards';
 import { Button, EmptyState } from '@/components/buttons/Button';
 import { Link } from 'react-router-dom';
+import type { FilterBadgeProps } from '@/types/utils';
+import { Pagination } from '@/components/shared/Pagination';
 
 // ============================================================================
 // REUSABLE COMPONENTS (DRY Principle)
 // ============================================================================
-
-interface FilterBadgeProps {
-  children: React.ReactNode;
-  onRemove: () => void;
-  icon?: string;
-  color?: string;
-}
 
 const FilterBadge: React.FC<FilterBadgeProps> = ({ children, onRemove, icon, color = 'primary' }) => (
   <span className={`badge bg-${color} rounded-pill d-inline-flex align-items-center`}>
@@ -37,104 +32,6 @@ const FilterBadge: React.FC<FilterBadgeProps> = ({ children, onRemove, icon, col
       aria-label="Remove filter"
     />
   </span>
-);
-
-// interface EmptyStateProps {
-//   icon: string;
-//   title: string;
-//   description: string;
-//   actionLabel?: string;
-//   onAction?: () => void;
-//   small?: boolean;
-// }
-
-// const EmptyState: React.FC<EmptyStateProps> = ({
-//   icon,
-//   title,
-//   description,
-//   actionLabel,
-//   onAction,
-//   small = false
-// }) => (
-//   <div className={`text-center py-${small ? '4' : '5'}`}>
-//     <i className={`${icon} ${small ? 'fa-2x' : 'fa-3x'} text-muted mb-3`} />
-//     <h5 className={small ? 'h6' : ''}>{title}</h5>
-//     <p className={`text-muted ${small ? 'small' : ''} mb-3`}>{description}</p>
-//     {actionLabel && onAction && (
-//       <Button
-//         variant="outline-primary"
-//         size={small ? 'sm' : 'md'}
-//         onClick={onAction}
-//       >
-//         {actionLabel}
-//       </Button>
-//     )}
-//   </div>
-// );
-
-interface PaginationProps {
-  page: number;
-  totalPages: number;
-  hasNextPage: boolean;
-  hasPrevPage: boolean;
-  onPageChange: (page: number) => void;
-  loading?: boolean;
-}
-
-const Pagination: React.FC<PaginationProps> = ({
-  page,
-  totalPages,
-  hasNextPage,
-  hasPrevPage,
-  onPageChange,
-  loading
-}) => (
-  <div className="d-flex justify-content-between align-items-center p-3 border-top flex-wrap gap-2">
-    <Button
-      variant="outline-secondary"
-      size="sm"
-      icon="fa fa-chevron-left"
-      disabled={!hasPrevPage || loading}
-      onClick={() => onPageChange(page - 1)}
-      className="order-1 order-md-1"
-    >
-      <span className="d-none d-sm-inline">Previous</span>
-    </Button>
-
-    <span className="small text-muted text-center order-3 order-md-2 w-100 w-md-auto">
-      Page <strong>{page}</strong> of <strong>{totalPages}</strong>
-      {totalPages > 10 && (
-        <div className="d-inline-block ms-2">
-          <input
-            type="number"
-            className="form-control form-control-sm d-inline-block"
-            style={{ width: '60px' }}
-            min={1}
-            max={totalPages}
-            value={page}
-            onChange={(e) => {
-              const newPage = parseInt(e.target.value);
-              if (!isNaN(newPage) && newPage >= 1 && newPage <= totalPages) {
-                onPageChange(newPage);
-              }
-            }}
-            disabled={loading}
-          />
-        </div>
-      )}
-    </span>
-
-    <Button
-      variant="outline-secondary"
-      size="sm"
-      disabled={!hasNextPage || loading}
-      onClick={() => onPageChange(page + 1)}
-      className="order-2 order-md-3"
-    >
-      <span className="d-none d-sm-inline">Next</span>
-      <i className="fa fa-chevron-right ms-2" />
-    </Button>
-  </div>
 );
 
 // ============================================================================

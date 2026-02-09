@@ -6,8 +6,6 @@ import { useParentChildren } from '@/hooks/useParentChild';
 import { useParentStats } from '@/hooks/useStats';
 import { getFullName, getGradeColor } from '@/utils/helpers';
 import Preloader from '@/components/shared/Preloader';
-// import { useParentStats, useParentChildren } from '@/hooks';
-// import { getGradeColor, getFullName } from '@/types';
 
 const ParentDashboard: React.FC = () => {
   const { auth } = useAuth();

@@ -1,49 +1,18 @@
 // // src/types/attendance.ts
 
 import type { ReactNode } from "react";
-
-// export type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused';
-
-// export interface Attendance {
-//   id: string;
-//   lesson_id: string;
-//   student_id: string;
-//   student_name?: string;
-//   student_email?: string;
-//   status: AttendanceStatus;
-//   marked_at?: string;
-//   remarks?: string;
-//   created_at?: string;
-//   updated_at?: string;
-// }
-
-// export interface AttendanceCreate {
-//   lesson_id: string;
-//   student_id: string;
-//   status: AttendanceStatus;
-//   remarks?: string;
-// }
-
-// export interface AttendanceUpdate {
-//   status?: AttendanceStatus;
-//   remarks?: string;
-// }
-
-// export interface AttendanceBulkCreate {
-//   lesson_id: string;
-//   attendances: {
-//     student_id: string;
-//     status: AttendanceStatus;
-//     remarks?: string;
-//   }[];
-// }
-
-
-
-// v2
-// src/types/attendance.ts
+import type { Lesson } from "./lesson";
+import type { AttendanceSummary } from "../performance";
 
 export type AttendanceStatus = 'present' | 'absent' | 'late' | 'excused';
+
+export interface AttendanceModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  lesson: Lesson;
+  students: Array<{ id: string; names: string; email: string; username?: string }>;
+  onSave: () => void;
+}
 
 export interface StudentAttendanceData {
   course_title: ReactNode;
@@ -83,4 +52,11 @@ export interface AttendanceBulkCreate {
     status: AttendanceStatus;
     remarks?: string;
   }[];
+}
+
+
+export interface AttendanceTabProps {
+	attendance: AttendanceSummary;
+	// details: AttendanceRecord[];
+	details: StudentAttendanceData[];
 }

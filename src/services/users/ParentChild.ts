@@ -2,7 +2,6 @@
    PARENT-CHILD SERVICE
 ===================================================== */
 
-// import type { User } from "@/types/auth";
 import type { CreateParentChildDTO, ChildInfo, ParentChildLink } from "@/types/parent";
 import { handleError } from "@/utils/helpers";
 import { AxiosService } from "@/services/base/AxiosService";

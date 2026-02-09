@@ -1,5 +1,3 @@
-// import type { toast, ToastOptions } from 'react-hot-toast';
-// import type { Toast } from "react-hot-toast";
 
 import toast, { type ToastOptions } from "react-hot-toast";
 

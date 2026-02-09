@@ -4,35 +4,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import toast from 'react-hot-toast';
 import { extractErrorMessage } from '@/utils/helpers';
-import type { Lesson } from '@/types/course/lesson';
 import { ScoreService } from '@/services/courses/Score';
-import type { ScoreType, ScoreColumn } from '@/types/course/score';
+import type { ScoreType, ScoreColumn, FlexibleScoreModalProps, StudentScoreData } from '@/types/course/score';
 
-interface FlexibleScoreModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  lesson: Lesson;
-  students: Array<{ id: string; names: string; email: string; username?: string }>;
-  onSave: () => void;
-}
-
-interface StudentScoreData {
-  enrollment_id: string;
-  student_id: string;
-  names: string;
-  email: string;
-  username?: string;
-  scores: Record<string, {
-    score: number;
-    max_score: number;
-    percentage: number;
-    remarks: string;
-    score_id: string | null;
-    is_recorded: boolean;
-  }>;
-  total_percentage: number;
-  grade: string | null;
-}
 
 const ScoreFormModal = ({ 
   isOpen, 

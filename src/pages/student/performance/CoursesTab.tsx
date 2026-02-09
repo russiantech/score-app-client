@@ -1,12 +1,10 @@
 // Courses Tab - Simple Course Details
 // src/pages/student/performance/CoursesTab.tsx
-import type { CoursePerformance } from '@/types/performance';
-import { getGradeColor } from '@/utils/scores';
 import React, { useState } from 'react';
+import type { CoursesTabProps } from '@/types/course/course';
+import type { CoursePerformance } from '@/types/performance';
+import { getGradeColor } from '@/utils/helpers';
 
-interface CoursesTabProps {
-  courses: CoursePerformance[];
-}
 
 export const CoursesTab: React.FC<CoursesTabProps> = ({ courses }) => {
   const [selectedCourse, setSelectedCourse] = useState<CoursePerformance | null>(null);

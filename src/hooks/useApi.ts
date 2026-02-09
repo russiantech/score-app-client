@@ -4,22 +4,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import type { RequestStatus } from '@/types';
-
-interface UseApiOptions<T> {
-  initialData?: T;
-  immediate?: boolean;
-  onSuccess?: (data: T) => void;
-  onError?: (error: Error) => void;
-}
-
-interface UseApiReturn<T> {
-  data: T | null;
-  loading: boolean;
-  error: Error | null;
-  status: RequestStatus;
-  execute: (...args: any[]) => Promise<T | void>;
-  reset: () => void;
-}
+import type { UseApiOptions, UseApiReturn } from '@/types/users';
 
 export function useApi<T>(
   apiFunc: (...args: any[]) => Promise<T>,

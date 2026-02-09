@@ -3,11 +3,7 @@ import axios, { type AxiosInstance, type AxiosRequestConfig, type AxiosResponse,
 import { getEnv } from '@/utils/env';
 import { NotificationService } from '@/services/local/NotificationService';
 import { UserStorageService } from '@/services/local/UserStorageService';
-
-interface RefreshTokenResponse {
-  access_token: string;
-  refresh_token?: string;
-}
+import type { RefreshTokenResponse } from '@/types/api';
 
 let navigationHandler: ((path: string) => void) | null = null;
 

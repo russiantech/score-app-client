@@ -2,6 +2,8 @@
    NOTIFICATION TYPES
 ===================================================== */
 
+import type { ReactNode } from "react";
+
 export type NotificationType = 
   | 'assessment_graded'
   | 'new_assessment'
@@ -41,4 +43,34 @@ export interface Notification {
   isRead: boolean;
   createdAt: string;
   expiresAt?: string;
+}
+
+// 
+export interface NotificationDropdown {
+  id: number;
+  title: string;
+  message: string;
+  time: string;
+  type: 'success' | 'warning' | 'info' | 'error';
+  read: boolean;
+}
+
+export interface NotificationCenterProps {
+  onClose: () => void;
+  onClear: () => void;
+}
+
+// context types
+export interface NotificationContextType {
+  notifications: Notification[];
+  unreadCount: number;
+  addNotification: (notification: Omit<Notification, 'id' | 'read'>) => void;
+  markAsRead: (id: string) => void;
+  markAllAsRead: () => void;
+  removeNotification: (id: string) => void;
+  clearAll: () => void;
+}
+
+export interface NotificationProviderProps {
+  children: ReactNode;
 }

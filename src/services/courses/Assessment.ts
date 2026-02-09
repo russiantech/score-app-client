@@ -2,8 +2,6 @@
    ASSESSMENT SERVICE
 ===================================================== */
 
-// import type { Assessment, CreateAssessmentDTO, UpdateAssessmentDTO } from "@/types/course/assessment";
-// import type { Score } from "@/types/course/score";
 import { handleError } from "@/utils/helpers";
 import { AxiosService } from "../base/AxiosService";
 import type { Assessment } from "@/types/course";

@@ -44,17 +44,10 @@
 	<link rel="stylesheet" href="/assets/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css">
 	<link rel="stylesheet" href="/assets/vendor/swiper/swiper-bundle.min.css">
 	
-	<!-- Framework7 css -->
-	<!-- <link rel="stylesheet" href="/assets/css/framework7-bundle.css"> not found -->
-	<link rel="stylesheet" href="/assets/css/app.css">
-	
-	<!-- Fonts -->
-	<link rel="stylesheet" href="/assets/css/font-awesome/css/all.min.css">
-	<link rel="stylesheet" href="/assets/static/css/line-awesome/css/line-awesome.min.css">
-	
+
 	<!-- Style css -->
 	<link rel="stylesheet" href="/assets/css/style.css">
-	<link rel="stylesheet" href="/assets/css/perfect-scrollbar.css">
+	<!-- <link rel="stylesheet" href="/assets/css/perfect-scrollbar.css"> -->
 	
   <!-- Additional Styles / custom -->
   <!-- Feather Icons CSS -->
@@ -91,33 +84,56 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
 
-    <!--***** Scripts **********-->
+
+    <!-- ========== VENDOR SCRIPTS ========== -->
+    <!-- jQuery first (many plugins depend on it) -->
     <script src="/assets/js/jquery.js"></script>
+    
+    <!-- Bootstrap (depends on jQuery) -->
     <script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script><!-- Swiper -->
-    <script src="/assets/js/dz.carousel.js"></script><!-- Swiper -->
+    
+    <!-- Swiper -->
+    <script src="/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    
+    <!-- WOW.js animation library -->
     <script src="/assets/vendor/wow/dist/wow.min.js"></script>
+    
+    <!-- Other vendor scripts -->
+    <script src="/assets/js/dz.carousel.js"></script>
     <script src="/assets/js/settings.js"></script>
     <script src="/assets/js/custom.js"></script>
     
+    <!-- ========== INITIALIZATION ========== -->
     <script>
-      new WOW().init();
-      var wow = new WOW({
-        boxClass:     'wow',       // animated element css class (default is wow)
-        animateClass: 'animated',  // animation css class (default is animated)
-        offset:       50,          // distance to the element when triggering the animation (default is 0)
-        mobile:       false        // trigger animations on mobile devices (true is default)
-      });
-      wow.init();
-    </script>
-
-    <!-- PWA Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
+      // Wait for everything to load
+      window.addEventListener('load', function() {
+        // Initialize WOW.js with error handling
+        if (typeof WOW === 'function') {
+          try {
+            var wow = new WOW({
+              boxClass: 'wow',
+              animateClass: 'animated',
+              offset: 50,
+              mobile: false,
+              live: true,
+              scrollContainer: null,
+              resetAnimation: true
+            });
+            wow.init();
+            console.log('✨ WOW.js animations enabled');
+          } catch (error) {
+            console.warn('WOW.js initialization failed:', error);
+          }
+        } else {
+          console.warn('WOW.js library not found');
+        }
+        
+        // PWA Service Worker
+         if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js')
             .then((registration) => {
-              console.log('✅ Service Worker registered successfully:', registration.scope);
+              console.log('Service Worker registered successfully:', registration.scope);
               
               // Check for updates
               registration.addEventListener('updatefound', () => {
@@ -132,13 +148,16 @@
               });
             })
             .catch((error) => {
-              console.error('❌ Service Worker registration failed:', error);
+              console.error(' Service Worker registration failed:', error);
             });
         });
       } else {
-        console.warn('⚠️ Service Workers are not supported in this browser');
+        console.warn('Service Workers are not supported in this browser');
       }
+      
+      });
     </script>
+
   </body>
 </html>
 
