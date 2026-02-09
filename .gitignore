@@ -1,7 +1,7 @@
 # ======================================================
 # Development & Build Output
 # ======================================================
-dist/
+# dist/
 dist-ssr/
 build/
 .next/
@@ -129,7 +129,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-dist/
+# dist/
 downloads/
 eggs/
 .eggs/
@@ -170,3 +170,5 @@ htmlcov/
 *.bak
 *.BAK
 *.backup
+# Backup folders
+.backup_*/

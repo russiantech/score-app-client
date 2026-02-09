@@ -1,5 +1,6 @@
 {
-  "name": "client_0",
+  "name": "client",
+  "homepage": "https://studentscores.simplylovely.ng/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
