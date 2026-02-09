@@ -25,8 +25,8 @@ web_modules/
 .pnp.*
 .npm
 *.tgz
-package-lock.json  # ⚠️ Keep this line ONLY if you use another lockfile (yarn/pnpm)
-# Remove the above line if you use npm package-lock.json
+package-lock.json
+# Remove the above line if you use npm package-lock.json / #⚠️ Keep this line ONLY if you use another lockfile (yarn/pnpm)
 
 # ======================================================
 # Runtime & Environment
