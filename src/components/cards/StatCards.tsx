@@ -3,7 +3,8 @@ import type { StatCardProps } from "@/types/stats";
 
 export const StatCard: React.FC<StatCardProps> = ({ value, label, icon, bgColor, loading }) => (
   <div className="col-6 col-md-4 mb-3">
-    <div className={`card ${bgColor} text-white shadow-sm h-100`}>
+    {/* <div className={`card ${bgColor} text-white shadow-sm h-100`}> */}
+       <div className={`card bg-${bgColor} text-white border-0 shadow-sm`}>
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center">
           <div className="flex-grow-1">
