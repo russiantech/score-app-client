@@ -23,7 +23,12 @@ export const TutorMyCourses = () => {
       setLoading(true);
       setError(null);
       const response = await TutorService.getMyCourses();
-      setCourses(Array.isArray(response) ? response : []);
+      // setCourses(Array.isArray(response) ? response : []);
+      setCourses(
+        Array.isArray(response)
+          ? response
+          : (response as any)?.data?.courses ?? []
+      );
       console.log(courses, response.data);
     } catch (err) {
       console.error('Failed to load courses:', err);
