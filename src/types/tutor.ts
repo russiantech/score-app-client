@@ -36,6 +36,7 @@ export interface TutorAssignment {
   // Relations (populated when include_relations=true)
   tutor?: TutorSummary;
   course?: CourseSummary;
+  
 
 }
 

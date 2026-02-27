@@ -199,9 +199,7 @@ function AppContent() {
         </Route>
 
         {/* ---------- TUTOR ---------- */}
-        <Route path="/tutor"
-          element={<ProtectedRoute allowedRoles={['admin', 'tutor']} children={undefined} />}
-        >
+        <Route path="/tutor" element={<ProtectedRoute allowedRoles={['admin', 'tutor']} children={undefined} />}>
           <Route path="" element={<TutorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
         </Route>
