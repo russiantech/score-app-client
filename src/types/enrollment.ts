@@ -36,6 +36,14 @@ export interface Enrollment {
 
 }
 
+export interface EnrollmentListResponse {
+  enrollments: Enrollment[];
+  page_meta: {
+    total_items_count: number;
+    total_pages: number;
+  };
+}
+
 // v2
 export interface EnrollmentFilters {
   search?: string;

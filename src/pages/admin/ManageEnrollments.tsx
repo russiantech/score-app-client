@@ -225,9 +225,15 @@ const fetchEnrollments = useCallback(async () => {
     const enrollmentsData = response.data?.enrollments || [];
     const metaData = response.data?.page_meta || {};
 
+    // v2
+    // const {
+    //   enrollments: enrollmentsData = [],
+    //   page_meta: metaData = {}
+    // } = response.data || {};
+
     setEnrollments(Array.isArray(enrollmentsData) ? enrollmentsData : []);
     
-    const totalCount = metaData.total ?? enrollmentsData.length;
+    const totalCount = metaData.total_items_count ?? enrollmentsData.length;
     setTotal(totalCount);
     setTotalPages(metaData.total_pages ?? Math.ceil(totalCount / pageSize));
     

@@ -4,16 +4,17 @@
 
 import { handleError } from '@/utils/helpers';
 import { AxiosService } from '../base/AxiosService';
-import type { Enrollment, EnrollmentCreate, EnrollmentFilters } from '@/types/enrollment';
-import type { PaginatedResponse } from '@/types/api';
+import type { Enrollment, EnrollmentCreate, EnrollmentFilters, EnrollmentListResponse } from '@/types/enrollment';
+// import type { PaginatedResponse } from '@/types/api';
 
 export const EnrollmentService = {
 
   /**
    * Get all enrollments with optional filters and pagination
    */
-
-    async getAll(filters?: EnrollmentFilters): Promise<PaginatedResponse<Enrollment>> {
+    
+    // async getAll(filters?: EnrollmentFilters): Promise<PaginatedResponse<Enrollment>> {
+    async getAll(filters?: EnrollmentFilters): Promise<{ data: EnrollmentListResponse }>{
       try {
         const params = new URLSearchParams();
 
