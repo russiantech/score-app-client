@@ -10,6 +10,7 @@ import type { Enrollment, EnrollmentFilters, EnrollmentStats } from '@/types/enr
 import { formatDate } from '@/utils/format';
 import { EnrollmentService } from '@/services/courses/Enrollment';
 import { Button, EmptyState } from '@/components/buttons/Button';
+import Preloader from '@/components/shared/Preloader';
 import StatCard from '@/components/cards/StatCards';
 import { UserAvatar } from '@/components/users/UserAvater';
 import { Pagination } from '@/components/shared/Pagination';
@@ -170,7 +171,7 @@ const ManageEnrollments: React.FC = () => {
 
       const response = await EnrollmentService.getAll(params);
 
-      // ✅ strongly typed — no guessing
+      // strongly typed — no guessing
       const enrollments = response.data;
       const meta = response.page_meta;
 
@@ -182,7 +183,7 @@ const ManageEnrollments: React.FC = () => {
       console.error("Failed to fetch enrollments:", error);
       toast.error("Failed to load enrollments");
 
-      // ✅ safe reset state
+      // safe reset state
       setEnrollments([]);
       setTotal(0);
       setTotalPages(0);
@@ -396,12 +397,15 @@ const ManageEnrollments: React.FC = () => {
 
   if (initialLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center min-vh-50">
-        <div className="text-center">
-          <div className="spinner-border text-primary mb-3" style={{ width: '3rem', height: '3rem' }} />
-          <p className="text-muted">Loading enrollment data...</p>
-        </div>
-      </div>
+      // <div className="d-flex justify-content-center align-items-center min-vh-50">
+      //   <div className="text-center">
+      //     <div className="spinner-border text-primary mb-3" style={{ width: '3rem', height: '3rem' }} />
+      //     <p className="text-muted">Loading enrollment data...</p>
+      //   </div>
+      // </div>
+
+      <Preloader/>
+      
     );
   }
 
@@ -454,28 +458,28 @@ const ManageEnrollments: React.FC = () => {
               value={stats?.total_enrollments || 0}
               label="Total Enrollments"
               icon="fa fa-graduation-cap"
-              bgColor="bg-primary"
+              bgColor="primary"
               loading={initialLoading}
             />
             <StatCard
               value={stats?.active_enrollments || 0}
               label="Active Enrollments"
               icon="fa fa-check-circle"
-              bgColor="bg-success"
+              bgColor="success"
               loading={initialLoading}
             />
             <StatCard
               value={`${stats?.students_enrolled || 0}/${stats?.total_students || 0}`}
               label="Students Enrolled"
               icon="fa fa-user-graduate"
-              bgColor="bg-info"
+              bgColor="info"
               loading={initialLoading}
             />
             <StatCard
               value={`${stats?.courses_with_students || 0}/${stats?.total_courses || 0}`}
               label="Courses Active"
               icon="fa fa-book"
-              bgColor="bg-warning"
+              bgColor="warning"
               loading={initialLoading}
             />
           </div>

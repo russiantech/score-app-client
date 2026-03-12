@@ -31,6 +31,7 @@ export interface User {
   names?: string;
   phone?: string;
   address?: string;
+  profile_picture?: string; 
 
   /**
    * UserRole assigned to the user.
@@ -46,6 +47,16 @@ export interface User {
   created_at: string;   // keep as ISO string (backend truth)
   updated_at: string;
 }
+
+
+export interface UserUpdateSchema {
+  names?: string;
+  phone?: string;
+  address?: string;
+  current_password?: string;
+  password?: string;
+}
+
 
 export type Child = User & {
   enrolledCourses: number;
@@ -83,6 +94,8 @@ export interface UpdateUserDTO extends Partial<SignupData> {
   is_verified?: boolean;
 
   /** Required only for self-updates (not admin) */
+  profile_picture?: string; 
+  address?: string; 
   current_password?: string;
 }
 

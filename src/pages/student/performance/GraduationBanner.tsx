@@ -33,7 +33,7 @@ export const GraduationBanner: React.FC<GraduationBannerProps> = ({ status }) =>
         <i className={`fa ${icon} fa-2x mt-1`} />
         <div className="flex-grow-1">
           <h5 className="alert-heading mb-2">
-            {isQualified ? '🎓 Graduation Eligible!' : '📋 Graduation Requirements'}
+            {isQualified ? 'Graduation Eligible!' : '📋 Graduation Requirements'}
           </h5>
           <p className="mb-3">{statusMessage}</p>
           

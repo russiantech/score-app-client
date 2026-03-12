@@ -10,6 +10,7 @@ import { UserService } from '@/services/users/UserService';
 import '@/styles/admin/ManageCourse.css';
 import StatCard from '@/components/cards/StatCards';
 import { Button, EmptyState } from '@/components/buttons/Button';
+import Preloader from '@/components/shared/Preloader';
 import { Link } from 'react-router-dom';
 import type { FilterBadgeProps } from '@/types/utils';
 import { Pagination } from '@/components/shared/Pagination';
@@ -108,7 +109,7 @@ const ManageCourses: React.FC = () => {
         page,
         page_size: pageSize,
         status: filterStatus !== 'all' ? filterStatus : undefined,
-        tutor_ids: filterTutor !== 'all' ? [filterTutor] : undefined,  // ✅ Wrap in array
+        tutor_ids: filterTutor !== 'all' ? [filterTutor] : undefined,  // Wrap in array
         search: searchTerm || undefined,
         include_relations: true,
       };
@@ -258,10 +259,10 @@ const ManageCourses: React.FC = () => {
       if (first) return first;
     }
 
-    // 2️⃣ Username fallback
+    // 2️ Username fallback
     if (t.username) return t.username;
 
-    // 3️⃣ Email prefix fallback
+    // 3️ Email prefix fallback
     if (t.email) return t.email.split('@')[0];
 
     return 'Tutor';
@@ -290,12 +291,7 @@ const ManageCourses: React.FC = () => {
 
   if (initialLoading) {
     return (
-      <div className="d-flex justify-content-center align-items-center min-vh-50">
-        <div className="text-center">
-          <div className="spinner-border text-primary mb-3" style={{ width: '3rem', height: '3rem' }} />
-          <p className="text-muted">Loading course data...</p>
-        </div>
-      </div>
+      <Preloader/>
     );
   }
 
@@ -355,21 +351,21 @@ const ManageCourses: React.FC = () => {
               value={stats?.total ?? 0}
               label="Total Courses"
               icon="fa fa-book"
-              bgColor="bg-primary"
+              bgColor="primary"
               loading={loading && !courses.length}
             />
             <StatCard
               value={stats.active ?? 0}
               label="Active Courses"
               icon="fa fa-check-circle"
-              bgColor="bg-success"
+              bgColor="success"
               loading={loading && !courses.length}
             />
             <StatCard
               value={stats.inactive}
               label="Inactive Courses"
               icon="fa fa-pause-circle"
-              bgColor="bg-secondary"
+              bgColor="secondary"
               loading={loading && !courses.length}
             />
           </div>

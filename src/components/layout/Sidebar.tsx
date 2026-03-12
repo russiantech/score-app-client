@@ -172,9 +172,9 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 </NavLink>
               </li>
               
-              <li>
+              {/* <li>
                 <NavLink 
-                  to="/tutor/courses" 
+                  to="/tutor/students" 
                   className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
                   onClick={onClose}
                 >
@@ -183,7 +183,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                   </span>
                   <span>My Students</span>
                 </NavLink>
-              </li>
+              </li> */}
             </>
           )}
 

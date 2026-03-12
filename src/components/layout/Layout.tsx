@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   const { auth } = useAuth();
-  // 🔥 Auto-open sidebar after successful login
+  // Auto-open sidebar after successful login
   useEffect(() => {
     if (auth?.user) {
       setSidebarOpen(true);

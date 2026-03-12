@@ -111,7 +111,7 @@ const ManageUsers: React.FC = () => {
 
     const response = await UserService.getAll(filter);
 
-    // ✅ Normalize response
+    // Normalize response
     const usersArray: User[] = Array.isArray(response)
       ? response
       : Array.isArray(response?.data)

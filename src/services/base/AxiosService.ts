@@ -146,6 +146,8 @@ export const AxiosService = {
       multipartInstance.post(url, data, config),
     put: (url: string, data?: unknown, config?: AxiosRequestConfig) => 
       multipartInstance.put(url, data, config),
+    patch: (url: string, data?: unknown, config?: AxiosRequestConfig) => 
+      multipartInstance.patch(url, data, config),
   },
 
   fetchPage: (url: string, params: Record<string, any> = { page: 1, page_size: 10 }) => {

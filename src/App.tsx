@@ -32,6 +32,7 @@ import StudentPerformance from '@/pages/student/Performance';
 import GlobalCourseModal from './components/modals/course/GlobalCourseModal';
 import { GlobalUserModal } from './components/modals/user/GlobalUserModal';
 import CourseInfo from './pages/shared/CourseInfo';
+import IDCard from './pages/shared/users/IDCard';
 
 // css
 // ----
@@ -54,7 +55,7 @@ const ParentDashboard = lazy(() => import('@/pages/parent/Dashboard'));
 
 // Common
 const Us = lazy(() => import('@/pages/shared/Us'));
-const Me = lazy(() => import('@/pages/shared/Me'));
+const Me = lazy(() => import('@/pages/shared/users/Me'));
 const OnboardingFlow = lazy(() => import('@/pages/welcome/OnboardingFlow'));
 const NotFound = lazy(() => import('@/pages/errors/NotFound'));
 const ServerError = lazy(() => import('@/pages/errors/ServerError'));
@@ -211,6 +212,7 @@ function AppContent() {
         >
           <Route path="" element={<StudentPerformance />} />
           <Route path="performance" element={<StudentPerformance />} />
+          <Route path="id-card" element={<IDCard />} />
         </Route>
 
         {/* ---------- PARENT ---------- */}

@@ -274,28 +274,28 @@ const staticStats: AdminStats = {
         <div className="row g-3 mb-4">
           <StatCard
             icon="fa fa-users"
-            bgColor="bg-primary"
+            bgColor="primary"
             value={stats?.total || 0}
             label="Total Users"
             loading={loading}
           />
           <StatCard
             icon="fa fa-book"
-            bgColor="bg-success"
+            bgColor="success"
             value={stats?.totalCourses || 0}
             label="Total Courses"
             loading={loading}
           />
           <StatCard
             icon="fa fa-chalkboard-teacher"
-            bgColor="bg-info"
+            bgColor="info"
             value={stats?.totalTutors || 0}
             label="Tutors"
             loading={loading}
           />
           <StatCard
             icon="fa fa-user-graduate"
-            bgColor="bg-warning"
+            bgColor="warning"
             value={stats?.totalStudents || 0}
             label="Students"
             loading={loading}

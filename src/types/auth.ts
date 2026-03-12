@@ -35,6 +35,7 @@ export interface SignupData {
   password?: string;
   role?: UserRole;
   parent_id?: string | null; // For students
+  
 }
 
 export interface SignupResponse {

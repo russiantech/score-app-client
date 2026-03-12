@@ -15,6 +15,7 @@ export interface AttendanceModalProps {
 }
 
 export interface StudentAttendanceData {
+  id?: string | number;
   course_title: ReactNode;
   course_code: ReactNode;
   module_title: ReactNode;
