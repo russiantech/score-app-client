@@ -90,9 +90,9 @@ export const TutorMyCourses = () => {
 
           {/* Stats Cards */}
           <div className="row g-3 mb-4">
-            <StatCard value={courses.length} label="Total Courses" icon="fa fa-book" bgColor="bg-primary" />
-            <StatCard value={courses.filter(c => c.is_active).length} label="Active Courses" icon="fa fa-check-circle" bgColor="bg-success" />
-            <StatCard value={courses.reduce((sum, c) => sum + (c.enrolled_count || 0), 0)} label="Total Students" icon="fa fa-users" bgColor="bg-info" />
+            <StatCard value={courses.length} label="Total Courses" icon="fa fa-book" bgColor="primary" />
+            <StatCard value={courses.filter(c => c.is_active).length} label="Active Courses" icon="fa fa-check-circle" bgColor="success" />
+            <StatCard value={courses.reduce((sum, c) => sum + (c.enrolled_count || 0), 0)} label="Total Students" icon="fa fa-users" bgColor="info" />
             {/* <StatCard value={courses.reduce((sum, c) => sum + (c.modules_count || 0), 0)} label="Total Modules" icon="fa fa-layer-group" bgColor="bg-warning" /> */}
           </div>
 

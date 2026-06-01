@@ -355,6 +355,7 @@ const ParentChildLinks: React.FC = () => {
 
   const fetchInitialData = async () => {
     try {
+      
       setInitialLoading(true);
       const [parentsResponse, studentsResponse, statsResponse] = await Promise.all([
         UserService.getAll({ role: 'parent', is_active: true }),
