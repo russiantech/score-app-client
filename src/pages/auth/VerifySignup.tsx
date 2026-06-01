@@ -1,3 +1,4 @@
+// Score App's
 // VerifySignup.tsx - Step 2: Verify codes using AuthService
 // pages/auth/VerifySignup.tsx
 
