@@ -637,28 +637,28 @@ const ParentChildLinks: React.FC = () => {
               value={stats?.total_links || 0}
               label="Total Links"
               icon="fa fa-link"
-              bgColor="bg-primary"
+              bgColor="primary"
               loading={loading && !links.length}
             />
             <StatCard
               value={`${stats?.parents_with_links || 0}/${stats?.total_parents || 0}`}
               label="Parents Linked"
               icon="fa fa-user-check"
-              bgColor="bg-info"
+              bgColor="info"
               loading={loading && !links.length}
             />
             <StatCard
               value={`${stats?.children_with_links || 0}/${stats?.total_children || 0}`}
               label="Students Linked"
               icon="fa fa-user-graduate"
-              bgColor="bg-success"
+              bgColor="success"
               loading={loading && !links.length}
             />
             <StatCard
               value={stats?.unlinked_children || 0}
               label="Unlinked Students"
               icon="fa fa-exclamation-triangle"
-              bgColor="bg-warning"
+              bgColor="warning"
               loading={loading && !links.length}
             />
           </div>
