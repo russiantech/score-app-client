@@ -22,6 +22,8 @@ export const StudentPerformance = () => {
     exportReport
   } = usePerformance(auth?.user?.id);
 
+  // console.log(performance);
+
   const [activeTab, setActiveTab] = useState<TabView>('overview');
 
   const handleExport = async (format: 'pdf' | 'excel') => {
@@ -66,7 +68,9 @@ export const StudentPerformance = () => {
     );
   }
 
-  const { summary, courses, attendance, attendanceDetails, trends, graduation_status } = performance;
+  const { summary, courses, attendance, attendance_details, trends, graduation_status } = performance;
+  // console.log(performance);
+  
 
   return (
     <div className="container-fluid py-3 px-2 px-md-4">
@@ -252,7 +256,7 @@ export const StudentPerformance = () => {
       {activeTab === 'attendance' && (
         <AttendanceTab
           attendance={attendance}
-          details={attendanceDetails}
+          details={attendance_details}
         />
       )}
     </div>
