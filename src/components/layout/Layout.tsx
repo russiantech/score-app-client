@@ -61,9 +61,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
         {/* Page Content */}
         <main className="page-content bg-white p-b60">
-          <div className="container">
+          {/* <div className="container container-fluid"> */}
             {children || <Outlet />}
-          </div>
+          {/* </div> */}
         </main>
 
         {/* Mobile Bottom Navigation */}

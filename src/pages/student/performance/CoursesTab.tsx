@@ -1,3 +1,4 @@
+// v3
 // Courses Tab - Simple Course Details
 // src/pages/student/performance/CoursesTab.tsx
 import React, { useState } from 'react';
@@ -45,7 +46,7 @@ export const CoursesTab: React.FC<CoursesTabProps> = ({ courses }) => {
                   {course.overall_grade}
                 </span>
               </div>
-              
+
               {/* Progress Bar */}
               <div className="mb-3">
                 <div className="d-flex justify-content-between mb-1">
@@ -63,7 +64,7 @@ export const CoursesTab: React.FC<CoursesTabProps> = ({ courses }) => {
                   />
                 </div>
               </div>
-              
+
               {/* Stats */}
               <div className="row g-2 mb-3">
                 <div className="col-4">
@@ -93,7 +94,7 @@ export const CoursesTab: React.FC<CoursesTabProps> = ({ courses }) => {
                 </small>
               </div>
             </div>
-            
+
             <div className="card-footer bg-white border-top py-2 text-center">
               <small className="text-primary fw-medium">
                 <i className="fa fa-arrow-right me-1" />
@@ -128,7 +129,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, onBack }) => {
                 <i className="fa fa-arrow-left me-1" />
                 Back
               </button>
-              
+
               <div>
                 <h5 className="mb-0 fw-bold text-truncate">{course.course.title}</h5>
                 <small className="text-muted fw-medium">{course.course.code}</small>
@@ -153,7 +154,7 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, onBack }) => {
 
       {/* Assessments */}
       {course.lesson_scores.length > 0 && (
-        <AssessmentTable
+        <LessonAssessmentTable
           title="Lesson Assessments"
           icon="clipboard-list"
           scores={course.lesson_scores}
@@ -189,7 +190,166 @@ const CourseDetail: React.FC<CourseDetailProps> = ({ course, onBack }) => {
   );
 };
 
-// Assessment Table Component
+// ============================================================================
+// LESSON ASSESSMENT TABLE - Pivot by lesson, columns by assessment type
+// ============================================================================
+
+interface LessonAssessmentTableProps {
+  title: string;
+  icon: string;
+  scores: any[];
+}
+
+const LessonAssessmentTable: React.FC<LessonAssessmentTableProps> = ({ title, icon, scores }) => {
+  // Group scores by module first, then by lesson within each module
+  const groupedByModule = scores.reduce((acc: Record<string, any[]>, score: any) => {
+    const moduleKey = score.module_name || 'Uncategorized';
+    if (!acc[moduleKey]) acc[moduleKey] = [];
+    acc[moduleKey].push(score);
+    return acc;
+  }, {});
+
+  // Collect all unique assessment types across all lessons (exclude placeholder "none" type)
+  const allTypes = Array.from(new Set(
+    scores.filter((s: any) => s.type !== 'none').map((s: any) => s.type)
+  )).sort();
+
+  // Format type for display
+  const formatType = (type: string) => {
+    return type
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, (l: string) => l.toUpperCase());
+  };
+
+  return (
+    <div className="card border-0 shadow-sm mb-3">
+      <div className="card-header bg-light border-0 py-3">
+        <h6 className="mb-0">
+          <i className={`fa fa-${icon} me-2`} />
+          {title}
+        </h6>
+      </div>
+      <div className="card-body p-0">
+        <div className="table-responsive">
+          <table className="table table-hover mb-0">
+            <thead className="table-light">
+              <tr>
+                <th style={{ minWidth: '180px' }}>Lesson</th>
+                {allTypes.map((type: string) => (
+                  <th key={type} className="text-center" style={{ minWidth: '100px' }}>
+                    {formatType(type)}
+                  </th>
+                ))}
+                <th className="d-none d-lg-table-cell text-center" style={{ minWidth: '110px' }}>Scheduled</th>
+                <th className="d-none d-xl-table-cell text-center" style={{ minWidth: '110px' }}>Recorded</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Object.entries(groupedByModule).map(([moduleName, moduleScores]: [string, any[]]) => {
+                // Group module scores by lesson
+                const groupedByLesson = moduleScores.reduce((acc: Record<string, any[]>, score: any) => {
+                  const key = score.scope_title || 'Unknown Lesson';
+                  if (!acc[key]) acc[key] = [];
+                  acc[key].push(score);
+                  return acc;
+                }, {});
+
+                return (
+                  <React.Fragment key={moduleName}>
+                    {/* Module Header Row */}
+                    <tr className="table-secondary">
+                      <td colSpan={allTypes.length + 3} className="py-2">
+                        <div className="d-flex align-items-center gap-2">
+                          <i className="fa fa-folder-open text-muted" />
+                          <span className="fw-bold text-muted">{moduleName}</span>
+                        </div>
+                      </td>
+                    </tr>
+                    {/* Lesson Rows */}
+                    {Object.entries(groupedByLesson).map(([lessonName, lessonScores]: [string, any[]]) => {
+                      const lessonDate = lessonScores[0]?.lesson_date;
+                      const recordedDate = lessonScores[0]?.recorded_date;
+
+                      // Check if this is a placeholder lesson (no real assessments)
+                      const isPlaceholder = lessonScores.length === 1 && lessonScores[0].type === 'none';
+
+                      // Build a lookup by type (only for real assessments)
+                      const byType: Record<string, any> = {};
+                      lessonScores.forEach((s: any) => {
+                        if (s.type !== 'none') {
+                          byType[s.type] = s;
+                        }
+                      });
+
+                      return (
+                        <tr key={`${moduleName}-${lessonName}`}>
+                          <td className="ps-4">
+                            <div className="fw-semibold">{lessonName}</div>
+                          </td>
+                          {allTypes.map((type: string) => {
+                            const s = byType[type];
+                            if (!s) {
+                              return (
+                                <td key={type} className="text-center">
+                                  <span className="text-muted">—</span>
+                                </td>
+                              );
+                            }
+                            return (
+                              <td key={type} className="text-center">
+                                {s.is_completed ? (
+                                  <div>
+                                    <div className="fw-semibold small">{s.score}/{s.max_score}</div>
+                                    <span className={`badge bg-${getGradeColor(s.grade)}`} style={{ fontSize: '0.7rem' }}>
+                                      {s.grade}
+                                    </span>
+                                  </div>
+                                ) : (
+                                  <span className="badge bg-secondary" style={{ fontSize: '0.7rem' }}>Pending</span>
+                                )}
+                              </td>
+                            );
+                          })}
+                          <td className="d-none d-lg-table-cell text-center">
+                            <small className="text-muted">
+                              {lessonDate 
+                                ? new Date(lessonDate).toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                  })
+                                : '—'}
+                            </small>
+                          </td>
+                          <td className="d-none d-xl-table-cell text-center">
+                            <small className="text-muted">
+                              {recordedDate 
+                                ? new Date(recordedDate).toLocaleDateString('en-US', {
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                  })
+                                : '—'}
+                            </small>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </React.Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ============================================================================
+// STANDARD ASSESSMENT TABLE - For module and course-level assessments
+// ============================================================================
+
 interface AssessmentTableProps {
   title: string;
   icon: string;
@@ -214,12 +374,13 @@ const AssessmentTable: React.FC<AssessmentTableProps> = ({ title, icon, scores }
                 <th className="d-none d-md-table-cell">Context</th>
                 <th className="text-center">Score</th>
                 <th className="text-center">Grade</th>
-                <th className="d-none d-lg-table-cell">Date</th>
+                <th className="d-none d-lg-table-cell">Recorded</th>
+                <th className="d-none d-xl-table-cell">Scheduled</th>
               </tr>
             </thead>
             <tbody>
               {scores.map((score, idx) => (
-                <tr key={idx}>
+                <tr key={score.column_id || idx}>
                   <td>
                     <div>
                       <div className="fw-semibold">{score.title}</div>
@@ -256,7 +417,18 @@ const AssessmentTable: React.FC<AssessmentTableProps> = ({ title, icon, scores }
                             day: 'numeric',
                             year: 'numeric'
                           })
-                        : 'N/A'}
+                        : '—'}
+                    </small>
+                  </td>
+                  <td className="d-none d-xl-table-cell">
+                    <small className="text-muted">
+                      {score.lesson_date 
+                        ? new Date(score.lesson_date).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric'
+                          })
+                        : '—'}
                     </small>
                   </td>
                 </tr>

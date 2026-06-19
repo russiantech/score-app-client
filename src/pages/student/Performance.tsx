@@ -193,7 +193,7 @@ export const StudentPerformance = () => {
 
 
       {/* View Switch (Pills) */}
-      <div className="mb-4">
+      <div className="mb-4 col-12">
         <ul className="nav nav-pills gap-2 flex-wrap">
           <li className="nav-item">
             <button
